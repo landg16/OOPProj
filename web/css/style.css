@@ -1,1 +1,179 @@
 /* Custom CSS Syle */
+/* GLOBAL STYLES */
+html,body {
+    font-family:'Montserrat', sans-serif;
+}
+
+.text-center {
+    text-align: center;
+}
+
+a {
+    color: #f9a93f;
+    -webkit-transition: all 0.1s ease-in;
+    -moz-transition: all 0.1s ease-in;
+    -o-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
+}
+
+a:hover,
+a:active,
+a:focus {
+    color: #8f5100;
+    text-decoration: none;
+}
+
+/***********************
+ 1. HEADER
+ ***********************/
+.navbar {
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0.5) 0%, rgba(0,0,0,0) 100%);
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+    background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 0%,rgba(0,0,0,0) 100%);
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+.navbar.scroll {
+    background: -moz-linear-gradient(top,  rgba(0,0,0,0.5) 100%, rgba(0,0,0,0.5) 100%);
+    background: -webkit-linear-gradient(top,  rgba(0,0,0,0.5) 100%,rgba(0,0,0,0.5) 100%);
+    background: linear-gradient(to bottom,  rgba(0,0,0,0.5) 100%,rgba(0,0,0,0.5) 100%);
+}
+
+.navbar .navbar-brand {
+    font-size:22px;
+    font-weight: bold;
+}
+
+.navbar .navbar-brand img {
+    height: 100px;
+    margin-right:15px;
+    -webkit-transition: all 0.2s ease-in;
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    transition: all 0.2s ease-in;
+}
+
+.navbar.scroll .navbar-brand img {
+    height: 70px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+    text-transform: uppercase;
+    color:#fff;
+    font-size:18px;
+    font-weight: bold;
+}
+
+.navbar-dark .navbar-nav .nav-item.active .nav-link {
+    color: #f9a93f;
+}
+
+.top-nav-collapse {
+    background-color: #4285F4;
+}
+
+@media only screen and (max-width: 768px) {
+    .navbar {
+        background-color: #4285F4;
+    }
+}
+
+/***********************
+ 2. FOOTER
+ ***********************/
+footer {
+    padding:50px;
+    background: #1b1e21;
+    color: #fff;
+}
+
+footer .socials {
+    text-align: right;
+}
+
+/***********************
+ 3. COVER
+ ***********************/
+
+.cover {
+    height: 100%;
+    background: url("../img/cover.png")no-repeat center center;
+    background-size: cover;
+}
+
+.cover .hero-text {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    width: 100%;
+}
+
+.cover .hero-text h1 {
+    font-weight: bold;
+}
+
+.cover .hero-text h4 {
+    margin-top:30px;
+}
+
+.cover .hero-text .btn {
+    font-weight: bold;
+    margin-top:30px;
+    margin-left:15px;
+    margin-right:15px;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+/***********************
+ 4. FEATURED QUIZES
+ ***********************/
+
+.featured {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.featured h2 {
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.featured .item {
+    padding:0;
+}
+
+.featured .item .img {
+    height:200px;
+    background-position: center center;
+    background-size: cover;
+}
+
+.featured .item .description {
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 6px 12px 2px rgba(0,0,0,0.07);
+}
+
+.featured .item .description .left {
+    float:left;
+    font-weight: bold;
+}
+
+.featured .item .description .right {
+    float:right;
+}
+
+.featured .item .description a {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
