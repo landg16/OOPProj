@@ -6,7 +6,7 @@
         <h1>Challenge your knowledge!</h1>
         <h4>Register or Sign Up, Create and Take Quizzes.</h4>
         <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#logIn">LOG IN</button>
-        <button class="btn btn-danger btn-lg">SIGN UP</button>
+        <a href="register.jsp" class="btn btn-danger btn-lg">SIGN UP</a>
     </div>
 </div>
 <div class="container featured">
