@@ -189,6 +189,48 @@ footer .socials {
 }
 
 /***********************
+ 4. Register
+ ***********************/
+.heading {
+    background-image: url("../img/cover.png");
+    background-position: center;
+    background-size: cover;
+}
+
+.heading h2{
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    padding-top: 150px;
+    padding-bottom: 50px;
+}
+
+.form {
+    padding-top: 30px;
+    padding-bottom: 60px;
+}
+
+.form .error{
+    color: #ff0000;
+}
+
+#registrationForm {
+    border: 1px solid darkslategray;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.form .btn-register{
+    margin-top: 10px;
+}
+
+.mainForm{
+    margin-top: 30px;
+    font-weight: bold;
+}
+
+
+/***********************
  5. LOGIN MODAL
  ***********************/
 

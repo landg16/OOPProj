@@ -8,6 +8,18 @@ public class Question {
 
     }
 
+    public Question(String question, String answer){
+
+    }
+
+    public Question(Object image, String answer){
+
+    }
+
+    public Question(String question, ArrayList<String> answers){
+
+    }
+
     public String getQuestion(){
      return "";
     }
