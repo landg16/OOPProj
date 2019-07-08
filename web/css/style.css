@@ -8,6 +8,10 @@ html,body {
     text-align: center;
 }
 
+.clear {
+    clear: both;
+}
+
 a {
     color: #f9a93f;
     -webkit-transition: all 0.1s ease-in;
@@ -217,4 +221,125 @@ footer .socials {
 .mainForm{
     margin-top: 30px;
     font-weight: bold;
+}
+
+
+/***********************
+ 5. LOGIN MODAL
+ ***********************/
+
+.login form {
+    margin-bottom: 0;
+}
+
+.login .modal-title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.login .right {
+    float: right;
+}
+
+.login .forgot {
+    padding: .375rem .75rem;
+}
+
+/***********************
+ 6. COUNTUP
+ ***********************/
+
+.counters {
+    padding:0;
+}
+
+.counters .paral {
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: 50% 50%;
+}
+
+.counters .paralsec {
+    background-image: url("../img/odometer-backgr.jpg");
+}
+
+.counters .jumbotron{
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.counters .item {
+    color: #FFF;
+    text-align: center;
+}
+
+@media only screen and (max-width:768px){
+    .counters .item:nth-child(3),
+    .counters .item:nth-child(4){
+        margin-top:4rem;
+    }
+}
+
+.counters .item h1 {
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+/***********************
+ 6. LEADERBOARD
+ ***********************/
+.leaderboard {
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.leaderboard h2 {
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 40px;
+}
+
+.leaderboard .second-row,
+.leaderboard .last-row {
+    margin-top:50px;
+}
+
+.leaderboard .last-row {
+    text-align: center;
+}
+
+.leaderboard .last-row .btn {
+    font-weight: bold;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+}
+
+.leaderboard .each {
+    padding-top:30px;
+    padding-bottom:30px;
+    box-shadow: 0px 6px 12px 2px rgba(0,0,0,0.3);
+}
+
+.leaderboard .each h4 {
+    font-weight: bold;
+    text-align: center;
+    width:100%;
+}
+
+.leaderboard .each .description p {
+    width: 100%;
+}
+
+.leaderboard .each .description p span:first-child {
+    font-weight: 800;
+}
+
+.leaderboard .each .description p span:last-child {
+    float: right;
+}
+
+.leaderboard .each .description p:last-child {
+    margin-bottom: 0;
 }
