@@ -564,6 +564,15 @@ footer .socials {
 .requests{
     margin-top: 10px;
 }
+.quiz_summary .statistics{
+    padding-top: 30px;
+}
+
+#user_results{
+    border: 1px solid darkslategray;
+    margin-top:130px;
+    margin-bottom: 50px;
+}
 
 
 /****************************************************
