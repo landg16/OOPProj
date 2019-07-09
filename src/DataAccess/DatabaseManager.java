@@ -21,7 +21,7 @@ import java.time.LocalTime;
 import java.time.LocalDateTime;
 import java.time.Clock;
 import java.util.Date;
-import java.sql.Date;
+//import java.sql.Date;
 import java.util.Calendar;
 import java.sql.*;
 import java.lang.String;
@@ -151,8 +151,8 @@ public class DatabaseManager {
         try {
             PreparedStatement state = connect.prepareStatement("select points from users where userid = ?");
             state.setInt(1, userId);
-            int score = state.executeQuery();
-            return score;
+      //      int score = state.executeQuery();
+      //      return score;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -192,12 +192,12 @@ public class DatabaseManager {
         try {
             PreparedStatement state = connect.prepareStatement("insert into questions values(?,?,?,?,?)");
             state.setInt(2, quizId);
-            state.setStirng(3, type);
+        //    state.setStirng(3, type);
             state.setString(4, question);
             if (secondPart.equals("")) {
-                state.setNull(5, null);
+     //           state.setNull(5, null);
             } else {
-                state.setInt(5, newQuestion.getSecondPart());
+    //            state.setInt(5, newQuestion.getSecondPart());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -239,11 +239,23 @@ public class DatabaseManager {
             state.setInt(2, userId);
             state.setInt(3, quizId);
             state.setDouble(4, quizScore);
-            state.setDate(5, dateTime);
-            state.setTime(6, time);
+       //     state.setDate(5, dateTime);
+        //    state.setTime(6, time);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+
+    public static ArrayList<Quiz> getQuizes(){
+        Quiz quiz = new Quiz(1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
+        ArrayList<Quiz> quizzes = new ArrayList<>();
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        return quizzes;
+    }
 }

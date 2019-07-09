@@ -7,10 +7,11 @@ public class Question {
 
     private int QuizId;
     private String Question;
+    private int QuestionId;
     private String SecondPart;
     private int Type;
 
-    public Question(int questionId, int quizId, String type, String question, String secondPart){
+    public Question(int questionId, int quizId, int type, String question, String secondPart){
         QuestionId = questionId;
         QuizId = quizId;
         Question = question;

@@ -408,7 +408,40 @@ footer .socials {
 7. QUIZ LIST PAGE
 *****************************************************
 *****************************************************/
+.quiz_prepare{
+    margin-top:40px;
+    margin-bottom: 50px;
+}
 
+.quiz_prepare .item {
+    padding: 20px;
+}
+
+.quiz_prepare .item .img {
+    height:200px;
+    background-position: center center;
+    background-size: cover;
+}
+
+.quiz_prepare .item .description {
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0px 6px 12px 2px rgba(0,0,0,0.07);
+}
+
+.quiz_prepare .item .description .left {
+    float:left;
+    font-weight: bold;
+}
+
+.quiz_prepare .item .description .right {
+    float:right;
+}
+
+.quiz_prepare .item .description a {
+    font-weight: bold;
+    font-size: 1.1rem;
+}
 
 
 /****************************************************
