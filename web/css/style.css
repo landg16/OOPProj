@@ -361,6 +361,15 @@ footer .socials {
 *****************************************************
 *****************************************************/
 
+.leaderboard_page{
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.leaderboard_page .table{
+    margin-top: 40px;
+    margin-bottom: 0px;
+}
 
 
 /****************************************************
