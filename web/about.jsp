@@ -27,5 +27,6 @@
             and create the most user-oriented, precise and enjoyable quiz website in the milky way.</p>
     </div>
 </div>
+<br>
 
 <jsp:include page="footer.jsp"/>
