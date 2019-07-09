@@ -1,6 +1,8 @@
 package DataAccess;
 
-import Objects.*;
+import Objects.Question;
+import Objects.Quiz;
+import Objects.User;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -331,4 +333,14 @@ public class DatabaseManager {
         return history;
     }
 
+
+    public static Quiz getQuiz(int quizId){
+        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo", "img/quizzes/football.jpg", "Sport");
+        return quiz;
+    }
+
+    public static User getUser(int userId){
+        User user = new User("jotia", "caava", "jtcava", "jorji", "jarji");
+        return user;
+    }
 }

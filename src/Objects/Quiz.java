@@ -6,14 +6,15 @@ import java.util.ArrayList;
 public class Quiz {
 
     private int id;
-    private String title;
+    private int quizOwnerId;
     private String description;
     private String imageUrl;
     private String type;
 
-    public Quiz(int id, String title, String description, String imageUrl, String type){
+
+    public Quiz(int id, int quizOwnerId, String description, String imageUrl, String type){
         this.id = id;
-        this.title = title;
+        this.quizOwnerId = quizOwnerId;
         this.description = description;
         this.imageUrl = imageUrl;
         this.type = type;
@@ -23,9 +24,7 @@ public class Quiz {
         return id;
     }
 
-    public String getQuizTitle(){
-        return title;
-    }
+    public int getQuizOwnerId() { return quizOwnerId; }
 
     public String getQuizDescription(){
         return description;
