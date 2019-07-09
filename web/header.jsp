@@ -29,7 +29,7 @@
                             <a class="nav-link" href="#">Quizes</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Leaderboard</a>
+                            <a class="nav-link" href="leaderboard.jsp">Leaderboard</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">About</a>
