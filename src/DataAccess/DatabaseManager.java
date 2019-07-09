@@ -252,7 +252,7 @@ public class DatabaseManager {
 
 
     public static ArrayList<Quiz> getQuizes(){
-        Quiz quiz = new Quiz(1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
+        Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
         ArrayList<Quiz> quizzes = new ArrayList<>();
         quizzes.add(quiz);
         quizzes.add(quiz);
@@ -261,5 +261,15 @@ public class DatabaseManager {
         quizzes.add(quiz);
         quizzes.add(quiz);
         return quizzes;
+    }
+
+    public static Quiz getQuiz(int quizId){
+        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo", "img/quizzes/football.jpg", "Sport");
+        return quiz;
+    }
+
+    public static User getUser(int userId){
+        User user = new User("jotia", "caava", "jtcava", "jorji", "jarji");
+        return user;
     }
 }
