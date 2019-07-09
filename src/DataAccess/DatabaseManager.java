@@ -171,15 +171,18 @@ public class DatabaseManager {
     }
 
 
-    public void insertQuiz(String title, boolean random, boolean onePage, boolean immCorr, boolean pracMode){
+    public void insertQuiz(String title, String descripption, int category, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image){
         //todo
         try {
-            PreparedStatement state = connect.prepareStatement("insert into quizes values(?,?,?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("insert into quizes values(?,?,?,?,?,?,?,?,?,?)");
             state.setString(2, title);
-            state.setBoolean(3, random);
-            state.setBoolean(4, onePage);
-            state.setBoolean(5, immCorr);
-            state.setBoolean(6, pracMode);
+            state.setString(3, descripption);
+            state.setInt(4, category);
+            state.setBoolean(5, random);
+            state.setBoolean(6, onePage);
+            state.setBoolean(7, immCorr);
+            state.setBoolean(8, pracMode);
+            state.setString(9, image);
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -252,14 +255,49 @@ public class DatabaseManager {
 
 
     public static ArrayList<Quiz> getQuizes(){
-        Quiz quiz = new Quiz(1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
+//        Quiz quiz = new Quiz(1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
         ArrayList<Quiz> quizzes = new ArrayList<>();
-        quizzes.add(quiz);
-        quizzes.add(quiz);
-        quizzes.add(quiz);
-        quizzes.add(quiz);
-        quizzes.add(quiz);
-        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+        try {
+            PreparedStatement state = connect.prepareStatement("select q.id, q.title, q.description, q.image, c.name from quizes q" +
+                    "inner join category c on q.category_id = c.id");
+            ResultSet quizes = state.executeQuery();
+            while (quizes.next()) {
+                Quiz quiz = new Quiz(quizes.getInt(1), quizes.getString(2), quizes.getString(3),
+                        quizes.getString(4), quizes.getString(5));
+                quizzes.add(quiz);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return quizzes;
     }
+
+    public ResultSet getLeaderUsers() {
+        try {
+            PreparedStatement state = connect.prepareStatement("select firsname, lastname, username, count(uh.quiz_score) scores from users u" +
+                    "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id order by scores desc");
+            return state.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ResultSet getDailyLeaderUsers() {
+        try {
+            PreparedStatement state = connect.prepareStatement("select firsname, lastname, username, count(uh.quiz_score) scores from users u" +
+                    "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc");
+            return state.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 }
