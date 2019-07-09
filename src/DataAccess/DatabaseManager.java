@@ -3,6 +3,7 @@ package DataAccess;
 import Objects.Question;
 import Objects.Quiz;
 import Objects.User;
+import Objects.LeaderUsers;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -278,22 +279,37 @@ public class DatabaseManager {
         return quizzes;
     }
 
-    public static ResultSet getLeaderUsers() {
+    private static ArrayList<LeaderUsers> castResults(ResultSet results) throws SQLException {
+        ArrayList<LeaderUsers> users = new ArrayList<LeaderUsers>();
+        while (results.next()) {
+            LeaderUsers leaders = null;
+                leaders = new LeaderUsers(results.getInt(1), results.getString(2),
+                        results.getString(3), results.getInt(4));
+
+            users.add(leaders);
+        }
+        return users;
+    }
+
+    public static ArrayList<LeaderUsers> getLeaderUsers() {
+        ArrayList<LeaderUsers> users = new ArrayList<LeaderUsers>();
         try {
-            PreparedStatement state = connect.prepareStatement("select firsname, lastname, username, count(uh.quiz_score) scores from users u" +
-                    "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id order by scores desc");
-            return state.executeQuery();
+            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, count(uh.quiz_score) scores from users u" +
+                    "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id order by scores desc 100");
+            ResultSet list = state.executeQuery();
+            return castResults(list);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static ResultSet getDailyLeaderUsers() {
+    public static ArrayList<LeaderUsers> getDailyLeaderUsers() {
         try {
             PreparedStatement state = connect.prepareStatement("select firsname, lastname, username, count(uh.quiz_score) scores from users u" +
-                    "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc");
-            return state.executeQuery();
+                    "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc limit");
+            ResultSet list = state.executeQuery();
+            return castResults(list);
         } catch (SQLException e) {
             e.printStackTrace();
         }
