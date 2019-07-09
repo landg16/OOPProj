@@ -289,7 +289,9 @@ public class DatabaseManager {
     }
 
     public static ArrayList<LeaderUsers> getLeaderUsers() {
+
         ArrayList<LeaderUsers> users = new ArrayList<LeaderUsers>();
+        /*
         try {
             PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
                     " inner join user_history uh on u.id = uh.user_id group by uh.user_id order by scores desc limit 100");
@@ -297,11 +299,15 @@ public class DatabaseManager {
             return castResults(list);
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        return null;
+        }*/
+        LeaderUsers users1 = new LeaderUsers(1, "kaka", "kuku", 10);
+        users.add(users1);
+        return users;
     }
 
     public static ArrayList<LeaderUsers> getDailyLeaderUsers() {
+
+        ArrayList<LeaderUsers> users = new ArrayList<LeaderUsers>();
         try {
             PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
                     " inner join user_history uh on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc");
@@ -310,7 +316,9 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        LeaderUsers users1 = new LeaderUsers(1, "kaka", "kuku", 10);
+        users.add(users1);
+        return users;
     }
 
     public static ArrayList<UserHistory> getUserHistory(int userId) {

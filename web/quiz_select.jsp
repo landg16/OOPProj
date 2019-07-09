@@ -11,7 +11,7 @@
         <div class="col-md-12 quiz_prepare">
             <div class="Quiz_List">
                 <div class="row justify-content-around">
-                    <%for (Quiz quiz: DatabaseManager.getQuizes()) {%>
+                    <%for (Quiz quiz : DatabaseManager.getQuizes()) {%>
                     <div class="col-sm-3 item">
                         <div class="img" style="background-image:url(<%=quiz.getQuizImage()%>);"></div>
                         <div class="description">
