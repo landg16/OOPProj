@@ -11,6 +11,7 @@ public class Quiz {
     private String imageUrl;
     private String type;
 
+
     public Quiz(int id, int quizOwnerId, String description, String imageUrl, String type){
         this.id = id;
         this.quizOwnerId = quizOwnerId;
