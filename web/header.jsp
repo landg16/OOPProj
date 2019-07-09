@@ -32,7 +32,7 @@
                             <a class="nav-link" href="leaderboard.jsp">Leaderboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
+                            <a class="nav-link" href="about.jsp">About</a>
                         </li>
                         <%--                    <li class="nav-item">--%>
                         <%--                        <a class="nav-link" href="#">Log In</a>--%>

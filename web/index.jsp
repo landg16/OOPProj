@@ -14,7 +14,7 @@
         <h2>Featured Learning Quizzes!</h2>
     </div>
     <div class="row justify-content-around">
-        <div class="col-md-3 item">
+        <div class="col-sm-3 item">
             <div class="img" style="background-image:url('img/quizzes/football.jpg');"></div>
             <div class="description">
                 <span class="left">Football Quiz</span>
@@ -24,7 +24,7 @@
                 <a href="#">Take Quiz</a>
             </div>
         </div>
-        <div class="col-md-3 item">
+        <div class="col-sm-3 item">
             <div class="img" style="background-image:url('img/quizzes/football.jpg');"></div>
             <div class="description">
                 <span class="left">Football Quiz</span>
@@ -34,7 +34,7 @@
                 <a href="#">Take Quiz</a>
             </div>
         </div>
-        <div class="col-md-3 item">
+        <div class="col-sm-3 item">
             <div class="img" style="background-image:url('img/quizzes/football.jpg');"></div>
             <div class="description">
                 <span class="left">Football Quiz</span>

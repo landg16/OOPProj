@@ -14,8 +14,6 @@
             </div>
         </footer>
 
-        <script type="text/javascript" src="js/jquery-3.3.1.slim.min.js"></script>
-        <script type="text/javascript" src="js/jquery.validate.min.js"></script>
         <div class="modal login" tabindex="-1" role="dialog" id="logIn">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -44,6 +42,7 @@
         </div>
 
         <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.validate.min.js"></script>
         <script type="text/javascript" src="js/popper.min.js"></script>
         <script type="text/javascript" src="js/bootstrap.min.js"></script>
         <script type="text/javascript" src="js/custom.js"></script>

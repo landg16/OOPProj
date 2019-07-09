@@ -4,28 +4,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Question {
-    public Question(String question, HashMap<String, Boolean> variants){
 
+    private int QuestionId;
+    private int QuizId;
+    private String Question;
+    private String SecondPart;
+    private String Type;
+
+    public Question(int questionId, int quizId, String type, String question, String secondPart){
+        QuestionId = questionId;
+        QuizId = quizId;
+        Question = question;
+        Type = type;
+        SecondPart = secondPart;
     }
 
-    public Question(String question, String answer){
-
+    public int getQuizId(){
+        return QuizId;
     }
 
-    public Question(Object image, String answer){
-
+    public String getSecondPart(){
+        return SecondPart;
     }
 
-    public Question(String question, ArrayList<String> answers){
-
-    }
-
-    public String getQuestion(){
-     return "";
-    }
-
-    public HashMap<String, Boolean> getVariants(){
-        return null;
+    public String getQuestionType(){
+        return Type;
     }
 
 }

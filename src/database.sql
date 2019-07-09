@@ -1,57 +1,72 @@
-create database quizDatabase;
+drop database if exists quizDB;
+create database quizDB;
+
 use quizDatabase;
 
 CREATE TABLE users (
-	id int primary key auto_increment,
-    firstName varchar(50),
-    lastName varchar(50),
-    nickName varchar(50) unique,
-    email varchar(50) unicode,
-    pass varchar(50),
-	points int
+    id int primary key auto_increment not null,
+    firstname varchar(50) not null,
+    lastname varchar(50) not null,
+    username varchar(50) unique not null,
+    email varchar(50) unique not null,
+    password varchar(50) not null,
+    points int default 0
 );
 
 CREATE TABLE admins (
-	id int primary key auto_increment,
-    nickName varchar(50) unique,
-    email varchar(50) unicode,
-    pass varchar(50) 
+    id int primary key auto_increment not null,
+    username varchar(50) unique not null,
+    email varchar(50) unique not null,
+    pass varchar(50) not null
 );
 
 CREATE TABLE friends (
-	firstPersonId int,
-    secondPersonId int,
-    primary key(firstPersonId, secondPersonId),
-    FOREIGN KEY (firstPersonId) REFERENCES users(id),
-    FOREIGN KEY (secondPersonId) REFERENCES users(id)
+     account_id int not null,
+     friend_id int not null,
+     FOREIGN KEY (friend_id) REFERENCES users(id),
+     FOREIGN KEY (account_id) REFERENCES users(id)
 );
 
 CREATE TABLE quizes (
-	id int primary key auto_increment
+    id int primary key auto_increment not null,
+    title varchar(128) not null,
+    random bool not null,
+    one_page bool not null,
+    immediate_correction bool not null,
+    practice_mode bool not null,
+    count int default 0
 );
 
 CREATE TABLE questions (
-	id int primary key auto_increment,
-    quizId int,
-    questiontype int,
-	question varchar(256),
+    id int primary key auto_increment not null,
+    quiz_id int not null,
+    question_type varchar(256) not null,
+    question varchar(256) not null,
     secondpart varchar(100),
-    FOREIGN KEY (id) REFERENCES quizes(id)
+    FOREIGN KEY (quiz_id) REFERENCES quizes(id)
 );
 
 CREATE TABLE answers (
-	questionId int,
-    answer varchar(100),
-    iscorrect boolean,
-    FOREIGN KEY (questionId) REFERENCES questions(id)
+     id int primary key auto_increment not null,
+     question_id int not null ,
+     answer varchar(100) not null,
+     iscorrect bool not null,
+     type varchar(50) not null,
+     FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
-CREATE TABLE userhistory(
-	userId int,
-    quizId int,
-    quizscore double,
-    quizdate datetime,
-    quiztime time,
-    FOREIGN KEY (userId) REFERENCES users(id),
-    FOREIGN KEY (quizId) REFERENCES quizes(id)
+CREATE TABLE user_history (
+    id int primary key auto_increment not null,
+    user_id int not null,
+    quiz_id int not null,
+    quiz_score double not null,
+    quiz_date datetime not null,
+    quiz_time time not null,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (quiz_id) REFERENCES quizes(id)
+);
+
+CREATE TABLE category (
+    id int primary key auto_increment not null,
+    name varchar(100) not null
 );
