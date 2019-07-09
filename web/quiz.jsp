@@ -1,6 +1,8 @@
 <%@ page import="DataAccess.DatabaseManager" %>
 <%@ page import="Objects.Quiz" %>
 <%@ page import="Objects.User" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="Objects.UserHistory" %>
 
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Add Quiz"/>
@@ -42,12 +44,16 @@
                                         </tr>
                                         </thead>
                                         <tbody>
+                                        <%
+                                            ArrayList<UserHistory> histories = DatabaseManager.getUserHistory(quizId);
+                                            for (int i = 0; i < histories.size(); i++){%>
                                         <tr>
-                                            <th scope="row">1</th>
-                                            <td>1</td>
-                                            <td>1</td>
-                                            <td>1</td>
+                                            <th scope="row"><%=i + 1%></th>
+                                            <td><%=histories.get(i).getScore()%></td>
+                                            <td><%=histories.get(i).getQuizDate()%></td>
+                                            <td><%=histories.get(i).getQuizTime()%></td>
                                         </tr>
+                                        <%}%>
                                         </tbody>
                                     </table>
                                 </div>

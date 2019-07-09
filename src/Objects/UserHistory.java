@@ -7,14 +7,12 @@ public class UserHistory {
     private int quizId;
     private Date quizDate;
     private Time quizTime;
-    private String quizName;
     private int score;
 
-    public UserHistory(int quizId, Date quizDate, Time quizTime, String quizName, int score) {
+    public UserHistory(int quizId, Date quizDate, Time quizTime, int score) {
         this.quizId = quizId;
         this.quizDate = quizDate;
         this.quizTime = quizTime;
-        this.quizName = quizName;
         this.score = score;
     }
 
@@ -28,10 +26,6 @@ public class UserHistory {
 
     public Time getQuizTime() {
         return quizTime;
-    }
-
-    public String getQuizName() {
-        return quizName;
     }
 
     public int getScore() {
