@@ -48,7 +48,7 @@ public class RegisterServlet extends HttpServlet {
         }
 
         User newUser = new User(firstName, lastName, userName, email, password);
-     //   dataManager.InsertUser(newUser);
+   //     dataManager.InsertUser(newUser);
 
         request.setAttribute("successMessage", "You have successfully created account");
         request.getRequestDispatcher("/userPage.jsp").forward(request, response);

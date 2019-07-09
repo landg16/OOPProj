@@ -33,13 +33,14 @@ CREATE TABLE quizes (
     random bool not null,
     one_page bool not null,
     immediate_correction bool not null,
-    practice_mode bool not null
+    practice_mode bool not null,
+    count int default 0
 );
 
 CREATE TABLE questions (
     id int primary key auto_increment not null,
     quiz_id int not null,
-    question_type int not null,
+    question_type varchar(256) not null,
     question varchar(256) not null,
     secondpart varchar(100),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
@@ -63,4 +64,9 @@ CREATE TABLE user_history (
     quiz_time time not null,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
+);
+
+CREATE TABLE category (
+    id int primary key auto_increment not null,
+    name varchar(100) not null
 );
