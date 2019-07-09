@@ -544,3 +544,35 @@ footer .socials {
 .requests{
     margin-top: 10px;
 }
+
+
+/****************************************************
+*****************************************************
+10. USER FINDER PAGE
+*****************************************************
+*****************************************************/
+
+.button-class {
+    font-size: 20px;
+}
+
+.personal{
+    max-width: 300px;
+    text-align: center;
+}
+
+.user-margin{
+    margin-top: 40px;
+}
+
+.square{
+    height: 300px;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+}
+
+.search{
+    width:100%;
+    text-align: center;
+}
