@@ -278,7 +278,7 @@ public class DatabaseManager {
         return quizzes;
     }
 
-    public ResultSet getLeaderUsers() {
+    public static ResultSet getLeaderUsers() {
         try {
             PreparedStatement state = connect.prepareStatement("select firsname, lastname, username, count(uh.quiz_score) scores from users u" +
                     "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id order by scores desc");
@@ -289,7 +289,7 @@ public class DatabaseManager {
         return null;
     }
 
-    public ResultSet getDailyLeaderUsers() {
+    public static ResultSet getDailyLeaderUsers() {
         try {
             PreparedStatement state = connect.prepareStatement("select firsname, lastname, username, count(uh.quiz_score) scores from users u" +
                     "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc");
