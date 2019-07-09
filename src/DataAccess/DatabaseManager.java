@@ -1,9 +1,6 @@
 package DataAccess;
 
-import Objects.Question;
-import Objects.Quiz;
-import Objects.User;
-import Objects.LeaderUsers;
+import Objects.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -294,8 +291,8 @@ public class DatabaseManager {
     public static ArrayList<LeaderUsers> getLeaderUsers() {
         ArrayList<LeaderUsers> users = new ArrayList<LeaderUsers>();
         try {
-            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, count(uh.quiz_score) scores from users u" +
-                    "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id order by scores desc 100");
+            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
+                    " inner join user_history uh on u.id = uh.user_id group by uh.user_id order by scores desc limit 100");
             ResultSet list = state.executeQuery();
             return castResults(list);
         } catch (SQLException e) {
@@ -306,14 +303,32 @@ public class DatabaseManager {
 
     public static ArrayList<LeaderUsers> getDailyLeaderUsers() {
         try {
-            PreparedStatement state = connect.prepareStatement("select firsname, lastname, username, count(uh.quiz_score) scores from users u" +
-                    "inner join user_history uhorder on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc limit");
+            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
+                    " inner join user_history uh on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc");
             ResultSet list = state.executeQuery();
             return castResults(list);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static ArrayList<UserHistory> getUserHistory(int userId) {
+
+        ArrayList<UserHistory> history = new ArrayList<UserHistory>();
+        try {
+            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quit_time, uh.quiz_score " +
+                    "from user_history uh INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = "+userId);
+            ResultSet userHistory = state.executeQuery();
+            while (userHistory.next()) {
+                UserHistory his = new UserHistory(userHistory.getInt(1), userHistory.getDate(2), userHistory.getTime(3),
+                        userHistory.getString(4), userHistory.getInt(5));
+                history.add(his);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return history;
     }
 
 }
