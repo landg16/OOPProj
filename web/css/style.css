@@ -573,3 +573,44 @@ footer .socials {
     margin-top:130px;
     margin-bottom: 50px;
 }
+
+
+/****************************************************
+*****************************************************
+10. USER FINDER PAGE
+*****************************************************
+*****************************************************/
+
+.button-class {
+    font-size: 20px;
+}
+
+.personal{
+    max-width: 300px;
+    text-align: center;
+}
+
+.user-margin{
+    margin-top: 40px;
+}
+
+.square{
+    height: 300px;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+}
+
+.search{
+    width:100%;
+    text-align: center;
+}
+.quiz_summary .statistics{
+    padding-top: 30px;
+}
+
+#user_results{
+    border: 1px solid darkslategray;
+    margin-top:130px;
+    margin-bottom: 50px;
+}

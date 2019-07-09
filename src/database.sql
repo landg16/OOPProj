@@ -29,6 +29,7 @@ CREATE TABLE friends (
 
 CREATE TABLE quizes (
     id int primary key auto_increment not null,
+    creator_id int int not null,
     title varchar(128) not null,
     description varchar(250) not null,
     category_id int not null,
@@ -38,7 +39,8 @@ CREATE TABLE quizes (
     practice_mode bool not null,
     image varchar(200) not null,
     count int default 0,
-    FOREIGN KEY (category_id) REFERENCES category(id)
+    FOREIGN KEY (category_id) REFERENCES category(id),
+    FOREIGN KEY (creator_id) REFERENCES users(id)
 );
 
 CREATE TABLE questions (
