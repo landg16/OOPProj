@@ -503,6 +503,26 @@ footer .socials {
 *****************************************************
 *****************************************************/
 
+#quizSummaryForm{
+    border: 1px solid darkslategray;
+    margin-top:130px;
+    margin-bottom: 50px;
+}
+
+.quiz_summary .head_info{
+    font-weight: bold;
+    text-align: center;
+}
+
+.quiz_summary .description{
+    padding-left: 10px;
+}
+
+.quiz_summary .img{
+    height:300px;
+    background-position: right center;
+    background-size: cover;
+}
 
 
 /****************************************************
@@ -534,4 +554,63 @@ footer .socials {
 
 .achievements{
     text-align: center;
+}
+
+.historyBT{
+    text-align: right;
+    margin-right: 40px;
+}
+
+.requests{
+    margin-top: 10px;
+}
+.quiz_summary .statistics{
+    padding-top: 30px;
+}
+
+#user_results{
+    border: 1px solid darkslategray;
+    margin-top:130px;
+    margin-bottom: 50px;
+}
+
+
+/****************************************************
+*****************************************************
+10. USER FINDER PAGE
+*****************************************************
+*****************************************************/
+
+.button-class {
+    font-size: 20px;
+}
+
+.personal{
+    max-width: 300px;
+    text-align: center;
+}
+
+.user-margin{
+    margin-top: 40px;
+}
+
+.square{
+    height: 300px;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+}
+
+.search{
+    width:100%;
+    text-align: center;
+}
+.quiz_summary .statistics{
+    padding-top: 30px;
+}
+
+#user_results{
+    border: 1px solid darkslategray;
+    margin-top:130px;
+    margin-bottom: 50px;
 }

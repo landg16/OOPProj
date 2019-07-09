@@ -36,37 +36,105 @@
     <div class="row buttons">
         <div class="col-sm-4">
             <a href="register.jsp" class="btn btn-danger btn-lg">CHALLENGE REQUESTS</a>
+            <br>
+            <p class="requests">Guja Lortkipanidze</p>
+            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
+            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
+            <p class="requests">Guja Lortkipanidze</p>
+            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
+            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
         </div>
 
         <div class="col-sm-4">
             <a href="register.jsp" class="btn btn-danger btn-lg">CHAT WITH FRIENDS</a>
+            <p style="margin-top: 10px"> <a href="register.jsp">Nikolai nikolaevich </a></p>
+            <p> <a href="register.jsp">guja gujaevich</a></p>
         </div>
 
         <div class="col-sm-4">
             <a href="register.jsp" class="btn btn-danger btn-lg">FRIEND REQUESTS</a>
+            <p class="requests">Guja Lortkipanidze</p>
+            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
+            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
+            <p class="requests">Guja Lortkipanidze</p>
+            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
+            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
         </div>
 
     </div>
 
-    <div class="row achievements justify-content-around">
+    <br>
+    <br>
+
+    <div class="row">
+        <div class="col-sm-8">
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Quiz Name</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Score</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                    <td>20</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                    <td>20</td>
+                </tr>
+                </tbody>
+            </table>
+            <a href="register.jsp" class="btn btn-danger btn-lg historyBT">SEE ALL QUIZZES</a>
+        </div>
+
         <div class="col-sm-4">
-            <h4>Amateur Author</h4>
-            <h4>Prolific Author</h4>
-            <h4>Prodigous Author</h4>
-            <h4>Quiz Machine</h4>
-            <h4>I'm the greatest</h4>
-            <h4>Practice Makes Perfect</h4>
+            <div class="row achievements justify-content-around">
+                <div class="col-sm-10">
+                    <h2>ACHIEVEMENTS</h2>
+                    <p>Amateur Author</p>
+                    <p>Prolific Author</p>
+                    <p>Prodigous Author</p>
+                    <p>Quiz Machine</p>
+                    <p>I'm the greatest</p>
+                    <p>Practice Makes Perfect</p>
+                </div>
+            </div>
         </div>
     </div>
-
     <!-- End of when you are visiting your profile-->
 
+    <br>
+    <br>
 
     <!-- when you are visiting someone else's profile-->
     <div class="row buttons">
         <div class="col-sm-4">
             <a href="register.jsp" class="btn btn-danger btn-lg">SEND FRIEND REQUEST</a>
         </div>
+
+        <!--- when he isn't friend, then remove
+        <div class="col-sm-4">
+            <a href="register.jsp" class="btn btn-danger btn-lg">SEND FRIEND REQUEST</a>
+        </div>
+        -->
 
         <div class="col-sm-4">
             <a href="register.jsp" class="btn btn-danger btn-lg">CHAT WITH HIM/HER</a>
