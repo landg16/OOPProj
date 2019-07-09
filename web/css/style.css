@@ -535,3 +535,12 @@ footer .socials {
 .achievements{
     text-align: center;
 }
+
+.historyBT{
+    text-align: right;
+    margin-right: 40px;
+}
+
+.requests{
+    margin-top: 10px;
+}
