@@ -1,8 +1,6 @@
 package DataAccess;
 
-import Objects.Question;
-import Objects.Quiz;
-import Objects.User;
+import Objects.*;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -171,18 +169,20 @@ public class DatabaseManager {
     }
 
 
-    public void insertQuiz(String title, String descripption, int category, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image){
+    public void insertQuiz(int creatorId, String title, String descripption, int categoryId,
+                       boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image){
         //todo
         try {
-            PreparedStatement state = connect.prepareStatement("insert into quizes values(?,?,?,?,?,?,?,?,?,?)");
-            state.setString(2, title);
-            state.setString(3, descripption);
-            state.setInt(4, category);
-            state.setBoolean(5, random);
-            state.setBoolean(6, onePage);
-            state.setBoolean(7, immCorr);
-            state.setBoolean(8, pracMode);
-            state.setString(9, image);
+            PreparedStatement state = connect.prepareStatement("insert into quizes values(?,?,?,?,?,?,?,?,?,?,?)");
+            state.setInt(2, creatorId);
+            state.setString(3, title);
+            state.setString(4, descripption);
+            state.setInt(5, categoryId);
+            state.setBoolean(6, random);
+            state.setBoolean(7, onePage);
+            state.setBoolean(8, immCorr);
+            state.setBoolean(9, pracMode);
+            state.setString(10, image);
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -264,11 +264,11 @@ public class DatabaseManager {
 //        quizzes.add(quiz);
 //        quizzes.add(quiz);
         try {
-            PreparedStatement state = connect.prepareStatement("select q.id, q.title, q.description, q.image, c.name from quizes q" +
+            PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.description, q.image, c.name from quizes q" +
                     "inner join category c on q.category_id = c.id");
             ResultSet quizes = state.executeQuery();
             while (quizes.next()) {
-                Quiz quiz = new Quiz(quizes.getInt(1), quizes.getString(2), quizes.getString(3),
+                Quiz quiz = new Quiz(quizes.getInt(1), quizes.getInt(2), quizes.getString(3),
                         quizes.getString(4), quizes.getString(5));
                 quizzes.add(quiz);
             }
