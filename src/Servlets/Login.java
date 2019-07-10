@@ -12,16 +12,12 @@ public class Login extends javax.servlet.http.HttpServlet {
         DatabaseManager dm = new DatabaseManager();
         String username =  request.getParameter("username");
         String password = request.getParameter("password");
-        try {
-            if(!dm.usernameExists(username)){
-                response.sendRedirect("index.jsp?error=Username doesn't exist");
-            }
+        if(!dm.usernameExists(username)){
+            response.sendRedirect("index.jsp?error=Username doesn't exist");
+        }
 
-            if(!dm.checkLogin(username,password)){
-                response.sendRedirect("index.jsp?error=Password is incorrect");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        if(!dm.checkLogin(username,password)){
+            response.sendRedirect("index.jsp?error=Password is incorrect");
         }
         response.sendRedirect("profile.jsp");
     }
