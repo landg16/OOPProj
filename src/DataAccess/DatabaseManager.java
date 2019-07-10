@@ -322,7 +322,7 @@ public class DatabaseManager {
     public static ArrayList<UserHistory> getUserHistory(int userId) {
 
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
-        UserHistory history = new UserHistory(1, new Date(), Time.valueOf("100"), 10);
+        UserHistory history = new UserHistory(1, 11, 12,10);
         histories.add(history);
 //        try {
 //            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quit_time, uh.quiz_score " +
@@ -341,12 +341,21 @@ public class DatabaseManager {
 
 
     public static Quiz getQuiz(int quizId){
-        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo", "img/quizzes/football.jpg", "Sport");
+        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo",
+                "https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/40133576_1678577612252835_2706565188802314240_n.jpg?_nc_cat=102&_nc_oc=AQkqAzB_-LogQxTNtsA6NG94bPFmgxv05g1rZIYlKD3bK_d73KjRe8zcZiAhrLQh9kA&_nc_ht=scontent.ftbs5-1.fna&oh=b49adad1a4c0ccf5f7ec50a04e934284&oe=5DBDBB32", "Sport");
         return quiz;
     }
 
     public static User getUser(int userId){
         User user = new User("jotia", "caava", "jtcava", "jorji", "jarji");
         return user;
+    }
+
+    //return all time best 5 users with best score in this quiz
+    public static ArrayList<UserHistory> getAllTimeBest(int quizId){
+        ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
+        UserHistory history = new UserHistory(1, 11, 12,10);
+        histories.add(history);
+        return histories;
     }
 }
