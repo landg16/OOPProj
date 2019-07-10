@@ -18,7 +18,7 @@ function removeQuestion () {
         $("#toRemove"+which).remove();
         for(var i = which; i<counter; i++){
             var selector = $("#toRemove"+(i+1));
-            var toChange =  selector.html();
+            var toChange =  selector.clone();
             var regex = new RegExp((i+1), "g");
             toChange = toChange.replace(regex, i);
             selector.html(toChange);
@@ -77,7 +77,7 @@ function addQuestion() {
                 '                <div class="form-group" id="toRemove' + count + '">\n' +
                 '                    <div class="row">\n' +
                 '                        <div class="col-md-five">\n' +
-                '                            <label>Question #' + count + '</label>\n' +
+                '                            <label>Image #' + count + '</label>\n' +
                 '                            <input type="text" class="form-control" name="question' + count + '" id="question' + count + '" placeholder="Provide Image URL">\n' +
                 '                        </div>\n' +
                 '                        <div class="col-md-five">\n' +
@@ -94,7 +94,6 @@ function addQuestion() {
             html = '<!--- MC TYPE --->\n' +
                 '                <div class="form-group" id="toRemove' + count + '">\n' +
                 '                    <div class="row">\n' +
-                '                       <input type="hidden" value="2" id="question' + count + 'AnswerCount" name="question' + count + '_answers">' +
                 '                        <div class="col-md-six">\n' +
                 '                            <label>Question #' + count + '</label>\n' +
                 '                            <input type="text" class="form-control" name="question' + count + '" id="question' + count + '">\n' +
@@ -107,14 +106,14 @@ function addQuestion() {
                 '                        </div>\n' +
                 '                    </div>\n' +
                 '                    <!-- ANSWER -->\n' +
-                '<div id="answers' + count + '">' +
-                '                    <div class="row" id="question' + count + '_answer1">\n' +
+                '               <div id="answers_' + count + '">' +
+                '                    <div class="row" class="mc_question' + count + '">\n' +
                 '                        <div class="col-md-nine">\n' +
-                '                            <label>Answer #1</label>\n' +
+                '                            <label>Answer</label>\n' +
                 '                            <div class="input-group">\n' +
                 '                                <div class="input-group-prepend">\n' +
                 '                                    <div class="input-group-text">\n' +
-                '                                        <input type="radio" name="question' + count + '_answer1" aria-label="Correct Answer" checked>\n' +
+                '                                        <input type="radio" name="answer' + count + '_[]" aria-label="Correct Answer" checked>\n' +
                 '                                    </div>\n' +
                 '                                </div>\n' +
                 '                                <input type="text" class="form-control" aria-label="Answer box for question">\n' +
@@ -123,16 +122,16 @@ function addQuestion() {
                 '                    </div>\n' +
                 '                    <!-- END ANSWER -->\n' +
                 '                    <!-- ANSWER -->\n' +
-                '                    <div class="row" id="question' + count + '_answer2">\n' +
+                '                    <div class="row" class="mc_question' + count + '">\n' +
                 '                        <div class="col-md-nine">\n' +
-                '                            <label>Answer #2</label>\n' +
+                '                            <label>Answer</label>\n' +
                 '                            <div class="input-group">\n' +
                 '                                <div class="input-group-prepend">\n' +
                 '                                    <div class="input-group-text">\n' +
-                '                                        <input type="radio" name="question' + count + '_answer2" aria-label="Correct Answer">\n' +
+                '                                        <input type="radio" name="answer' + count + '_checked_[]" aria-label="Correct Answer">\n' +
                 '                                    </div>\n' +
                 '                                </div>\n' +
-                '                                <input type="text" class="form-control" aria-label="Answer box for question">\n' +
+                '                                <input type="text" class="form-control" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
@@ -144,32 +143,38 @@ function addQuestion() {
         $("#questions").append(html);
         if (type === "mc") {
             $('#addChoice' + count).click(function () {
-                var question_count = $('#question' + count + 'AnswerCount').val();
-                question_count++;
-                $('#question' + count + 'AnswerCount').val(question_count);
                 var gtml = '<!-- ANSWER -->\n' +
-                    '                    <div class="row" id="question' + count + '_answer">\n' +
+                    '                    <div class="row" class="mc_question' + count + '_answer">\n' +
                     '                        <div class="col-md-nine">\n' +
-                    '                            <label>Answer #' + question_count + '</label>\n' +
+                    '                            <label>Answer</label>\n' +
                     '                            <div class="input-group">\n' +
                     '                                <div class="input-group-prepend">\n' +
                     '                                    <div class="input-group-text">\n' +
-                    '                                        <input type="radio" name="question' + count + '_answer' + question_count + '" aria-label="Correct Answer">\n' +
+                    '                                        <input type="radio" name="answer' + count + '_checked_[]" aria-label="Correct Answer">\n' +
                     '                                    </div>\n' +
                     '                                </div>\n' +
-                    '                                <input type="text" class="form-control" aria-label="Answer box for question">\n' +
+                    '                                <input type="text" class="form-control" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
                     '                            </div>\n' +
                     '                        </div>\n' +
                     '                        <div class="col-md-three d-flex flex-column">\n' +
-                    '                            <button type="button" data-question-number="' + count + '" data-answer-number="' + question_count + '" class="btn btn-danger w-100 mt-auto removeMC">Remove</button>\n' +
+                    '                            <button type="button" data-question="'+count+'" class="btn btn-danger w-100 mt-auto removeMC">Remove</button>\n' +
                     '                        </div>\n' +
                     '                    </div>\n' +
                     '                    <!-- END ANSWER -->';
-                $("#answers" + count).append(gtml);
+                $("#answers_" + count).append(gtml);
+                removeMCQuestion();
             });
         }
         $("#count").val(count);
         removeQuestion();
+    });
+}
+
+function removeMCQuestion() {
+    var selector = $(".removeMC");
+    selector.off("click");
+    selector.click(function() {
+        $(this).parent().parent().remove();
     });
 }
 

@@ -10,12 +10,16 @@
         <div class="col-md-9 quiz_form">
             <form method="post">
                 <div class="form-group">
-                    <label for="title">Title</label>
+                    <label for="title">Quiz Title</label>
                     <input type="text" class="form-control" name="title" id="title">
                 </div>
                 <div class="form-group">
                     <label for="description">Quiz Description</label>
                     <textarea class="form-control" name="description" id="description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Quiz Image</label>
+                    <textarea class="form-control" name="image" id="image"></textarea>
                 </div>
                 <hr>
                 <div class="row two_column">

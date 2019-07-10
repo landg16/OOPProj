@@ -1,7 +1,7 @@
 drop database if exists quizDB;
 create database quizDB;
 
-use quizDatabase;
+use quizDB;
 
 CREATE TABLE users (
     id int primary key auto_increment not null,
