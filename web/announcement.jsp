@@ -16,7 +16,14 @@
         <textarea class="form-control" name="Description" id="Description"></textarea>
     </div>
 
+    <br>
+
     <button>Make an announcement</button>
+
+    <br>
+    <br>
+    <br>
+
 </div>
 
 <jsp:include page="footer.jsp"/>

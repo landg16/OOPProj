@@ -10,15 +10,17 @@ public class User {
     private String userName;
     private String email;
     private String password;
+    private String imageurl;
     private hashPassword hash;
 
     public User(String firstName, String lastName, String username,
-                     String email, String password){
+                     String email, String password, String imageurl){
         this.firstName = new String(firstName);
         this.lastName = new String(lastName);
         this.userName = new String(username);
         this.email = new String(email);
         this.password = new String(hash.hashPassword(password));
+        this.imageurl = imageurl;
     }
 
     public void getRank(){
