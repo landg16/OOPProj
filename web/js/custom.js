@@ -6,26 +6,36 @@ window.onscroll = function () {
 // $(window).scroll(counterUp());
 
 $(document).ready(function () {
+    everyInputInsideValue();
     registrationValidation();
     addQuestion();
 });
 
-function removeQuestion () {
+function everyInputInsideValue() {
+    $('input').each(function () {
+        $(this).on("keyup", function () {
+            $(this).attr('value', $(this).val());
+        });
+    });
+}
+
+function removeQuestion() {
     $(".removeQuestion").off("click");
     $(".removeQuestion").on('click', function () {
         var which = parseInt($(this).data("remove")); //2
         var counter = parseInt($("#count").val()); //3
-        $("#toRemove"+which).remove();
-        for(var i = which; i<counter; i++){
-            var selector = $("#toRemove"+(i+1));
-            var toChange =  selector.clone();
-            var regex = new RegExp((i+1), "g");
+        $("#toRemove" + which).remove();
+        for (var i = which; i < counter; i++) {
+            var selector = $("#toRemove" + (i + 1));
+            var toChange = selector.html();
+            var regex = new RegExp((i + 1), "g");
             toChange = toChange.replace(regex, i);
             selector.html(toChange);
-            selector.attr("id", "toRemove"+i);
+            selector.attr("id", "toRemove" + i);
             removeQuestion();
         }
-        $("#count").val(counter-1);
+        $("#count").val(counter - 1);
+        everyInputInsideValue();
     });
 }
 
@@ -157,7 +167,7 @@ function addQuestion() {
                     '                            </div>\n' +
                     '                        </div>\n' +
                     '                        <div class="col-md-three d-flex flex-column">\n' +
-                    '                            <button type="button" data-question="'+count+'" class="btn btn-danger w-100 mt-auto removeMC">Remove</button>\n' +
+                    '                            <button type="button" data-question="' + count + '" class="btn btn-danger w-100 mt-auto removeMC">Remove</button>\n' +
                     '                        </div>\n' +
                     '                    </div>\n' +
                     '                    <!-- END ANSWER -->';
@@ -167,13 +177,15 @@ function addQuestion() {
         }
         $("#count").val(count);
         removeQuestion();
+        everyInputInsideValue();
     });
 }
 
 function removeMCQuestion() {
+    everyInputInsideValue();
     var selector = $(".removeMC");
     selector.off("click");
-    selector.click(function() {
+    selector.click(function () {
         $(this).parent().parent().remove();
     });
 }
@@ -216,7 +228,7 @@ function registrationValidation() {
     });
 }
 
-function counterUp () {
+function counterUp() {
     var a = $(this).scrollTop();
     var k = $(".count");
     if (0 < k.length && k.offset().top < a + window.screen.height && !k.eq(0).hasClass("active")) {
