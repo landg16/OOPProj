@@ -1,6 +1,5 @@
 <%@ page import="DataAccess.DatabaseManager" %>
 <%@ page import="Objects.LeaderUsers" %>
-
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Leaderboard"/>
 </jsp:include>

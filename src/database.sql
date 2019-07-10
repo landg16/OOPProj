@@ -1,7 +1,7 @@
 drop database if exists quizDB;
 create database quizDB;
 
-use quizDatabase;
+use quizDB;
 
 CREATE TABLE users (
     id int primary key auto_increment not null,
@@ -10,7 +10,7 @@ CREATE TABLE users (
     username varchar(50) unique not null,
     email varchar(50) unique not null,
     password varchar(50) not null,
-    points int default 0
+    umageurl varchar(150) not null
 );
 
 CREATE TABLE admins (

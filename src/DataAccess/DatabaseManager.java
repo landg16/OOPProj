@@ -27,19 +27,23 @@ import java.lang.String;
 public class DatabaseManager {
 
     private static Connection connect;
+    private static hashPassword hash;
 
-    public static void main(){
+    public static void main()  {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","saxlshivar97");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        try {
+        connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","saxlshivar97");
             Statement statement = connect.createStatement();
-
-        }catch (Exception e){
-
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void insertUser(User newUser){
+    public void insertUser(User newUser) {
         try {
             PreparedStatement state = connect.prepareStatement("insert into users values(?,?,?,?,?,?,?)");
             state.setString(2, newUser.getFirstName());
@@ -53,15 +57,14 @@ public class DatabaseManager {
         }
     }
 
-    public boolean emailExists(String email){
+    public boolean emailExists(String email) {
         try {
-            PreparedStatement state = connect.prepareStatement("select email from users order by email");
-            ResultSet emails = state.executeQuery();
-            if (emails.next()) {
-                String searched = emails.getString(email);
-                if (searched.equals(email)) {
-                    return true;
-                }
+            PreparedStatement state = connect.prepareStatement("select email from users where email = "+email);
+            ResultSet em = state.executeQuery();
+            String searched = null;
+                searched = em.getString(1);
+            if (searched.equals(email)) {
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -69,26 +72,21 @@ public class DatabaseManager {
         return false;
     }
 
-    public void changeEmail(int userId, String newEmail){
-        try {
-            PreparedStatement state = connect.prepareStatement("UPDATE users set email = ? where id = ?");
-            state.setString(1, newEmail);
-            state.setInt(2, userId);
-            state.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public void changeEmail(int userId, String newEmail) throws SQLException {
+        PreparedStatement state = connect.prepareStatement("UPDATE users set email = ? where id = ?");
+        state.setString(1, newEmail);
+        state.setInt(2, userId);
+        state.executeUpdate();
     }
 
-    public boolean nickNameExists(String nickName){
+    public boolean usernameExists(String username) {
         try {
-            PreparedStatement state = connect.prepareStatement("select nickName from users order by nickName");
-            ResultSet emails = state.executeQuery();
-            if (emails.next()) {
-                String searched = emails.getString(nickName);
-                if (searched.equals(nickName)) {
-                    return true;
-                }
+            PreparedStatement state = connect.prepareStatement("select username from users where username = "+username);
+            ResultSet user = state.executeQuery();
+            String searched = null;
+                searched = user.getString(1);
+            if (searched.equals(username)) {
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,10 +94,28 @@ public class DatabaseManager {
         return false;
     }
 
-    public void changeUserNickName(int userId, String newNickName){
+    public boolean checkLogin(String username, String password) {
+        String pass = hash.hashPassword(password);
         try {
-            PreparedStatement state = connect.prepareStatement("UPDATE users set nickname = ? where id = ?");
-            state.setString(1, newNickName);
+            PreparedStatement state = connect.prepareStatement("select username, password from users where username = "+username+" and password = "+pass);
+            ResultSet user = state.executeQuery();
+            String name = user.getString(1);
+            String passw = null;
+                passw = user.getString(2);
+            if (name.equals(username) && passw.equals(pass)) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void changeUsername(int userId, String username) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("UPDATE users set username = ? where id = ?");
+            state.setString(1, username);
             state.setInt(2, userId);
             state.executeUpdate();
         } catch (SQLException e) {
@@ -107,34 +123,10 @@ public class DatabaseManager {
         }
     }
 
-    public static String hexToString(byte[] bytes) {
-        StringBuffer buff = new StringBuffer();
-        for (int i = 0; i < bytes.length; i++) {
-            int val = bytes[i];
-            val = val & 0xff;  // remove higher bits, sign
-            if (val < 16) buff.append('0'); // leading 0
-            buff.append(Integer.toString(val, 16));
-        }
-        return buff.toString();
-    }
+    public void changePassword(int userId, String newPassword) {
 
-    private String hashPassword(String password) {
-        MessageDigest md = null;
-        String hashtext = null;
         try {
-            md = MessageDigest.getInstance("SHA-256");
-            byte[] messageDigest = md.digest(password.getBytes());
-            hashtext = hexToString(messageDigest);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        return hashtext;
-    }
-
-    public void changePassword(int userId, String newPassword){
-        String pass = hashPassword(newPassword);
-        try {
+            String pass = hash.hashPassword(newPassword);
             PreparedStatement state = connect.prepareStatement("UPDATE users set password = ? where id = ?");
             state.setString(1, pass);
             state.setInt(2, userId);
@@ -144,22 +136,23 @@ public class DatabaseManager {
         }
     }
 
-    public int getScore(int userId){
+    public int getScore(int userId) {
         //todo
+        int score = 0;
         try {
             PreparedStatement state = connect.prepareStatement("select points from users where userid = ?");
             state.setInt(1, userId);
-            int score = state.executeQuery().getInt(7);
-            return score;
+            score = state.executeQuery().getInt(7);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return score;
     }
 
-    public void updateScore(int userId, int score){
-        int res = getScore(userId);
+    public void updateScore(int userId, int score) {
+
         try {
+            int res = getScore(userId);
             PreparedStatement state = connect.prepareStatement("UPDATE users set points = ? where id = ?");
             state.setInt(1, res+score);
             state.setInt(2, userId);
@@ -170,7 +163,7 @@ public class DatabaseManager {
     }
 
 
-    public void insertQuiz(String title, String descripption, int category, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image){
+    public void insertQuiz(String title, String descripption, int category, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image) {
         //todo
         try {
             PreparedStatement state = connect.prepareStatement("insert into quizes values(?,?,?,?,?,?,?,?,?,?)");
@@ -188,7 +181,7 @@ public class DatabaseManager {
         }
     }
 
-    public void InsertQuestion(int quizId, String type, String question, String secondPart){
+    public void InsertQuestion(int quizId, String type, String question, String secondPart) {
 
         try {
             PreparedStatement state = connect.prepareStatement("insert into questions values(?,?,?,?,?)");
@@ -212,10 +205,10 @@ public class DatabaseManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
-    public void InsertFriend(int userId1, int userId2){
+    public void InsertFriend(int userId1, int userId2) {
+
         try {
             PreparedStatement state = connect.prepareStatement("insert into friends values(?,?)");
             state.setInt(1, userId1);
@@ -223,6 +216,7 @@ public class DatabaseManager {
             state.executeUpdate();
             state.setInt(1, userId2);
             state.setInt(2, userId1);
+
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -244,8 +238,9 @@ public class DatabaseManager {
     }
 
     public void insertCategory(String name) {
+
         try {
-            PreparedStatement state = connect.prepareStatement("insert into category values(?,?)");
+        PreparedStatement state = connect.prepareStatement("insert into category values(?,?)");
             state.setString(2, name);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -253,7 +248,7 @@ public class DatabaseManager {
     }
 
 
-    public static ArrayList<Quiz> getQuizes(){
+    public static ArrayList<Quiz> getQuizes () {
         Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
         ArrayList<Quiz> quizzes = new ArrayList<>();
         quizzes.add(quiz);
@@ -271,31 +266,36 @@ public class DatabaseManager {
 //                        quizes.getString(4), quizes.getString(5));
 //                quizzes.add(quiz);
 //            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
         return quizzes;
     }
 
-    private static ArrayList<LeaderUsers> castResults(ResultSet results) throws SQLException {
-        ArrayList<LeaderUsers> users = new ArrayList<LeaderUsers>();
-        while (results.next()) {
-            LeaderUsers leaders = null;
-                leaders = new LeaderUsers(results.getInt(1), results.getString(2),
-                        results.getString(3), results.getInt(4));
+    private static ArrayList<LeaderUsers> castResults(ResultSet results) {
 
-            users.add(leaders);
+        ArrayList<LeaderUsers> users = new ArrayList<LeaderUsers>();
+        try {
+            while (results.next()) {
+                LeaderUsers leaders = null;
+                    leaders = new LeaderUsers(results.getInt(1), results.getString(2),
+                            results.getString(3), results.getInt(4));
+
+                users.add(leaders);
+            }
+            } catch (SQLException e) {
+            e.printStackTrace();
         }
         return users;
     }
 
     public static ArrayList<LeaderUsers> getLeaderUsers() {
-//        try {
+        //        try {
 //            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
 //                    " inner join user_history uh on u.id = uh.user_id group by uh.user_id order by scores desc limit 100");
 //            ResultSet list = state.executeQuery();
 //            return castResults(list);
-//        } catch (SQLException e) {
+        //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
         ArrayList<LeaderUsers> leaderUsers = new ArrayList<>();
@@ -304,13 +304,13 @@ public class DatabaseManager {
         return leaderUsers;
     }
 
-    public static ArrayList<LeaderUsers> getDailyLeaderUsers() {
+    public static ArrayList<LeaderUsers> getDailyLeaderUsers() throws SQLException {
 //        try {
-//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
+        //            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
 //                    " inner join user_history uh on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc");
 //            ResultSet list = state.executeQuery();
 //            return castResults(list);
-//        } catch (SQLException e) {
+        //        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
         ArrayList<LeaderUsers> leaderUsers = new ArrayList<>();
@@ -329,9 +329,11 @@ public class DatabaseManager {
 //                    "from user_history uh INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = "+userId);
 //            ResultSet userHistory = state.executeQuery();
 //            while (userHistory.next()) {
-//                UserHistory his = new UserHistory(userHistory.getInt(1), userHistory.getDate(2), userHistory.getTime(3),
-//                        userHistory.getInt(5));
-//                history.add(his);
+//
+//                    UserHistory his = new UserHistory(userHistory.getInt(1), userHistory.getDate(2), userHistory.getTime(3),
+//                            userHistory.getInt(5));
+//
+//                histories.add(history);
 //            }
 //        } catch (SQLException e) {
 //            e.printStackTrace();
@@ -340,14 +342,30 @@ public class DatabaseManager {
     }
 
 
-    public static Quiz getQuiz(int quizId){
-        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo",
-                "https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/40133576_1678577612252835_2706565188802314240_n.jpg?_nc_cat=102&_nc_oc=AQkqAzB_-LogQxTNtsA6NG94bPFmgxv05g1rZIYlKD3bK_d73KjRe8zcZiAhrLQh9kA&_nc_ht=scontent.ftbs5-1.fna&oh=b49adad1a4c0ccf5f7ec50a04e934284&oe=5DBDBB32", "Sport");
+    public static Quiz getQuiz(int quizId) {
+        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo", "img/quizzes/football.jpg", "Sport");
+//        try {
+//        PreparedStatement state = connect.prepareStatement("select q.quiz_id, q.creator_id, q.DESCRIPTION, q.imageurl, q.type " +
+//                "from quizes q where q.quiz_id = "+quizId);
+//        ResultSet result = state.executeQuery();
+//        Quiz quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5));
+//    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
         return quiz;
     }
 
-    public static User getUser(int userId){
-        User user = new User("jotia", "caava", "jtcava", "jorji", "jarji");
+    public static User getUser(int userId) {
+        User user = new User("jotia", "caava", "jtcava", "jorji", "jarji", "jurji");
+        //        try {
+//        PreparedStatement state = connect.prepareStatement("select u.quiz_id, u.creator_id, u.DESCRIPTION, u.imageurl, u.type " +
+//                "from users u where u.user_id = "+userId);
+//        ResultSet result = state.executeQuery();
+//        User user = new User(result.getString(1), result.getString(2), result.getString(3),
+//                result.getString(4), result.getString(5), result.getString(6));
+        //    } catch (SQLException e) {
+//        e.printStackTrace();
+//    }
         return user;
     }
 

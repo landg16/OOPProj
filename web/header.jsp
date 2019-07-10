@@ -28,6 +28,15 @@
                         <li class="nav-item">
                             <a class="nav-link" href="#">Quizes</a>
                         </li>
+
+                        <!--
+
+                        THIS SHOULD BE DISPLAYED WHEN ADMIN IS LOGGED IN
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Make an announcement</a>
+                        </li>
+                        -->
                         <li class="nav-item">
                             <a class="nav-link" href="leaderboard.jsp">Leaderboard</a>
                         </li>

@@ -5,44 +5,22 @@ import java.security.NoSuchAlgorithmException;
 
 public class User {
 
-    private String FirstName;
-    private String LastName;
-    private String NickName;
-    private String Email;
-    private String Password;
+    private String firstName;
+    private String lastName;
+    private String userName;
+    private String email;
+    private String password;
+    private String imageurl;
+    private hashPassword hash;
 
-    public static String hexToString(byte[] bytes) {
-        StringBuffer buff = new StringBuffer();
-        for (int i = 0; i < bytes.length; i++) {
-            int val = bytes[i];
-            val = val & 0xff;  // remove higher bits, sign
-            if (val < 16) buff.append('0'); // leading 0
-            buff.append(Integer.toString(val, 16));
-        }
-        return buff.toString();
-    }
-
-    private String hashPassword(String password) {
-        MessageDigest md = null;
-        String hashtext = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-            byte[] messageDigest = md.digest(password.getBytes());
-            hashtext = hexToString(messageDigest);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        return hashtext;
-    }
-
-    public User(String firstName, String lastName, String nickName,
-                     String email, String password){
-        FirstName = new String(firstName);
-        LastName = new String(lastName);
-        NickName = new String(nickName);
-        Email = new String(email);
-        Password = new String(hashPassword(password));
+    public User(String firstName, String lastName, String username,
+                     String email, String password, String imageurl){
+        this.firstName = new String(firstName);
+        this.lastName = new String(lastName);
+        this.userName = new String(username);
+        this.email = new String(email);
+        this.password = new String(hash.hashPassword(password));
+        this.imageurl = imageurl;
     }
 
     public void getRank(){
@@ -50,27 +28,27 @@ public class User {
     }
 
     public String getFirstName(){
-        return FirstName;
+        return firstName;
     }
 
     public String getLastName(){
-        return LastName;
+        return lastName;
     }
 
     public String getNickName(){
-        return NickName;
+        return userName;
     }
 
     public String getEmail(){
-        return Email;
+        return email;
     }
 
     public void setPassword(String password) {
-        Password = hashPassword(password);
+        password = hash.hashPassword(password);
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
 }
