@@ -213,6 +213,10 @@ function registrationValidation() {
                 required: true,
                 email: true
             },
+            image: {
+                required: false,
+                url: true
+            },
             firstName: "required",
             lastName: "required",
             userName: "required"

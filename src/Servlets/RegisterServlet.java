@@ -46,10 +46,15 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("/register.jsp").forward(request, response);
         }
 
-        User newUser = new User(firstName, lastName, userName, email, password);
+        String image = request.getParameter("image");
+        if(image.length()<4) {
+            image = "img/default-avatar.png";
+        }
+
+        User newUser = new User(firstName, lastName, userName, email, password, image);
         dataManager.insertUser(newUser);
 
-        request.setAttribute("successMessage", "You have successfully created account");
-        request.getRequestDispatcher("/userPage.jsp").forward(request, response);
+        request.setAttribute("successs", "You have successfully created account");
+        request.getRequestDispatcher("/index.jsp").forward(request, response);
     }
 }
