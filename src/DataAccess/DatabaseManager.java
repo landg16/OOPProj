@@ -57,8 +57,8 @@ public class DatabaseManager {
     public boolean emailExists(String email){
         try {
             PreparedStatement state = connect.prepareStatement("select email from users where email = "+email);
-            ResultSet emails = state.executeQuery();
-            String searched = emails.getString(1);
+            ResultSet em = state.executeQuery();
+            String searched = em.getString(1);
             if (searched.equals(email)) {
                 return true;
             }
@@ -82,9 +82,25 @@ public class DatabaseManager {
     public boolean usernameExists(String username){
         try {
             PreparedStatement state = connect.prepareStatement("select username from users where username = "+username);
-            ResultSet emails = state.executeQuery();
-            String searched = emails.getString(1);
+            ResultSet user = state.executeQuery();
+            String searched = user.getString(1);
             if (searched.equals(username)) {
+                return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean checlLogin(String username, String password) {
+        String pass = hash.hashPassword(password);
+        try {
+            PreparedStatement state = connect.prepareStatement("select username, password from users where username = "+username+" and password = "+pass);
+            ResultSet user = state.executeQuery();
+            String name = user.getString(1);
+            String passw = user.getString(2);
+            if (name.equals(username) && passw.equals(pass)) {
                 return true;
             }
         } catch (SQLException e) {
