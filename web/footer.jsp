@@ -5,10 +5,8 @@
                         All Rights Reserved &copy; <a href="index.jsp">QuizCake</a>
                     </div>
                     <div class="col-md-6 socials ml-auto">
-                        <img src="img/socials/fb.png" />
-                        <img src="img/socials/twitter.png" />
-                        <img src="img/socials/youtube.png" />
-                        <img src="img/socials/instagram.png" />
+                        <a href ="https://www.facebook.com/unleashhar/" > <img src="img/socials/fb.png" /> </a>
+                        <a href ="https://www.youtube.com/channel/UC88LEeTss6I-FO9WF7vayIw" > <img src="img/socials/youtube.png" /> </a>
                     </div>
                 </div>
             </div>
