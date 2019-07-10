@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.sql.SQLException;
 
 @WebServlet(name = "RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
@@ -39,16 +40,20 @@ public class RegisterServlet extends HttpServlet {
         }
 
         DatabaseManager dataManager = new DatabaseManager();
-        if(dataManager.usernameExists(userName)){
+        try {
+            if(dataManager.usernameExists(userName)){
 
+            }
+
+            if(dataManager.emailExists(email)){
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        if(dataManager.emailExists(email)){
-
-        }
-
-        User newUser = new User(firstName, lastName, userName, email, password);
-        dataManager.insertUser(newUser);
+//        User newUser = new User(firstName, lastName, userName, email, password);
+//        dataManager.insertUser(newUser);
 
         request.setAttribute("successMessage", "You have successfully created account");
         request.getRequestDispatcher("/userPage.jsp").forward(request, response);
