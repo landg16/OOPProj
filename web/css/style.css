@@ -383,6 +383,7 @@ footer .socials {
     border: 1px solid darkslategrey;
     padding: 15px;
 }
+
 @media only screen and (max-width: 768px) {
     .quiz_form .two_column {
         text-align: center;
@@ -395,6 +396,53 @@ footer .socials {
     }
 }
 
+/*FIX FOR JAVASCRIPT REPLACEMENT*/
+@media (min-width: 768px) {
+    .col-md-five {
+        -ms-flex: 0 0 41.666667%;
+        flex: 0 0 41.666667%;
+        max-width: 41.666667%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-two {
+        -ms-flex: 0 0 16.666667%;
+        flex: 0 0 16.666667%;
+        max-width: 16.666667%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-six {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-nine {
+        -ms-flex: 0 0 75%;
+        flex: 0 0 75%;
+        max-width: 75%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-md-three {
+        -ms-flex: 0 0 25%;
+        flex: 0 0 25%;
+        max-width: 25%;
+    }
+}
+
+.col-md-five, .col-md-two, .col-md-six, .col-md-three, .col-md-nine {
+    position: relative;
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
 /****************************************************
 *****************************************************
 6. ABOUT PAGE
