@@ -34,7 +34,7 @@
 
     <!-- When you are visiting your own profile-->
     <div class="row buttons">
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <a href="register.jsp" class="btn btn-danger btn-lg">CHALLENGE REQUESTS</a>
             <br>
             <p class="requests">Guja Lortkipanidze</p>
@@ -45,13 +45,13 @@
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <a href="register.jsp" class="btn btn-danger btn-lg">CHAT WITH FRIENDS</a>
             <p style="margin-top: 10px"> <a href="register.jsp">Nikolai nikolaevich </a></p>
             <p> <a href="register.jsp">guja gujaevich</a></p>
         </div>
 
-        <div class="col-sm-4">
+        <div class="col-sm-3">
             <a href="register.jsp" class="btn btn-danger btn-lg">FRIEND REQUESTS</a>
             <p class="requests">Guja Lortkipanidze</p>
             <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
@@ -61,6 +61,9 @@
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
         </div>
 
+        <div class="col-sm-3">
+            <a href="announcement.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
+        </div>
     </div>
 
     <br>

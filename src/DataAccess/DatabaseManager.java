@@ -93,7 +93,7 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean checlLogin(String username, String password) {
+    public boolean checkLogin(String username, String password) {
         String pass = hash.hashPassword(password);
         try {
             PreparedStatement state = connect.prepareStatement("select username, password from users where username = "+username+" and password = "+pass);

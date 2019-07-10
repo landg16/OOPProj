@@ -5,6 +5,6 @@
          version="4.0">
     <servlet>
         <servlet-name>Login</servlet-name>
-        <servlet-class>ServerSide.Login</servlet-class>
+        <servlet-class>Servlets.Login</servlet-class>
     </servlet>
 </web-app>

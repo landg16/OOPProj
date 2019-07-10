@@ -39,7 +39,7 @@ public class RegisterServlet extends HttpServlet {
         }
 
         DatabaseManager dataManager = new DatabaseManager();
-        if(dataManager.nickNameExists(userName)){
+        if(dataManager.usernameExists(userName)){
 
         }
 
