@@ -10,6 +10,7 @@
             <form id="registrationForm" class="centered" action="${pageContext.request.contextPath}/register"
                   method="post">
                 <div class="mainForm">
+                    <div style="color: #ff0000;">${error}</div>
                     <div class="form-group">
                         <label for="firstName" class="form-group">First Name:</label>
                         <input id="firstName" class="form-control" type="text" name="firstName" required>
@@ -28,7 +29,7 @@
                     </div>
                     <div class="form-group">
                         <label for="password" class="form-group">Password:</label>
-                        <input id="password" class="form-control" type="password" name="passwor" required>
+                        <input id="password" class="form-control" type="password" name="password" required>
                     </div>
                     <div class="form-group">
                         <label for="repeatPassword" class="form-group">Repeat Password:</label>
@@ -37,7 +38,6 @@
                     <div class="form-group">
                         <input type="submit" value="Create an account" class="btn btn-warning">
                     </div>
-                    <div style="color: #ff0000;">${errorMessage}</div>
                 </div>
             </form>
         </div>

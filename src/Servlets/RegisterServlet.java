@@ -14,37 +14,36 @@ import java.io.IOException;
 @WebServlet(name = "RegisterServlet", urlPatterns = "/register")
 public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        boolean emptyBox = false;
-        boolean smallPass = false;
+        String errors = "";
 
         String firstName = request.getParameter("firstName");
-        if(firstName == "")emptyBox = true;
+        if (firstName.length() < 1) errors += "<p class='error'>You must enter first name</p>";
         String lastName = request.getParameter("lastName");
-        if(lastName == "")emptyBox = true;
+        if (lastName.length() < 1) errors += "<p class='error'>You must enter first name</p>";
         String userName = request.getParameter("userName");
-        if(userName == "")emptyBox = true;
+        if (userName.length() < 1) errors += "<p class='error'>You must enter first name</p>";
         String email = request.getParameter("email");
-        if(email == "")emptyBox = true;
+        if (email.length() < 1) errors += "<p class='error'>You must enter first name</p>";
         String password = request.getParameter("password");
-        if(password.length() < 7)smallPass = true;
+        if (password.length() < 6) errors += "<p class='error'>You must enter first name</p>";
 
-        if(emptyBox){
-            request.setAttribute("errorMessage", "Please fill all fields");
-            request.getRequestDispatcher("/register.jsp").forward(request, response);
-        }
-
-        if(smallPass){
-            request.setAttribute("errorMessage", "Password must contain at least 6 characters");
+        if (errors.length() != 0) {
+            request.setAttribute("error", errors);
             request.getRequestDispatcher("/register.jsp").forward(request, response);
         }
 
         DatabaseManager dataManager = new DatabaseManager();
-        if(dataManager.nickNameExists(userName)){
-
+        if (dataManager.usernameExists(userName)) {
+            errors += "<p class='error'>Username already exists</p>";
         }
 
-        if(dataManager.emailExists(email)){
+        if (dataManager.emailExists(email)) {
+            errors += "<p class='error'>E-Mail already exists</p>";
+        }
 
+        if (errors.length() != 0) {
+            request.setAttribute("error", errors);
+            request.getRequestDispatcher("/register.jsp").forward(request, response);
         }
 
         User newUser = new User(firstName, lastName, userName, email, password);
@@ -52,9 +51,5 @@ public class RegisterServlet extends HttpServlet {
 
         request.setAttribute("successMessage", "You have successfully created account");
         request.getRequestDispatcher("/userPage.jsp").forward(request, response);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
     }
 }
