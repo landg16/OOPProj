@@ -27,6 +27,7 @@ import java.lang.String;
 public class DatabaseManager {
 
     private static Connection connect;
+    private static hashPassword hash;
 
     public static void main(){
         try {
@@ -55,13 +56,11 @@ public class DatabaseManager {
 
     public boolean emailExists(String email){
         try {
-            PreparedStatement state = connect.prepareStatement("select email from users order by email");
+            PreparedStatement state = connect.prepareStatement("select email from users where email = "+email);
             ResultSet emails = state.executeQuery();
-            if (emails.next()) {
-                String searched = emails.getString(email);
-                if (searched.equals(email)) {
-                    return true;
-                }
+            String searched = emails.getString(1);
+            if (searched.equals(email)) {
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,15 +79,13 @@ public class DatabaseManager {
         }
     }
 
-    public boolean nickNameExists(String nickName){
+    public boolean usernameExists(String username){
         try {
-            PreparedStatement state = connect.prepareStatement("select nickName from users order by nickName");
+            PreparedStatement state = connect.prepareStatement("select username from users where username = "+username);
             ResultSet emails = state.executeQuery();
-            if (emails.next()) {
-                String searched = emails.getString(nickName);
-                if (searched.equals(nickName)) {
-                    return true;
-                }
+            String searched = emails.getString(1);
+            if (searched.equals(username)) {
+                return true;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,10 +93,10 @@ public class DatabaseManager {
         return false;
     }
 
-    public void changeUserNickName(int userId, String newNickName){
+    public void changeUsername(int userId, String username){
         try {
-            PreparedStatement state = connect.prepareStatement("UPDATE users set nickname = ? where id = ?");
-            state.setString(1, newNickName);
+            PreparedStatement state = connect.prepareStatement("UPDATE users set username = ? where id = ?");
+            state.setString(1, username);
             state.setInt(2, userId);
             state.executeUpdate();
         } catch (SQLException e) {
@@ -107,33 +104,8 @@ public class DatabaseManager {
         }
     }
 
-    public static String hexToString(byte[] bytes) {
-        StringBuffer buff = new StringBuffer();
-        for (int i = 0; i < bytes.length; i++) {
-            int val = bytes[i];
-            val = val & 0xff;  // remove higher bits, sign
-            if (val < 16) buff.append('0'); // leading 0
-            buff.append(Integer.toString(val, 16));
-        }
-        return buff.toString();
-    }
-
-    private String hashPassword(String password) {
-        MessageDigest md = null;
-        String hashtext = null;
-        try {
-            md = MessageDigest.getInstance("SHA-256");
-            byte[] messageDigest = md.digest(password.getBytes());
-            hashtext = hexToString(messageDigest);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-
-        return hashtext;
-    }
-
     public void changePassword(int userId, String newPassword){
-        String pass = hashPassword(newPassword);
+        String pass = hash.hashPassword(newPassword);
         try {
             PreparedStatement state = connect.prepareStatement("UPDATE users set password = ? where id = ?");
             state.setString(1, pass);
