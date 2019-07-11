@@ -65,7 +65,7 @@
         </div>
 
         <div class="col-sm-3">
-            <a href="announcement.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
+            <a href="makeAnnouncement.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
         </div>
     </div>
 
