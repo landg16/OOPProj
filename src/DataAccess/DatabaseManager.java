@@ -229,7 +229,7 @@ public class DatabaseManager {
 
 
     public static ArrayList<Quiz> getQuizes () {
-        Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
+        Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport", "The best quiz");
         ArrayList<Quiz> quizzes = new ArrayList<>();
         quizzes.add(quiz);
         quizzes.add(quiz);
@@ -323,7 +323,7 @@ public class DatabaseManager {
 
 
     public static Quiz getQuiz(int quizId) {
-        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo", "img/quizzes/football.jpg", "Sport");
+        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo", "img/quizzes/football.jpg", "Sport", "The best quiz");
 //        try {
 //        PreparedStatement state = connect.prepareStatement("select q.quiz_id, q.creator_id, q.DESCRIPTION, q.imageurl, q.type " +
 //                "from quizes q where q.quiz_id = "+quizId);
