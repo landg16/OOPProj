@@ -1,7 +1,7 @@
 <%@ page import="DataAccess.DatabaseManager" %>
 <%@ page import="Objects.Quiz" %>
 <jsp:include page="header.jsp">
-    <jsp:param name="title" value="Add Quiz"/>
+    <jsp:param name="title" value="Quiz Select"/>
 </jsp:include>
 <div class="container-fluid heading">
     <h2>REGISTRATION PAGE</h2>

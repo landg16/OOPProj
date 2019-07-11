@@ -6,7 +6,7 @@
 <%@ page import="Helper.Helper" %>
 
 <jsp:include page="header.jsp">
-    <jsp:param name="title" value="Add Quiz"/>
+    <jsp:param name="title" value="Quiz"/>
 </jsp:include>
 <div class="container">
     <div class="col-md-12 quiz_summary">

@@ -1,5 +1,5 @@
 <jsp:include page="header.jsp">
-    <jsp:param name="title" value="Sign Up"/>
+    <jsp:param name="title" value="Register"/>
 </jsp:include>
 <div class="container-fluid heading">
     <h2>REGISTRATION PAGE</h2>

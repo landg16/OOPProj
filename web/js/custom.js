@@ -11,6 +11,12 @@ $(document).ready(function () {
     addQuestion();
 });
 
+function showForgotModal() {
+    $('#logIn').modal('hide');
+    $('#forgotPassword').modal('show');
+    return false;
+}
+
 function everyInputInsideValue() {
     $('input').each(function () {
         $(this).on("keyup", function () {
