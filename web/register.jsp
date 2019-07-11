@@ -7,8 +7,7 @@
 <div class="container form">
     <div class="row justify-content-around">
         <div class="col-md-8">
-            <form id="registrationForm" class="centered" action="${pageContext.request.contextPath}/register"
-                  method="post">
+            <form id="registrationForm" class="centered" action="${pageContext.request.contextPath}/Register" method="post">
                 <div class="mainForm">
                     <div style="color: #ff0000;">${error}</div>
                     <div class="form-group">

@@ -6,7 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 import java.sql.SQLException;
 
-@WebServlet("/Login")
+@WebServlet(name = "Login", urlPatterns = "/Login")
 public class Login extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         DatabaseManager dm = new DatabaseManager();
@@ -14,15 +14,13 @@ public class Login extends javax.servlet.http.HttpServlet {
         String password = request.getParameter("password");
         if(!dm.usernameExists(username)){
             response.sendRedirect("index.jsp?error=Username doesn't exist");
+            return;
         }
 
         if(!dm.checkLogin(username,password)){
             response.sendRedirect("index.jsp?error=Password is incorrect");
+            return;
         }
         response.sendRedirect("profile.jsp");
-    }
-
-    protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-
     }
 }

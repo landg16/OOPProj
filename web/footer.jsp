@@ -22,7 +22,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form action="Login" method="post">
+                        <form action="${pageContext.request.contextPath}/Login" method="post">
                             <div class="form-group">
                                 <label for="user">Username:</label>
                                 <input type="text" name="username" id="user" class="form-control"/>

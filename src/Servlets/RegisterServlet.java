@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
 import java.io.IOException;
 
-@WebServlet(name = "RegisterServlet", urlPatterns = "/register")
+@WebServlet(name = "Register", urlPatterns = "/Register")
 public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String errors = "";
