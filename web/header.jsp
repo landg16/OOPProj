@@ -22,15 +22,13 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navigation">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="index.jsp">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Quizes</a>
                         </li>
-
                         <!--
-
                         THIS SHOULD BE DISPLAYED WHEN ADMIN IS LOGGED IN
 
                         <li class="nav-item">
@@ -43,12 +41,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="about.jsp">About</a>
                         </li>
-                        <%--                    <li class="nav-item">--%>
-                        <%--                        <a class="nav-link" href="#">Log In</a>--%>
-                        <%--                    </li>--%>
-                        <%--                    <li class="nav-item">--%>
-                        <%--                        <a class="nav-link" href="#">Register</a>--%>
-                        <%--                    </li>--%>
+                        <% if(!request.getParameter("title").equals("Home")) { %>
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#logIn">Log In</a>
+                        </li>
+                        <li class="nav-item signup">
+                            <a class="nav-link" href="register.jsp">Sign Up</a>
+                        </li>
+                        <% } %>
                     </ul>
                 </div>
             </div>

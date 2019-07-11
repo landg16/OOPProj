@@ -35,12 +35,11 @@ public class RegisterServlet extends HttpServlet {
             return;
         }
 
-        DatabaseManager dataManager = new DatabaseManager();
-        if (dataManager.usernameExists(userName)) {
+        if (DatabaseManager.usernameExists(userName)) {
             errors += "<p class='error'>Username already exists</p>";
         }
 
-        if (dataManager.emailExists(email)) {
+        if (DatabaseManager.emailExists(email)) {
             errors += "<p class='error'>E-Mail already exists</p>";
         }
 
@@ -56,7 +55,7 @@ public class RegisterServlet extends HttpServlet {
         }
 
         User newUser = new User(firstName, lastName, userName, email, password, image);
-        dataManager.insertUser(newUser);
+        DatabaseManager.insertUser(newUser);
 
         response.sendRedirect("index.jsp?success=You have successfully created account");
     }

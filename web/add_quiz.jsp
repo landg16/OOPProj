@@ -1,3 +1,12 @@
+<%@ page import="DataAccess.DatabaseManager" %>
+<%
+    String username = (String)session.getAttribute("username");
+    String password = (String)session.getAttribute("password");
+    if(!DatabaseManager.checkLogin(username, password)){
+        response.sendRedirect("index.jsp?error=You are not logged in!");
+        return;
+    }
+%>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Add Quiz"/>
 </jsp:include>

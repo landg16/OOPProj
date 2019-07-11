@@ -21,6 +21,9 @@ public class Login extends javax.servlet.http.HttpServlet {
             response.sendRedirect("index.jsp?error=Password is incorrect");
             return;
         }
+
+        request.getSession().setAttribute("username", username);
+        request.getSession().setAttribute("password", password);
         response.sendRedirect("profile.jsp");
     }
 }

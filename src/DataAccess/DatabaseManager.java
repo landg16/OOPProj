@@ -28,7 +28,7 @@ public class DatabaseManager {
         }
     }
 
-    public void insertUser(User newUser) {
+    public static void insertUser(User newUser) {
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO users (firstname, lastname, username, email, password, imageurl) VALUES (?,?,?,?,?,?)");
             state.setString(1, newUser.getFirstname());
@@ -43,7 +43,7 @@ public class DatabaseManager {
         }
     }
 
-    public boolean emailExists(String email) {
+    public static boolean emailExists(String email) {
         try {
             PreparedStatement state = connect.prepareStatement("SELECT email FROM users WHERE email = ?");
             state.setString(1, email);
@@ -55,7 +55,7 @@ public class DatabaseManager {
         return false;
     }
 
-    public void changeEmail(int userId, String newEmail) {
+    public static void changeEmail(int userId, String newEmail) {
         try {
             PreparedStatement state = connect.prepareStatement("UPDATE users SET email = ? WHERE id = ?");
             state.setString(1, newEmail);
@@ -66,7 +66,7 @@ public class DatabaseManager {
         }
     }
 
-    public boolean usernameExists(String username) {
+    public static boolean usernameExists(String username) {
         try {
             PreparedStatement state = connect.prepareStatement("SELECT username FROM users WHERE username = ?");
             state.setString(1, username);
@@ -78,7 +78,8 @@ public class DatabaseManager {
         return false;
     }
 
-    public boolean checkLogin(String username, String password) {
+    public static boolean checkLogin(String username, String password) {
+        if(username.length() == 0 || password.length() == 0) return false;
         String hashedPass = hash.hashPassword(password);
         try {
             PreparedStatement state = connect.prepareStatement("SELECT username, password FROM users WHERE username = ? AND password = ?");
@@ -92,7 +93,7 @@ public class DatabaseManager {
         return false;
     }
 
-    public void changeUsername(int userId, String username) {
+    public static void changeUsername(int userId, String username) {
         try {
             PreparedStatement state = connect.prepareStatement("UPDATE users SET username = ? WHERE id = ?");
             state.setString(1, username);
@@ -103,7 +104,7 @@ public class DatabaseManager {
         }
     }
 
-    public void changePassword(int userId, String newPassword) {
+    public static void changePassword(int userId, String newPassword) {
         try {
             String pass = hash.hashPassword(newPassword);
             PreparedStatement state = connect.prepareStatement("UPDATE users SET password = ? WHERE id = ?");
@@ -115,7 +116,7 @@ public class DatabaseManager {
         }
     }
 
-    public int getScore(int userId) {
+    public static int getScore(int userId) {
         int score = 0;
         try {
             PreparedStatement state = connect.prepareStatement("SELECT points FROM users WHERE userid = ?");
@@ -127,7 +128,7 @@ public class DatabaseManager {
         return score;
     }
 
-    public void updateScore(int userId, int score) {
+    public static void updateScore(int userId, int score) {
         try {
             int res = getScore(userId);
             PreparedStatement state = connect.prepareStatement("UPDATE users SET points = ? WHERE id = ?");
@@ -140,7 +141,7 @@ public class DatabaseManager {
     }
 
 
-    public void insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, int count) {
+    public static void insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, int count) {
         //todo
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO quizes (creator_id, title, description, image, category_id, random, one_page, immediate_correction, practice_mode, count) VALUES (?,?,?,?,?,?,?,?,?,?)");
@@ -160,7 +161,7 @@ public class DatabaseManager {
         }
     }
 
-    public void InsertQuestion(int quizId, String type, String question, String secondPart) {
+    public static void InsertQuestion(int quizId, String type, String question, String secondPart) {
 
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO questions (quiz_id, question_type, question, secondpart) VALUES (?,?,?,?)");
@@ -173,7 +174,7 @@ public class DatabaseManager {
         }
     }
 
-    public void insertAnswer(int questionId, String answer, boolean correctness, String type) {
+    public static void insertAnswer(int questionId, String answer, boolean correctness, String type) {
         //TYPE gvchirdeba aq nagdad?
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO answers (question_id, answer, iscorrect, type) VALUES (?,?,?,?)");
@@ -186,7 +187,7 @@ public class DatabaseManager {
         }
     }
 
-    public void insertFriend(int userId1, int userId2) {
+    public static void insertFriend(int userId1, int userId2) {
 
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO friends (account_id, friend_id) VALUES (?,?)");
@@ -203,7 +204,7 @@ public class DatabaseManager {
         }
     }
 
-    public void insertHistory(int userId, int quizId, double quizScore, Date dateTime, Time time) {
+    public static void insertHistory(int userId, int quizId, double quizScore, Date dateTime, Time time) {
 
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_date, quiz_time) VALUES (?,?,?,?,?)");
@@ -217,7 +218,7 @@ public class DatabaseManager {
         }
     }
 
-    public void insertCategory(String name) {
+    public static void insertCategory(String name) {
 
         try {
         PreparedStatement state = connect.prepareStatement("INSERT INTO category (name) VALUES (?)");
@@ -229,7 +230,7 @@ public class DatabaseManager {
 
 
     public static ArrayList<Quiz> getQuizes () {
-        Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport", "The best quiz", true);
+        Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
         ArrayList<Quiz> quizzes = new ArrayList<>();
         quizzes.add(quiz);
         quizzes.add(quiz);
@@ -303,9 +304,7 @@ public class DatabaseManager {
 
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = new UserHistory(1, 11, 12,10);
-        UserHistory history1 = new UserHistory(2, 13, 2,15);
         histories.add(history);
-        histories.add(history1);
 //        try {
 //            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quit_time, uh.quiz_score " +
 //                    "from user_history uh INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = "+userId);
@@ -325,29 +324,29 @@ public class DatabaseManager {
 
 
     public static Quiz getQuiz(int quizId) {
-        Quiz quiz = new Quiz(quizId, 1, "Rakai Chaia Jo", "img/quizzes/football.jpg", "Sport", "The best quiz", true);
-//        try {
-//        PreparedStatement state = connect.prepareStatement("select q.quiz_id, q.creator_id, q.DESCRIPTION, q.imageurl, q.type " +
-//                "from quizes q where q.quiz_id = "+quizId);
-//        ResultSet result = state.executeQuery();
-//        Quiz quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5));
-//    } catch (SQLException e) {
-//        e.printStackTrace();
-//    }
+        Quiz quiz = null;
+        try {
+            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.quiz_id = ?");
+            state.setInt(1, quizId);
+            ResultSet result = state.executeQuery();
+            quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return quiz;
     }
 
     public static User getUser(int userId) {
-        User user = new User("jotia", "caava", "jtcava", "jorji", "jarji", "jurji");
-        //        try {
-//        PreparedStatement state = connect.prepareStatement("select u.quiz_id, u.creator_id, u.DESCRIPTION, u.imageurl, u.type " +
-//                "from users u where u.user_id = "+userId);
-//        ResultSet result = state.executeQuery();
-//        User user = new User(result.getString(1), result.getString(2), result.getString(3),
-//                result.getString(4), result.getString(5), result.getString(6));
-        //    } catch (SQLException e) {
-//        e.printStackTrace();
-//    }
+        User user = null;
+        try {
+            PreparedStatement state = connect.prepareStatement("select * from users u where u.user_id = ?");
+
+            ResultSet result = state.executeQuery();
+            user = new User(result.getString(1), result.getString(2), result.getString(3),
+                    result.getString(4), result.getString(5), result.getString(6));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return user;
     }
 
