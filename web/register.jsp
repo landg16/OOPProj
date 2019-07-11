@@ -39,7 +39,7 @@
                         <label for="image" class="form-group">Image URL:</label>
                         <input id="image" class="form-control" type="text" name="image" placeholder="Default Avatar">
                     </div>
-                    <small>(*) is a required field.</small><br>
+                    <small>* is a required field.</small><br><br>
                     <div class="form-group">
                         <input type="submit" value="Create an account" class="btn btn-warning">
                     </div>

@@ -2,25 +2,13 @@ package DataAccess;
 
 import Objects.*;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.PublicKey;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.time.format.DateTimeFormatter;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.LocalDateTime;
-import java.time.Clock;
 import java.util.Date;
-import java.util.Calendar;
 import java.sql.*;
 import java.lang.String;
 
@@ -29,28 +17,26 @@ public class DatabaseManager {
     private static Connection connect;
     private static hashPassword hash;
 
-    public static void main()  {
+    public DatabaseManager() {
+        hash = new hashPassword();
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
-        try {
-        connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/sonoo","root","saxlshivar97");
-            Statement statement = connect.createStatement();
-        } catch (SQLException e) {
+            String timeZoneError = "?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connect = DriverManager.getConnection("jdbc:mysql://"+DBInfo.MYSQL_DATABASE_SERVER+":3306/"+DBInfo.MYSQL_DATABASE_NAME+timeZoneError, DBInfo.MYSQL_USERNAME,DBInfo.MYSQL_PASSWORD);
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void insertUser(User newUser) {
         try {
-            PreparedStatement state = connect.prepareStatement("insert into users values(?,?,?,?,?,?,?)");
-            state.setString(2, newUser.getFirstName());
-            state.setString(3, newUser.getLastName());
-            state.setString(4, newUser.getNickName());
-            state.setString(5, newUser.getEmail());
-            state.setString(6, newUser.getPassword());
+            PreparedStatement state = connect.prepareStatement("INSERT INTO users (firstname, lastname, username, email, password, imageurl) VALUES (?,?,?,?,?,?)");
+            state.setString(1, newUser.getFirstname());
+            state.setString(2, newUser.getLastname());
+            state.setString(3, newUser.getUsername());
+            state.setString(4, newUser.getEmail());
+            state.setString(5, newUser.getPassword());
+            state.setString(6, newUser.getImageurl());
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -59,35 +45,33 @@ public class DatabaseManager {
 
     public boolean emailExists(String email) {
         try {
-            PreparedStatement state = connect.prepareStatement("select email from users where email = "+email);
+            PreparedStatement state = connect.prepareStatement("SELECT email FROM users WHERE email = ?");
+            state.setString(1, email);
             ResultSet em = state.executeQuery();
-            String searched = null;
-            searched = em.getString(1);
-            if (searched.equals(email)) {
-                return true;
-            }
+            return em.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return false;
     }
 
-    public void changeEmail(int userId, String newEmail) throws SQLException {
-        PreparedStatement state = connect.prepareStatement("UPDATE users set email = ? where id = ?");
-        state.setString(1, newEmail);
-        state.setInt(2, userId);
-        state.executeUpdate();
+    public void changeEmail(int userId, String newEmail) {
+        try {
+            PreparedStatement state = connect.prepareStatement("UPDATE users SET email = ? WHERE id = ?");
+            state.setString(1, newEmail);
+            state.setInt(2, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean usernameExists(String username) {
         try {
-            PreparedStatement state = connect.prepareStatement("select username from users where username = "+username);
+            PreparedStatement state = connect.prepareStatement("SELECT username FROM users WHERE username = ?");
+            state.setString(1, username);
             ResultSet user = state.executeQuery();
-            String searched = null;
-                searched = user.getString(1);
-            if (searched.equals(username)) {
-                return true;
-            }
+            return user.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -95,16 +79,13 @@ public class DatabaseManager {
     }
 
     public boolean checkLogin(String username, String password) {
-        String pass = hash.hashPassword(password);
+        String hashedPass = hash.hashPassword(password);
         try {
-            PreparedStatement state = connect.prepareStatement("select username, password from users where username = "+username+" and password = "+pass);
+            PreparedStatement state = connect.prepareStatement("SELECT username, password FROM users WHERE username = ? AND password = ?");
+            state.setString(1, username);
+            state.setString(2, hashedPass);
             ResultSet user = state.executeQuery();
-            String name = user.getString(1);
-            String passw = null;
-                passw = user.getString(2);
-            if (name.equals(username) && passw.equals(pass)) {
-                return true;
-            }
+            return user.next();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,9 +93,8 @@ public class DatabaseManager {
     }
 
     public void changeUsername(int userId, String username) {
-
         try {
-            PreparedStatement state = connect.prepareStatement("UPDATE users set username = ? where id = ?");
+            PreparedStatement state = connect.prepareStatement("UPDATE users SET username = ? WHERE id = ?");
             state.setString(1, username);
             state.setInt(2, userId);
             state.executeUpdate();
@@ -124,10 +104,9 @@ public class DatabaseManager {
     }
 
     public void changePassword(int userId, String newPassword) {
-
         try {
             String pass = hash.hashPassword(newPassword);
-            PreparedStatement state = connect.prepareStatement("UPDATE users set password = ? where id = ?");
+            PreparedStatement state = connect.prepareStatement("UPDATE users SET password = ? WHERE id = ?");
             state.setString(1, pass);
             state.setInt(2, userId);
             state.executeUpdate();
@@ -137,10 +116,9 @@ public class DatabaseManager {
     }
 
     public int getScore(int userId) {
-        //todo
         int score = 0;
         try {
-            PreparedStatement state = connect.prepareStatement("select points from users where userid = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT points FROM users WHERE userid = ?");
             state.setInt(1, userId);
             score = state.executeQuery().getInt(7);
         } catch (SQLException e) {
@@ -150,10 +128,9 @@ public class DatabaseManager {
     }
 
     public void updateScore(int userId, int score) {
-
         try {
             int res = getScore(userId);
-            PreparedStatement state = connect.prepareStatement("UPDATE users set points = ? where id = ?");
+            PreparedStatement state = connect.prepareStatement("UPDATE users SET points = ? WHERE id = ?");
             state.setInt(1, res+score);
             state.setInt(2, userId);
             state.executeUpdate();
@@ -163,18 +140,20 @@ public class DatabaseManager {
     }
 
 
-    public void insertQuiz(String title, String descripption, int category, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image) {
+    public void insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, int count) {
         //todo
         try {
-            PreparedStatement state = connect.prepareStatement("insert into quizes values(?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO quizes (creator_id, title, description, image, category_id, random, one_page, immediate_correction, practice_mode, count) VALUES (?,?,?,?,?,?,?,?,?,?)");
+            state.setInt(1, creator_id);
             state.setString(2, title);
             state.setString(3, descripption);
-            state.setInt(4, category);
-            state.setBoolean(5, random);
-            state.setBoolean(6, onePage);
-            state.setBoolean(7, immCorr);
-            state.setBoolean(8, pracMode);
-            state.setString(9, image);
+            state.setString(4, image);
+            state.setInt(5, category_id);
+            state.setBoolean(6, random);
+            state.setBoolean(7, onePage);
+            state.setBoolean(8, immCorr);
+            state.setBoolean(9, pracMode);
+            state.setInt(10, count);
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -184,39 +163,40 @@ public class DatabaseManager {
     public void InsertQuestion(int quizId, String type, String question, String secondPart) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("insert into questions values(?,?,?,?,?)");
-            state.setInt(2, quizId);
-            state.setString(3, type);
-            state.setString(4, question);
-            state.setString(5, secondPart);
+            PreparedStatement state = connect.prepareStatement("INSERT INTO questions (quiz_id, question_type, question, secondpart) VALUES (?,?,?,?)");
+            state.setInt(1, quizId);
+            state.setString(2, type);
+            state.setString(3, question);
+            state.setString(4, secondPart);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     public void insertAnswer(int questionId, String answer, boolean correctness, String type) {
-
+        //TYPE gvchirdeba aq nagdad?
         try {
-            PreparedStatement state = connect.prepareStatement("insert into answers values(?,?,?,?,?)");
-            state.setInt(2, questionId);
-            state.setString(3, answer);
-            state.setBoolean(4, correctness);
-            state.setString(5, type);
+            PreparedStatement state = connect.prepareStatement("INSERT INTO answers (question_id, answer, iscorrect, type) VALUES (?,?,?,?)");
+            state.setInt(1, questionId);
+            state.setString(2, answer);
+            state.setBoolean(3, correctness);
+            state.setString(4, type);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    public void InsertFriend(int userId1, int userId2) {
+    public void insertFriend(int userId1, int userId2) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("insert into friends values(?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO friends (account_id, friend_id) VALUES (?,?)");
+
             state.setInt(1, userId1);
             state.setInt(2, userId2);
             state.executeUpdate();
+
             state.setInt(1, userId2);
             state.setInt(2, userId1);
-
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -226,12 +206,12 @@ public class DatabaseManager {
     public void insertHistory(int userId, int quizId, double quizScore, Date dateTime, Time time) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("insert into user_history values(?,?,?,?,?,?)");
-            state.setInt(2, userId);
-            state.setInt(3, quizId);
-            state.setDouble(4, quizScore);
-            state.setDate(5, (java.sql.Date) dateTime);
-            state.setTime(6, time);
+            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_date, quiz_time) VALUES (?,?,?,?,?)");
+            state.setInt(1, userId);
+            state.setInt(2, quizId);
+            state.setDouble(3, quizScore);
+            state.setDate(4, (java.sql.Date) dateTime);
+            state.setTime(5, time);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -240,8 +220,8 @@ public class DatabaseManager {
     public void insertCategory(String name) {
 
         try {
-        PreparedStatement state = connect.prepareStatement("insert into category values(?,?)");
-            state.setString(2, name);
+        PreparedStatement state = connect.prepareStatement("INSERT INTO category (name) VALUES (?)");
+            state.setString(1, name);
         } catch (SQLException e) {
             e.printStackTrace();
         }
