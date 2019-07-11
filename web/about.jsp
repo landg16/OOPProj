@@ -1,5 +1,5 @@
 <jsp:include page="header.jsp">
-    <jsp:param name="title" value="Sign Up"/>
+    <jsp:param name="title" value="About"/>
 </jsp:include>
 
 <div class="about" style = "background-image: url('https://images.pexels.com/photos/239548/pexels-photo-239548.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')">

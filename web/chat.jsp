@@ -1,5 +1,5 @@
 <jsp:include page="header.jsp">
-    <jsp:param name="title" value="Leaderboard"/>
+    <jsp:param name="title" value="Chat"/>
 </jsp:include>
 <div class="container-fluid heading">
     <h2>Chat Room</h2>

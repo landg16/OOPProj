@@ -5,7 +5,7 @@
 <%@ page import="Objects.UserHistory" %>
 
 <jsp:include page="header.jsp">
-    <jsp:param name="title" value="Add Quiz"/>
+    <jsp:param name="title" value="Quiz"/>
 </jsp:include>
 <div class="container">
     <div class="col-md-12 quiz_summary">
@@ -21,7 +21,7 @@
                     <img class="img-fluid" src="<%=quiz.getQuizImage()%>;">
                 </div>
                 <div class="col-sm-8">
-                    <h5>Quiz Made By <a href="#"><%=user.getNickName()%></a></h5>
+                    <h5>Quiz Made By <a href="#"><%=user.getUsername()%></a></h5>
                     <p>(Type: <%=quiz.getQuizType()%>)</p>
                     <p><%=quiz.getQuizDescription()%></p>
                     <a href="#" class="btn btn-danger btn-md">Edit Quiz</a>
