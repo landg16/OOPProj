@@ -62,7 +62,7 @@ public class DatabaseManager {
             PreparedStatement state = connect.prepareStatement("select email from users where email = "+email);
             ResultSet em = state.executeQuery();
             String searched = null;
-                searched = em.getString(1);
+            searched = em.getString(1);
             if (searched.equals(email)) {
                 return true;
             }
