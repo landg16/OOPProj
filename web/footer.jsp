@@ -5,8 +5,8 @@
                         All Rights Reserved &copy; <a href="index.jsp">QuizCake</a>
                     </div>
                     <div class="col-md-6 socials ml-auto">
-                        <a href ="https://www.facebook.com/unleashhar/" > <img src="img/socials/fb.png" /> </a>
-                        <a href ="https://www.youtube.com/channel/UC88LEeTss6I-FO9WF7vayIw" > <img src="img/socials/youtube.png" /> </a>
+                        <a href ="https://www.facebook.com/unleashhar/" target="_blank"> <img src="img/socials/fb.png" alt="Facebook" /> </a>
+                        <a href ="https://www.youtube.com/channel/UC88LEeTss6I-FO9WF7vayIw" target="_blank" > <img src="img/socials/youtube.png" alt="YouTube"/> </a>
                     </div>
                 </div>
             </div>
@@ -38,6 +38,42 @@
                 </div>
             </div>
         </div>
+
+        <% if(request.getParameterMap().containsKey("error")) { %>
+        <!-- ERROR MODAL -->
+        <div class="modal fade" id="error" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="loginmodal-container">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="text-center"><%=request.getParameter("error")%></h4>
+                </div>
+            </div>
+        </div>
+        <script>
+            window.onload = function() {
+                $('#error').modal('show');
+            };
+        </script>
+        <!-- END ERROR MODAL -->
+        <% } %>
+
+        <% if(request.getParameterMap().containsKey("success")) { %>
+        <!-- SUCCESS MODAL -->
+        <div class="modal fade" id="success" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="loginmodal-container">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="text-center"><%=request.getParameter("success")%></h4>
+                </div>
+            </div>
+        </div>
+        <script>
+            window.onload = function() {
+                $('#success').modal('show');
+            };
+        </script>
+        <!-- END SUCCESS MODAL -->
+        <% } %>
 
         <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
         <script type="text/javascript" src="js/jquery.validate.min.js"></script>

@@ -1,8 +1,5 @@
 package Objects;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
 public class User {
 
     private String firstName;
@@ -15,11 +12,12 @@ public class User {
 
     public User(String firstName, String lastName, String username,
                      String email, String password, String imageurl){
-        this.firstName = new String(firstName);
-        this.lastName = new String(lastName);
-        this.userName = new String(username);
-        this.email = new String(email);
-        this.password = new String(hash.hashPassword(password));
+        hash = new hashPassword();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.userName = username;
+        this.email = email;
+        this.password = hash.hashPassword(password);
         this.imageurl = imageurl;
     }
 
@@ -27,15 +25,15 @@ public class User {
 
     }
 
-    public String getFirstName(){
+    public String getFirstname(){
         return firstName;
     }
 
-    public String getLastName(){
+    public String getLastname(){
         return lastName;
     }
 
-    public String getNickName(){
+    public String getUsername(){
         return userName;
     }
 
@@ -43,12 +41,14 @@ public class User {
         return email;
     }
 
-    public void setPassword(String password) {
-        password = hash.hashPassword(password);
-    }
+    public String getImageurl () { return imageurl; }
 
     public String getPassword() {
         return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = hash.hashPassword(password);
     }
 
 }

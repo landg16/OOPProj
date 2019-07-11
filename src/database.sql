@@ -9,8 +9,8 @@ CREATE TABLE users (
     lastname varchar(50) not null,
     username varchar(50) unique not null,
     email varchar(50) unique not null,
-    password varchar(50) not null,
-    umageurl varchar(150) not null
+    password varchar(256) not null,
+    imageurl varchar(150) not null
 );
 
 CREATE TABLE admins (
@@ -21,15 +21,21 @@ CREATE TABLE admins (
 );
 
 CREATE TABLE friends (
-     account_id int not null,
-     friend_id int not null,
-     FOREIGN KEY (friend_id) REFERENCES users(id),
-     FOREIGN KEY (account_id) REFERENCES users(id)
+    id int primary key auto_increment not null,
+    account_id int not null,
+    friend_id int not null,
+    FOREIGN KEY (friend_id) REFERENCES users(id),
+    FOREIGN KEY (account_id) REFERENCES users(id)
+);
+
+CREATE TABLE category (
+    id int primary key auto_increment not null,
+    name varchar(100) not null
 );
 
 CREATE TABLE quizes (
     id int primary key auto_increment not null,
-    creator_id int int not null,
+    creator_id int not null,
     title varchar(128) not null,
     description varchar(250) not null,
     category_id int not null,
@@ -70,9 +76,4 @@ CREATE TABLE user_history (
     quiz_time time not null,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
-);
-
-CREATE TABLE category (
-    id int primary key auto_increment not null,
-    name varchar(100) not null
 );

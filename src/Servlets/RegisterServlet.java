@@ -19,13 +19,15 @@ public class RegisterServlet extends HttpServlet {
         String firstName = request.getParameter("firstName");
         if (firstName.length() < 1) errors += "<p class='error'>You must enter first name</p>";
         String lastName = request.getParameter("lastName");
-        if (lastName.length() < 1) errors += "<p class='error'>You must enter first name</p>";
+        if (lastName.length() < 1) errors += "<p class='error'>You must enter last name</p>";
         String userName = request.getParameter("userName");
-        if (userName.length() < 1) errors += "<p class='error'>You must enter first name</p>";
+        if (userName.length() < 1) errors += "<p class='error'>You must enter user name</p>";
         String email = request.getParameter("email");
-        if (email.length() < 1) errors += "<p class='error'>You must enter first name</p>";
+        if (email.length() < 1) errors += "<p class='error'>You must enter email</p>";
         String password = request.getParameter("password");
-        if (password.length() < 6) errors += "<p class='error'>You must enter first name</p>";
+        String repeatPassword = request.getParameter("repeatPassword");
+        if (password.length() < 6) errors += "<p class='error'>Password must contain at least 6 symbol</p>";
+        if (!password.equals(repeatPassword)) errors += "<p class='error'>Passwords do not match</p>";
 
         if (errors.length() != 0) {
             request.setAttribute("error", errors);
@@ -54,7 +56,6 @@ public class RegisterServlet extends HttpServlet {
         User newUser = new User(firstName, lastName, userName, email, password, image);
         dataManager.insertUser(newUser);
 
-        request.setAttribute("successs", "You have successfully created account");
-        request.getRequestDispatcher("/index.jsp").forward(request, response);
+        response.sendRedirect("index.jsp?success=You have successfully created account");
     }
 }
