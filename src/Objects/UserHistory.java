@@ -5,11 +5,11 @@ import java.util.Date;
 
 public class UserHistory {
     private int quizId;
-    private Date quizDate;
-    private Time quizTime;
+    private int quizDate;
+    private int quizTime;
     private int score;
 
-    public UserHistory(int quizId, Date quizDate, Time quizTime, int score) {
+    public UserHistory(int quizId, int quizDate, int quizTime, int score) {
         this.quizId = quizId;
         this.quizDate = quizDate;
         this.quizTime = quizTime;
@@ -20,11 +20,11 @@ public class UserHistory {
         return quizId;
     }
 
-    public Date getQuizDate() {
+    public int getQuizDate() {
         return quizDate;
     }
 
-    public Time getQuizTime() {
+    public int getQuizTime() {
         return quizTime;
     }
 

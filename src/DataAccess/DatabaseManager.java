@@ -302,7 +302,7 @@ public class DatabaseManager {
     public static ArrayList<UserHistory> getUserHistory(int userId) {
 
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
-        UserHistory history = new UserHistory(1, new Date(), Time.valueOf("100"), 10);
+        UserHistory history = new UserHistory(1, 11, 12,10);
         histories.add(history);
 //        try {
 //            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quit_time, uh.quiz_score " +
@@ -333,7 +333,6 @@ public class DatabaseManager {
 //        e.printStackTrace();
 //    }
         return quiz;
-//
     }
 
     public static User getUser(int userId) {
@@ -348,5 +347,13 @@ public class DatabaseManager {
 //        e.printStackTrace();
 //    }
         return user;
+    }
+
+    //return all time best 5 users with best score in this quiz
+    public static ArrayList<UserHistory> getAllTimeBest(int quizId){
+        ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
+        UserHistory history = new UserHistory(1, 11, 12,10);
+        histories.add(history);
+        return histories;
     }
 }

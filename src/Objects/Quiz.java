@@ -20,9 +20,7 @@ public class Quiz {
         this.type = type;
     }
 
-    public int getQuizId(){
-        return id;
-    }
+    public int getQuizId(){ return id; }
 
     public int getQuizOwnerId() { return quizOwnerId; }
 

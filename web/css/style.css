@@ -552,7 +552,6 @@ footer .socials {
 *****************************************************/
 
 #quizSummaryForm{
-    border: 1px solid darkslategray;
     margin-top:130px;
     margin-bottom: 50px;
 }
@@ -572,6 +571,37 @@ footer .socials {
     background-size: cover;
 }
 
+.quiz_summary .statistics{
+    padding-top: 30px;
+}
+
+#user_results{
+    margin-top:130px;
+    margin-bottom: 50px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#bestPerformers_allTime{
+    border: 1px solid darkslategray;
+    margin-top: 20px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#bestPerformers_thisDay{
+    border: 1px solid darkslategray;
+    margin-top:20px;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+#recentPerformers{
+    border: 1px solid darkslategray;
+    margin-top: 20px;
+    margin-left: 0;
+    margin-right: 0;
+}
 
 /****************************************************
 *****************************************************
@@ -652,13 +682,4 @@ footer .socials {
 .search{
     width:100%;
     text-align: center;
-}
-.quiz_summary .statistics{
-    padding-top: 30px;
-}
-
-#user_results{
-    border: 1px solid darkslategray;
-    margin-top:130px;
-    margin-bottom: 50px;
 }
