@@ -32,6 +32,7 @@ public class RegisterServlet extends HttpServlet {
         if (errors.length() != 0) {
             request.setAttribute("error", errors);
             request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
         }
 
         DatabaseManager dataManager = new DatabaseManager();
@@ -46,6 +47,7 @@ public class RegisterServlet extends HttpServlet {
         if (errors.length() != 0) {
             request.setAttribute("error", errors);
             request.getRequestDispatcher("/register.jsp").forward(request, response);
+            return;
         }
 
         String image = request.getParameter("image");

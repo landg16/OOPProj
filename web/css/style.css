@@ -118,6 +118,17 @@ footer .socials {
     text-align: right;
 }
 
+.error-container {
+    padding: 30px;
+    max-width: 350px;
+    width: 100%!important;
+    background-color: #F7F7F7;
+    margin: 0 auto;
+    border-radius: 2px;
+    box-shadow: 0 2px 2px rgba(0,0,0,.3);
+    overflow: hidden;
+}
+
 /***********************
  3. COVER
  ***********************/

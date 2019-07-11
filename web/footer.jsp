@@ -43,8 +43,9 @@
         <!-- ERROR MODAL -->
         <div class="modal fade" id="error" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
-                <div class="loginmodal-container">
+                <div class="error-container">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="text-center">ERROR</h3>
                     <h4 class="text-center"><%=request.getParameter("error")%></h4>
                 </div>
             </div>
@@ -61,8 +62,9 @@
         <!-- SUCCESS MODAL -->
         <div class="modal fade" id="success" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
-                <div class="loginmodal-container">
+                <div class="error-container">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h3 class="text-center">SUCCESS</h3>
                     <h4 class="text-center"><%=request.getParameter("success")%></h4>
                 </div>
             </div>
