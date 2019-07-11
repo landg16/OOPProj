@@ -52,7 +52,7 @@
         </div>
 
         <div class="col-sm-4">
-            <a href="friends.jsp" class="btn btn-danger btn-lg">Challenge a friend</a>
+            <a href="challengeFriend.jsp" class="btn btn-danger btn-lg">Challenge a friend</a>
         </div>
 
     </div>
