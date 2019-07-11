@@ -3,6 +3,7 @@
 <%@ page import="Objects.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Objects.UserHistory" %>
+<%@ page import="Helper.Helper" %>
 
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Add Quiz"/>
@@ -21,7 +22,7 @@
                     <img class="img-fluid" src="<%=quiz.getQuizImage()%>;">
                 </div>
                 <div class="col-sm-8">
-                    <h5>Quiz Made By <a href="#"><%=user.getNickName()%></a></h5>
+                    <h5>Quiz Made By <a href="#"><%=user.getUsername()%></a></h5>
                     <p>(Type: <%=quiz.getQuizType()%>)</p>
                     <p><%=quiz.getQuizDescription()%></p>
                     <a href="#" class="btn btn-danger btn-md">Edit Quiz</a>
@@ -50,20 +51,23 @@
 
                         <tbody
                         <%
+                            Helper help = new Helper();
+                            ArrayList<UserHistory> histories = DatabaseManager.getUserHistory(1);
+                            help.sortByDate(histories);
                             int count1 = 0;
                             for (UserHistory history : DatabaseManager.getUserHistory(1)) {
                                 count1++;
                         %>
-                        <th scope="row"></th>
-                        <td><%=count1%>
-                        </td>
-                        <td><%=history.getScore()%>
-                        </td>
-                        <td><%=history.getQuizDate()%>
-                        </td>
-                        <td><%=history.getQuizTime()%>
-                        </td>
-                        <%}%>
+                        <tr>
+                            <th scope="row"><%=count1%></th>
+                            <td><%=history.getScore()%>
+                            </td>
+                            <td><%=history.getQuizDate()%>
+                            </td>
+                            <td><%=history.getQuizTime()%>
+                            </td>
+                        </tr>
+                            <%}%>
                         </tbody>
                     </table>
                 </div>
@@ -87,15 +91,15 @@
                             for (UserHistory history : DatabaseManager.getUserHistory(1)) {
                                 count2++;
                         %>
-                        <th scope="row"></th>
-                        <td><%=count2%>
-                        </td>
-                        <td><%=history.getScore()%>
-                        </td>
-                        <td><%=history.getQuizDate()%>
-                        </td>
-                        <td><%=history.getQuizTime()%>
-                        </td>
+                        <tr>
+                            <th scope="row"><%=count2%></th>
+                            <td><%=history.getScore()%>
+                            </td>
+                            <td><%=history.getQuizDate()%>
+                            </td>
+                            <td><%=history.getQuizTime()%>
+                            </td>
+                        </tr>
                         <%}%>
                         </tbody>
                     </table>
@@ -120,15 +124,15 @@
                             for (UserHistory history : DatabaseManager.getUserHistory(1)) {
                                 count3++;
                         %>
-                        <th scope="row"></th>
-                        <td><%=count3%>
-                        </td>
-                        <td><%=history.getScore()%>
-                        </td>
-                        <td><%=history.getQuizDate()%>
-                        </td>
-                        <td><%=history.getQuizTime()%>
-                        </td>
+                        <tr>
+                            <th scope="row"><%=count3%></th>
+                            <td><%=history.getScore()%>
+                            </td>
+                            <td><%=history.getQuizDate()%>
+                            </td>
+                            <td><%=history.getQuizTime()%>
+                            </td>
+                        </tr>
                         <%}%>
                         </tbody>
                     </table>
@@ -153,15 +157,15 @@
                             for (UserHistory history : DatabaseManager.getUserHistory(1)) {
                                 count4++;
                         %>
-                        <th scope="row"></th>
-                        <td><%=count4%>
-                        </td>
-                        <td><%=history.getScore()%>
-                        </td>
-                        <td><%=history.getQuizDate()%>
-                        </td>
-                        <td><%=history.getQuizTime()%>
-                        </td>
+                        <tr>
+                            <th scope="row"><%=count4%></th>
+                            <td><%=history.getScore()%>
+                            </td>
+                            <td><%=history.getQuizDate()%>
+                            </td>
+                            <td><%=history.getQuizTime()%>
+                            </td>
+                        </tr>
                         <%}%>
                         </tbody>
                     </table>

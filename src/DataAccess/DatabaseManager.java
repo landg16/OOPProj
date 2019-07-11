@@ -303,7 +303,9 @@ public class DatabaseManager {
 
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = new UserHistory(1, 11, 12,10);
+        UserHistory history1 = new UserHistory(2, 13, 2,15);
         histories.add(history);
+        histories.add(history1);
 //        try {
 //            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quit_time, uh.quiz_score " +
 //                    "from user_history uh INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = "+userId);
