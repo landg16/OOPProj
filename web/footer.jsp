@@ -32,7 +32,36 @@
                                 <input type="password" name="password" id="pass" class="form-control"/>
                             </div>
                             <button type="submit" class="btn btn-warning">Log In</button>
-                            <a href="forgot_password.jsp" class="forgot right">Forgot Password?</a>
+                            <a onclick="showForgotModal();"
+                               class="forgot right">Forgot Password?</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Forgot password pop-up -->
+
+        <div class="modal login" tabindex="-1" role="dialog" id="forgotPassword">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Forgot password</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="${pageContext.request.contextPath}/forgotpassword" method="post">
+                            <div class="form-group">
+                                <label for="user">Your e-mail address</label>
+                                <input type="text" name="email" id="email" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass">Username</label>
+                                <input type="password" name="uzername" id="uzername" class="form-control"/>
+                            </div>
+                            <button type="submit" class="btn btn-warning">Request Password</button>
                         </form>
                     </div>
                 </div>
