@@ -230,7 +230,7 @@ public class DatabaseManager {
 
 
     public static ArrayList<Quiz> getQuizes () {
-        Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
+        Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport","jori", false);
         ArrayList<Quiz> quizzes = new ArrayList<>();
         quizzes.add(quiz);
         quizzes.add(quiz);
@@ -329,7 +329,8 @@ public class DatabaseManager {
             PreparedStatement state = connect.prepareStatement("select * from quizes q where q.quiz_id = ?");
             state.setInt(1, quizId);
             ResultSet result = state.executeQuery();
-            quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5));
+            quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3),
+                    result.getString(4), result.getString(5), result.getString(6), result.getBoolean(7));
         } catch (SQLException e) {
             e.printStackTrace();
         }
