@@ -58,11 +58,11 @@ function addQuestion() {
                 '                    <div class="row">\n' +
                 '                        <div class="col-md-five">\n' +
                 '                            <label>Question #' + count + '</label>\n' +
-                '                            <input type="text" class="form-control" name="question' + count + '" id="question' + count + '" placeholder="Ask Your Question">\n' +
+                '                            <input type="text" class="form-control" name="question' + count + '" id="question' + count + '" placeholder="Ask Your Question" required>\n' +
                 '                        </div>\n' +
                 '                        <div class="col-md-five">\n' +
                 '                            <label>Answer #' + count + '</label>\n' +
-                '                            <input type="text" class="form-control" name="answer' + count + '" id="answer' + count + '" placeholder="Answer Your Question">\n' +
+                '                            <input type="text" class="form-control" name="answer' + count + '" id="answer' + count + '" placeholder="Answer Your Question" required>\n' +
                 '                        </div>\n' +
                 '                        <div class="col-md-two d-flex flex-column">\n' +
                 '                            <button type="button" data-remove="' + count + '" class="btn btn-danger w-100 mt-auto removeQuestion">Remove</button>\n' +
@@ -79,7 +79,7 @@ function addQuestion() {
                 '                </div>\n' +
                 '                <div class="form-group">\n' +
                 '                    <label>The Gap #' + count + '</label>\n' +
-                '                    <input type="text" class="form-control" name="gap' + count + '" id="gap' + count + '">\n' +
+                '                    <input type="text" class="form-control" name="gap' + count + '" id="gap' + count + '" required>\n' +
                 '                </div>\n' +
                 '                <div class="form-group">\n' +
                 '                    <label>Text After the Gap #' + count + '</label>\n' +
@@ -91,14 +91,15 @@ function addQuestion() {
         } else if (type === "prq") {
             html = '<!--- PQR TYPE --->\n' +
                 '                <div class="form-group" id="toRemove' + count + '">\n' +
+                '                <input type="hidden" name="type' + count + '" id="type' + count + '" value="' + type + '">\n' +
                 '                    <div class="row">\n' +
                 '                        <div class="col-md-five">\n' +
                 '                            <label>Image #' + count + '</label>\n' +
-                '                            <input type="text" class="form-control" name="question' + count + '" id="question' + count + '" placeholder="Provide Image URL">\n' +
+                '                            <input type="text" class="form-control" name="question' + count + '" id="question' + count + '" placeholder="Provide Image URL" required>\n' +
                 '                        </div>\n' +
                 '                        <div class="col-md-five">\n' +
                 '                            <label>Answer #' + count + '</label>\n' +
-                '                            <input type="text" class="form-control" name="answer' + count + '" id="answer' + count + '" placeholder="Answer Your Question">\n' +
+                '                            <input type="text" class="form-control" name="answer' + count + '" id="answer' + count + '" placeholder="Answer Your Question" required>\n' +
                 '                        </div>\n' +
                 '                        <div class="col-md-two d-flex flex-column">\n' +
                 '                            <button type="button" data-remove="' + count + '" class="btn btn-danger w-100 mt-auto removeQuestion">Remove</button>\n' +
@@ -109,10 +110,11 @@ function addQuestion() {
         } else if (type === "mc") {
             html = '<!--- MC TYPE --->\n' +
                 '                <div class="form-group" id="toRemove' + count + '">\n' +
+                '                <input type="hidden" name="type' + count + '" id="type' + count + '" value="' + type + '"> \n' +
                 '                    <div class="row">\n' +
                 '                        <div class="col-md-six">\n' +
                 '                            <label>Question #' + count + '</label>\n' +
-                '                            <input type="text" class="form-control" name="question' + count + '" id="question' + count + '">\n' +
+                '                            <input type="text" class="form-control" name="question' + count + '" id="question' + count + '" required>\n' +
                 '                        </div>\n' +
                 '                        <div class="col-md-three d-flex flex-column">\n' +
                 '                            <button type="button" id="addChoice' + count + '" data-choice="' + count + '" class="btn btn-success w-100 mt-auto addChoice">Add Choice</button>\n' +
@@ -127,7 +129,7 @@ function addQuestion() {
                 '                        <div class="col-md-nine">\n' +
                 '                            <label>Answer (Corrrect)</label>\n' +
                 '                            <div class="input-group">\n' +
-                '                                <input type="text" class="form-control is-valid" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
+                '                                <input type="text" class="form-control is-valid" name="answer_' + count + '[]" aria-label="Answer box for question" required>\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
@@ -137,7 +139,7 @@ function addQuestion() {
                 '                        <div class="col-md-nine">\n' +
                 '                            <label>Answer</label>\n' +
                 '                            <div class="input-group">\n' +
-                '                                <input type="text" class="form-control is-invalid" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
+                '                                <input type="text" class="form-control is-invalid" name="answer_' + count + '[]" aria-label="Answer box for question" required>\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
@@ -159,7 +161,7 @@ function addQuestion() {
                     '                        <div class="col-md-nine">\n' +
                     '                            <label>Answer</label>\n' +
                     '                            <div class="input-group">\n' +
-                    '                                <input type="text" class="form-control is-invalid" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
+                    '                                <input type="text" class="form-control is-invalid" name="answer_' + count + '[]" aria-label="Answer box for question" required>\n' +
                     '                            </div>\n' +
                     '                        </div>\n' +
                     '                        <div class="col-md-three d-flex flex-column">\n' +

@@ -1,3 +1,4 @@
+<%@ page import="DataAccess.DatabaseManager" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -41,14 +42,26 @@
                         <li class="nav-item">
                             <a class="nav-link" href="about.jsp">About</a>
                         </li>
-                        <% if(!request.getParameter("title").equals("Home")) { %>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#" data-toggle="modal" data-target="#logIn">Log In</a>
-                        </li>
-                        <li class="nav-item signup">
-                            <a class="nav-link" href="register.jsp">Sign Up</a>
-                        </li>
-                        <% } %>
+                        <%
+                        String username = (String)session.getAttribute("username");
+                        String password = (String)session.getAttribute("password");
+                        int k = DatabaseManager.checkLogin(username, password);
+                        if(!request.getParameter("title").equals("Home")) {
+                            if(k==-1){ %>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#" data-toggle="modal" data-target="#logIn">Log In</a>
+                            </li>
+                            <li class="nav-item signup">
+                                <a class="nav-link" href="register.jsp">Sign Up</a>
+                            </li>
+                            <% } else { %>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="profile.jsp">PROFILE</a>
+                            </li>
+                            <li class="nav-item signup">
+                                <a class="nav-link" href="LogOut">LOG OUT</a>
+                            </li>
+                        <% } } %>
                     </ul>
                 </div>
             </div>

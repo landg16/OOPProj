@@ -1,3 +1,4 @@
+<%@ page import="DataAccess.DatabaseManager" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Home"/>
 </jsp:include>
@@ -5,8 +6,18 @@
     <div class="hero-text">
         <h1>Challenge your knowledge!</h1>
         <h4>Register or Sign Up, Create and Take Quizzes.</h4>
+        <%
+        String username = (String)session.getAttribute("username");
+        String password = (String)session.getAttribute("password");
+        int k = DatabaseManager.checkLogin(username, password);
+        if(k==-1){
+        %>
         <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#logIn">LOG IN</button>
         <a href="register.jsp" class="btn btn-danger btn-lg">SIGN UP</a>
+        <% } else {%>
+        <a href="profile.jsp" class="btn btn-danger btn-lg">PROFILE</a>
+        <a href="LogOut" class="btn btn-danger btn-lg">LOG OUT</a>
+        <% } %>
     </div>
 </div>
 <div class="container featured">
