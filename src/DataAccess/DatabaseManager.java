@@ -68,7 +68,7 @@ public class DatabaseManager {
 
     public static boolean usernameExists(String username) {
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT username FROM users WHERE username = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT id FROM users WHERE username = ?");
             state.setString(1, username);
             ResultSet user = state.executeQuery();
             return user.next();
@@ -78,19 +78,21 @@ public class DatabaseManager {
         return false;
     }
 
-    public static boolean checkLogin(String username, String password) {
-        if(username.length() == 0 || password.length() == 0) return false;
+    public static int checkLogin(String username, String password) {
+        if(username.length() == 0 || password.length() == 0) return -1;
         String hashedPass = hash.hashPassword(password);
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT username, password FROM users WHERE username = ? AND password = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT id FROM users WHERE username = ? AND password = ?");
             state.setString(1, username);
             state.setString(2, hashedPass);
             ResultSet user = state.executeQuery();
-            return user.next();
+            if(user.next()){
+                return user.getInt(1);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return false;
+        return -1;
     }
 
     public static void changeUsername(int userId, String username) {
@@ -141,10 +143,9 @@ public class DatabaseManager {
     }
 
 
-    public static void insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, int count) {
-        //todo
+    public static int insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, int count) {
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO quizes (creator_id, title, description, image, category_id, random, one_page, immediate_correction, practice_mode, count) VALUES (?,?,?,?,?,?,?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO quizes (creator_id, title, description, image, category_id, random, one_page, immediate_correction, practice_mode, count) VALUES (?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, creator_id);
             state.setString(2, title);
             state.setString(3, descripption);
@@ -156,32 +157,44 @@ public class DatabaseManager {
             state.setBoolean(9, pracMode);
             state.setInt(10, count);
             state.executeUpdate();
+
+            ResultSet rs = state.getGeneratedKeys();
+            if (rs.next()){
+                return rs.getInt(1);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
-    public static void InsertQuestion(int quizId, String type, String question, String secondPart) {
-
+    public static int InsertQuestion(int quizId, String type, String question, String secondPart) {
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO questions (quiz_id, question_type, question, secondpart) VALUES (?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO questions (quiz_id, question_type, question, secondpart) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, quizId);
             state.setString(2, type);
             state.setString(3, question);
             state.setString(4, secondPart);
+            state.executeUpdate();
+
+            ResultSet rs = state.getGeneratedKeys();
+            if (rs.next()){
+                return rs.getInt(1);
+            }
+            state.setString(4, secondPart);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return -1;
     }
 
-    public static void insertAnswer(int questionId, String answer, boolean correctness, String type) {
-        //TYPE gvchirdeba aq nagdad?
+    public static void insertAnswer(int questionId, String answer, boolean correctness) {
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO answers (question_id, answer, iscorrect, type) VALUES (?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO answers (question_id, answer, iscorrect) VALUES (?,?,?)");
             state.setInt(1, questionId);
             state.setString(2, answer);
             state.setBoolean(3, correctness);
-            state.setString(4, type);
+            state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -229,14 +242,14 @@ public class DatabaseManager {
     }
 
     public static ArrayList<Quiz> getQuizes () {
-        Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport","jori", false);
+        //Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
         ArrayList<Quiz> quizzes = new ArrayList<>();
-        quizzes.add(quiz);
-        quizzes.add(quiz);
-        quizzes.add(quiz);
-        quizzes.add(quiz);
-        quizzes.add(quiz);
-        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
+//        quizzes.add(quiz);
 //        try {
 //            PreparedStatement state = connect.prepareStatement("select q.id, q.title, q.description, q.image, c.name from quizes q" +
 //                    "inner join category c on q.category_id = c.id");
@@ -328,8 +341,7 @@ public class DatabaseManager {
             PreparedStatement state = connect.prepareStatement("select * from quizes q where q.quiz_id = ?");
             state.setInt(1, quizId);
             ResultSet result = state.executeQuery();
-            quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3),
-                    result.getString(4), result.getString(5), result.getString(6), result.getBoolean(7));
+            //quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5));
         } catch (SQLException e) {
             e.printStackTrace();
         }

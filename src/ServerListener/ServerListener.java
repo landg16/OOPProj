@@ -1,5 +1,7 @@
 package ServerListener;
 
+import DataAccess.DatabaseManager;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.http.HttpSessionAttributeListener;
@@ -22,6 +24,8 @@ public class ServerListener implements ServletContextListener,
          initialized(when the Web application is deployed).
          You can initialize servlet context related data here.
       */
+      //Just initialize DatabaseManager to have access to it.
+      DatabaseManager db = new DatabaseManager();
     }
 
     public void contextDestroyed(ServletContextEvent sce) {
@@ -37,6 +41,7 @@ public class ServerListener implements ServletContextListener,
     public void sessionCreated(HttpSessionEvent se) {
         se.getSession().setAttribute("username", "");
         se.getSession().setAttribute("password", "");
+        se.getSession().setAttribute("user_id", -1);
     }
 
     public void sessionDestroyed(HttpSessionEvent se) {
