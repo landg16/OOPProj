@@ -197,7 +197,7 @@
 
     es washalet tu gindat shesvla profile.jsp ze
 
-    <%if(user.isAdmin()){%>
+    <%if(DatabaseManager.isAdmin()){%>
 
     <div class="row buttons"
         <div class="col-sm-6">
