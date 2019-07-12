@@ -394,18 +394,19 @@ public class DatabaseManager {
     public static User getUser(int userId) {
         User user = null;
         try {
-            PreparedStatement state = connect.prepareStatement("select * from users u where u.user_id = ?");
-
+            PreparedStatement state = connect.prepareStatement("select * from users where id = ?");
+            state.setInt(1, userId);
             ResultSet result = state.executeQuery();
-            user = new User(result.getString(1), result.getString(2), result.getString(3),
-                    result.getString(4), result.getString(5), result.getString(6));
+            if (result.next()) {
+                user = new User(result.getString("firstname"), result.getString("lastname"), result.getString("username"),
+                        result.getString("email"), result.getString("password"), result.getString("imageurl"));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return user;
     }
-
-    //return all time best 5 users with best score in this quiz
+        //return all time best 5 users with best score in this quiz
     public static ArrayList<UserHistory> getAllTimeBest(int quizId){
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = new UserHistory(1, 11, 12,10);

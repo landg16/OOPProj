@@ -10,7 +10,7 @@ CREATE TABLE users (
     username varchar(50) unique not null,
     email varchar(50) unique not null,
     password varchar(256) not null,
-    imageurl varchar(250) not null
+    imageurl varchar(500) not null
 );
 
 CREATE TABLE admins (

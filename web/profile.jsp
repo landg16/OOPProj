@@ -18,19 +18,30 @@
 <div class="container profile" >
 
     <%
-        int userId = Integer.parseInt(request.getParameter("id"));
+        String id = request.getParameter("id");
+        String username = (String)session.getAttribute("username");
+        String password = (String)session.getAttribute("password");
+        int userId;
+        if(id==null){
+            userId = DatabaseManager.checkLogin(username, password);
+        } else {
+            userId = Integer.parseInt(id);
+        }
         User user = DatabaseManager.getUser(userId);
-        //User user = DatabaseManager.getUser(quiz.getQuizOwnerId());
+        if(user == null) {
+            response.sendRedirect("index.jsp?error=Wrong URL!");
+            return;
+        }
     %>
 
     <div class="row">
         <div class="col-sm-4">
-            <img class='img-fluid' src="<%user.getImageurl();%>">
+            <img class='img-fluid' src="<%=user.getImageurl()%>">
         </div>
 
         <div class="col-sm-8">
-            <h1><%user.getFirstname();%> <%user.getLastname();%></h1>
-            <h4><%user.getEmail();%></h4>
+            <h1><%=user.getFirstname()%> <%=user.getLastname()%></h1>
+            <h4><%=user.getEmail()%></h4>
         </div>
 
     </div>
@@ -39,6 +50,8 @@
     <br>
 
     <!-- When you are visiting your own profile-->
+
+    <% if(id==null){ %>
     <div class="row buttons">
         <div class="col-sm-3">
             <a href="register.jsp" class="btn btn-danger btn-lg">CHALLENGE REQUESTS</a>
@@ -128,12 +141,19 @@
             </div>
         </div>
     </div>
+
+
     <!-- End of when you are visiting your profile-->
+
+    <%}%>
 
     <br>
     <br>
 
     <!-- when you are visiting someone else's profile-->
+
+    <%if(id!=null && DatabaseManager.checkLogin(username, password)!=-1){%>
+
     <div class="row buttons">
         <div class="col-sm-4">
             <a href="register.jsp" class="btn btn-danger btn-lg">SEND FRIEND REQUEST</a>
@@ -155,6 +175,11 @@
     </div>
 
     <!-- END OF when you are visiting someone else's profile-->
+
+    <%}%>
+
+    <!-- THIS IS WHEN USER IS VIEWING A PROFILE WHILE HE/SHE ISN'T LOGGED IN-->
+
 
     <!--
 
