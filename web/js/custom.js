@@ -246,3 +246,7 @@ function counterUp() {
         });
     }
 }
+
+/*function search() {
+
+} */
