@@ -33,6 +33,8 @@ CREATE TABLE category (
     name varchar(100) not null
 );
 
+INSERT INTO category (name) value (sport);
+
 CREATE TABLE quizes (
     id int primary key auto_increment not null,
     creator_id int not null,

@@ -121,27 +121,14 @@ public class DatabaseManager {
     public static int getScore(int userId) {
         int score = 0;
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT points FROM users WHERE userid = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT sum(uh.quiz_score) FROM user_history uh groub by uh.user_id having userid = ?");
             state.setInt(1, userId);
-            score = state.executeQuery().getInt(7);
+            score = state.executeQuery().getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return score;
     }
-
-    public static void updateScore(int userId, int score) {
-        try {
-            int res = getScore(userId);
-            PreparedStatement state = connect.prepareStatement("UPDATE users SET points = ? WHERE id = ?");
-            state.setInt(1, res+score);
-            state.setInt(2, userId);
-            state.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
 
     public static int insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, int count) {
         try {
@@ -226,9 +213,64 @@ public class DatabaseManager {
             state.setDouble(3, quizScore);
             state.setDate(4, (java.sql.Date) dateTime);
             state.setTime(5, time);
+            state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("INSERT INTO announcements (announcer_id, title, text, announce_date) VALUES (?,?,?,?)");
+            state.setInt(1, announcerId);
+            state.setString(2, title);
+            state.setString(3, text);
+            state.setDate(4, (java.sql.Date) date);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Announcement> getAnnouncements(int id) {
+
+        ArrayList<Announcement> announcements= new ArrayList<Announcement>();
+        Announcement announcement = null;
+        try {
+            PreparedStatement state = connect.prepareStatement("select id, announcer_id, title, text, announce_date from announcements where id = ?");
+            state.setInt(1, id);
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                announcement = new Announcement(result.getInt(1), result.getInt(2),
+                        result.getString(3), result.getString(4), result.getDate(5));
+                announcements.add(announcement);
+            }
+            return announcements;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<User> getFriends(int userId) {
+        ArrayList<User> friends = new ArrayList<User>();
+        User user = null;
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.imageurl from users u " +
+                    "INNER JOIN user_history uh on u.id = uh.friend_id where uh.account_id = ?");
+            state.setInt(1, userId);
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                user = new User(result.getString(1), result.getString(2), result.getString(3), result.getString(4),
+                        result.getString(5), result.getString(6));
+            }
+            return friends;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void insertCategory(String name) {
@@ -276,10 +318,11 @@ public class DatabaseManager {
 
                 users.add(leaders);
             }
+            return users;
             } catch (SQLException e) {
             e.printStackTrace();
         }
-        return users;
+        return null;
     }
 
     public static ArrayList<LeaderUsers> getLeaderUsers() {
