@@ -8,6 +8,11 @@
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Quiz"/>
 </jsp:include>
+
+<div class="container-fluid heading">
+    <h2>QUIZ PAGE</h2>
+</div>
+
 <div class="container">
     <div class="col-md-12 quiz_summary">
         <form id="quizSummaryForm" method="post">
@@ -22,13 +27,35 @@
                     <img class="img-fluid" src="<%=quiz.getQuizImage()%>;">
                 </div>
                 <div class="col-sm-8">
-                    <h5>Quiz Made By <a href="#"><%=user.getUsername()%></a></h5>
-                    <p>(Type: <%=quiz.getQuizType()%>)</p>
-                    <p><%=quiz.getQuizDescription()%></p>
-                    <a href="#" class="btn btn-danger btn-md">Edit Quiz</a>
-                    <a href="#" class="btn btn-danger btn-md">Start Quiz</a>
+                    <h1><%=quiz.getQuizTitle()%></h1>
+                    <h4>Quiz Made By <a href="#"><%=user.getUsername()%></a></h4>
+                    <p>(Category: <a href="quiz_select.jsp"><%=quiz.getQuizType()%>)</a></p>
+                    <p>(Quiz type: <%if (quiz.getQuizIsImmediate()==true){
+                        out.println("Not immediate)");
+                    }%>
+                    <%if (quiz.getQuizIsImmediate()==false){
+                        out.println("immediate)");
+                    }%>
+                    <h5>Description: <%=quiz.getQuizDescription()%></h5>
+                    <br>
                 </div>
             </div>
+    <br>
+
+    <div class="row buttons">
+        <div class="col-sm-4">
+            <a href="register.jsp" class="btn btn-danger btn-lg">Edit Quiz</a>
+        </div>
+
+        <div class="col-sm-4">
+            <a href="register.jsp" class="btn btn-danger btn-lg">Start Quiz</a>
+        </div>
+
+        <div class="col-sm-4">
+            <a href="challengeFriend.jsp" class="btn btn-danger btn-lg">Challenge a friend</a>
+        </div>
+
+    </div>
             <div class="statistics">
                 <div id="user_results" class="row">
                     <div class="form-group">

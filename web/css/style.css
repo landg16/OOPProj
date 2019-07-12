@@ -95,6 +95,14 @@ a:focus {
     color: #f9a93f;
 }
 
+.navbar-dark .navbar-nav .nav-item.signup .nav-link {
+    color: #dc3545;
+}
+
+.navbar-dark .navbar-nav .nav-item.signup:hover .nav-link {
+    color: #c82333;
+}
+
 .top-nav-collapse {
     background-color: #4285F4;
 }

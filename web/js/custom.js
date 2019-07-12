@@ -125,14 +125,9 @@ function addQuestion() {
                 '               <div id="answers_' + count + '">' +
                 '                    <div class="row" class="mc_question' + count + '">\n' +
                 '                        <div class="col-md-nine">\n' +
-                '                            <label>Answer</label>\n' +
+                '                            <label>Answer (Corrrect)</label>\n' +
                 '                            <div class="input-group">\n' +
-                '                                <div class="input-group-prepend">\n' +
-                '                                    <div class="input-group-text">\n' +
-                '                                        <input type="radio" name="answer' + count + '_[]" aria-label="Correct Answer" checked>\n' +
-                '                                    </div>\n' +
-                '                                </div>\n' +
-                '                                <input type="text" class="form-control" aria-label="Answer box for question">\n' +
+                '                                <input type="text" class="form-control is-valid" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
@@ -142,12 +137,7 @@ function addQuestion() {
                 '                        <div class="col-md-nine">\n' +
                 '                            <label>Answer</label>\n' +
                 '                            <div class="input-group">\n' +
-                '                                <div class="input-group-prepend">\n' +
-                '                                    <div class="input-group-text">\n' +
-                '                                        <input type="radio" name="answer' + count + '_checked_[]" aria-label="Correct Answer">\n' +
-                '                                    </div>\n' +
-                '                                </div>\n' +
-                '                                <input type="text" class="form-control" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
+                '                                <input type="text" class="form-control is-invalid" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
@@ -157,6 +147,11 @@ function addQuestion() {
                 '                <!--- END MC TYPE --->\n';
         }
         $("#questions").append(html);
+        // var radio = $("input:radio.radio");
+        // radio.off("change");
+        // radio.change(function () {
+        //
+        // });
         if (type === "mc") {
             $('#addChoice' + count).click(function () {
                 var gtml = '<!-- ANSWER -->\n' +
@@ -164,12 +159,7 @@ function addQuestion() {
                     '                        <div class="col-md-nine">\n' +
                     '                            <label>Answer</label>\n' +
                     '                            <div class="input-group">\n' +
-                    '                                <div class="input-group-prepend">\n' +
-                    '                                    <div class="input-group-text">\n' +
-                    '                                        <input type="radio" name="answer' + count + '_checked_[]" aria-label="Correct Answer">\n' +
-                    '                                    </div>\n' +
-                    '                                </div>\n' +
-                    '                                <input type="text" class="form-control" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
+                    '                                <input type="text" class="form-control is-invalid" name="answer' + count + '_[]" aria-label="Answer box for question">\n' +
                     '                            </div>\n' +
                     '                        </div>\n' +
                     '                        <div class="col-md-three d-flex flex-column">\n' +

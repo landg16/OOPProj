@@ -1,3 +1,13 @@
+<%@ page import="DataAccess.DatabaseManager" %>
+<%
+    String username = (String)session.getAttribute("username");
+    String password = (String)session.getAttribute("password");
+    int k = DatabaseManager.checkLogin(username, password);
+    if(k==-1){
+        response.sendRedirect("index.jsp?error=You are not logged in!");
+        return;
+    }
+%>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Add Quiz"/>
 </jsp:include>
@@ -8,7 +18,7 @@
 <div class="container">
     <div class="row justify-content-around">
         <div class="col-md-9 quiz_form">
-            <form method="post">
+            <form method="post" action="AddQuiz">
                 <div class="form-group">
                     <label for="title">Quiz Title</label>
                     <input type="text" class="form-control" name="title" id="title">
@@ -19,7 +29,7 @@
                 </div>
                 <div class="form-group">
                     <label for="image">Quiz Image</label>
-                    <textarea class="form-control" name="image" id="image"></textarea>
+                    <input type="text" class="form-control" name="image" id="image" />
                 </div>
                 <hr>
                 <div class="row two_column">
@@ -29,10 +39,10 @@
                             <br>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-warning active">
-                                    <input type="radio" name="randomize" autocomplete="off" checked required> YES
+                                    <input type="radio" name="randomize" value="true" autocomplete="off" checked required> YES
                                 </label>
                                 <label class="btn btn-warning">
-                                    <input type="radio" name="randomize" autocomplete="off"> NO
+                                    <input type="radio" name="randomize" value="false" autocomplete="off"> NO
                                 </label>
                             </div>
                         </div>
@@ -43,10 +53,10 @@
                             <br>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-warning active">
-                                    <input type="radio" name="one_page" autocomplete="off" checked required> One
+                                    <input type="radio" name="one_page" value="true" autocomplete="off" checked required> One
                                 </label>
                                 <label class="btn btn-warning">
-                                    <input type="radio" name="one_page" autocomplete="off"> Multiple
+                                    <input type="radio" name="one_page" value="false" autocomplete="off"> Multiple
                                 </label>
                             </div>
                         </div>
@@ -59,10 +69,10 @@
                             <br>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-warning active">
-                                    <input type="radio" name="immediate" autocomplete="off" checked required> YES
+                                    <input type="radio" name="immediate" value="true" autocomplete="off" checked required> YES
                                 </label>
                                 <label class="btn btn-warning">
-                                    <input type="radio" name="immediate" autocomplete="off"> NO
+                                    <input type="radio" name="immediate" value="false" autocomplete="off"> NO
                                 </label>
                             </div>
                         </div>
@@ -73,10 +83,10 @@
                             <br>
                             <div class="btn-group btn-group-toggle" data-toggle="buttons">
                                 <label class="btn btn-warning active">
-                                    <input type="radio" name="practice" autocomplete="off" checked required> YES
+                                    <input type="radio" name="practice" value="true" autocomplete="off" checked required> YES
                                 </label>
                                 <label class="btn btn-warning">
-                                    <input type="radio" name="practice" autocomplete="off"> NO
+                                    <input type="radio" name="practice" value="false" autocomplete="off"> NO
                                 </label>
                             </div>
                         </div>

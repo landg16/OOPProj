@@ -10,7 +10,7 @@ CREATE TABLE users (
     username varchar(50) unique not null,
     email varchar(50) unique not null,
     password varchar(256) not null,
-    imageurl varchar(150) not null
+    imageurl varchar(250) not null
 );
 
 CREATE TABLE admins (
@@ -43,7 +43,7 @@ CREATE TABLE quizes (
     one_page bool not null,
     immediate_correction bool not null,
     practice_mode bool not null,
-    image varchar(200) not null,
+    image varchar(500) not null,
     count int default 0,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (creator_id) REFERENCES users(id)
@@ -63,7 +63,6 @@ CREATE TABLE answers (
      question_id int not null ,
      answer varchar(100) not null,
      iscorrect bool not null,
-     type varchar(50) not null,
      FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
@@ -77,3 +76,14 @@ CREATE TABLE user_history (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
 );
+
+CREATE TABLE announcements (
+    id int primary key auto_increment not null,
+    announcer_id int not null,
+    title varchar(100) not null,
+    text varchar(250) not null,
+    announce_date date not null,
+    FOREIGN KEY (announcer_id) users(id)
+)
+
+
