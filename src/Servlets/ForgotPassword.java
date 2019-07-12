@@ -13,9 +13,19 @@ This is servlet for forgot password
 @WebServlet(name = "forgotPassword", urlPatterns = "/forgotpassword")
 public class ForgotPassword extends javax.servlet.http.HttpServlet {
     protected void doPost(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
-        DatabaseManager dm = new DatabaseManager();
+        String errors = "";
+        String username = request.getParameter("uzername");
         String email =  request.getParameter("email");
-        String uzername = request.getParameter("uzername");
+
+        if (!DatabaseManager.emailExists(email)) {
+            response.sendRedirect("index.jsp?error=Incorrect e-mail address");
+            return;
+        }
+
+        if (!DatabaseManager.usernameExists(username)) {
+            response.sendRedirect("index.jsp?error=Username doesn't exist");
+            return;
+        }
 
         response.sendRedirect("index.jsp?success=Password reset mail has been sent");
     }

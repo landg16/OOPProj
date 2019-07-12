@@ -1,5 +1,5 @@
 <jsp:include page="header.jsp">
-    <jsp:param name="title" value="Announcement"/>
+    <jsp:param name="title" value="Make Announcement"/>
 </jsp:include>
 
 <div class="container-fluid heading">

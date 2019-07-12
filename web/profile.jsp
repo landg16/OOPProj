@@ -1,4 +1,5 @@
-<%--
+<%@ page import="Objects.User" %>
+<%@ page import="DataAccess.DatabaseManager" %><%--
   Created by IntelliJ IDEA.
   User: Oniani
   Date: 7/9/2019
@@ -16,18 +17,20 @@
 
 <div class="container profile" >
 
-
+    <%
+        int userId = Integer.parseInt(request.getParameter("id"));
+        User user = DatabaseManager.getUser(userId);
+        //User user = DatabaseManager.getUser(quiz.getQuizOwnerId());
+    %>
 
     <div class="row">
         <div class="col-sm-4">
-            <img class='img-fluid' src="https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/40133576_1678577612252835_2706565188802314240_n.jpg?_nc_cat=102&_nc_oc=AQkqAzB_-LogQxTNtsA6NG94bPFmgxv05g1rZIYlKD3bK_d73KjRe8zcZiAhrLQh9kA&_nc_ht=scontent.ftbs5-1.fna&oh=b49adad1a4c0ccf5f7ec50a04e934284&oe=5DBDBB32">
+            <img class='img-fluid' src="<%user.getImageurl();%>">
         </div>
 
         <div class="col-sm-8">
-            <h1></h1>
-            <h4>CEO & CO-FOUNDER @UNLEASH AR</h4>
-            <h4>Free University of Georgia</h4>
-            <p>10 quizzes</p>
+            <h1><%user.getFirstname();%> <%user.getLastname();%></h1>
+            <h4><%user.getEmail();%></h4>
         </div>
 
     </div>
@@ -65,7 +68,7 @@
         </div>
 
         <div class="col-sm-3">
-            <a href="announcement.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
+            <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
         </div>
     </div>
 
