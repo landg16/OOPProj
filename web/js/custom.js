@@ -248,3 +248,7 @@ function counterUp() {
         });
     }
 }
+
+/*function search() {
+
+} */

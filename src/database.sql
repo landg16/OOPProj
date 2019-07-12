@@ -10,7 +10,7 @@ CREATE TABLE users (
     username varchar(50) unique not null,
     email varchar(50) unique not null,
     password varchar(256) not null,
-    imageurl varchar(250) not null
+    imageurl varchar(500) not null
 );
 
 CREATE TABLE admins (
@@ -32,6 +32,8 @@ CREATE TABLE category (
     id int primary key auto_increment not null,
     name varchar(100) not null
 );
+
+INSERT INTO category (name) value (sport);
 
 CREATE TABLE quizes (
     id int primary key auto_increment not null,
@@ -76,3 +78,14 @@ CREATE TABLE user_history (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
 );
+
+CREATE TABLE announcements (
+    id int primary key auto_increment not null,
+    announcer_id int not null,
+    title varchar(100) not null,
+    text varchar(250) not null,
+    announce_date date not null,
+    FOREIGN KEY (announcer_id) users(id)
+)
+
+
