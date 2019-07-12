@@ -1,4 +1,5 @@
-        <footer class="container-fluid">
+<%@ page import="DataAccess.DatabaseManager" %>
+<footer class="container-fluid">
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 copyright">
@@ -12,6 +13,12 @@
             </div>
         </footer>
 
+        <%
+            String username = (String)session.getAttribute("username");
+            String password = (String)session.getAttribute("password");
+            int k = DatabaseManager.checkLogin(username, password);
+            if(k==-1){
+        %>
         <div class="modal login" tabindex="-1" role="dialog" id="logIn">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -68,7 +75,9 @@
             </div>
         </div>
 
-        <% if(request.getParameterMap().containsKey("error")) { %>
+        <% }
+
+        if(request.getParameterMap().containsKey("error")) { %>
         <!-- ERROR MODAL -->
         <div class="modal fade" id="error" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">

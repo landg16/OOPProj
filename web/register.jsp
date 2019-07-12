@@ -1,3 +1,13 @@
+<%@ page import="DataAccess.DatabaseManager" %>
+<%
+    String username = (String)session.getAttribute("username");
+    String password = (String)session.getAttribute("password");
+    int k = DatabaseManager.checkLogin(username, password);
+    if(k!=-1){
+        response.sendRedirect("index.jsp?error=You are already logged in!");
+        return;
+    }
+%>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Register"/>
 </jsp:include>
