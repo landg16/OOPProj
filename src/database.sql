@@ -76,3 +76,14 @@ CREATE TABLE user_history (
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
 );
+
+CREATE TABLE announcements (
+    id int primary key auto_increment not null,
+    announcer_id int not null,
+    title varchar(100) not null,
+    text varchar(250) not null,
+    announce_date date not null,
+    FOREIGN KEY (announcer_id) users(id)
+)
+
+

@@ -241,7 +241,6 @@ public class DatabaseManager {
         }
     }
 
-
     public static ArrayList<Quiz> getQuizes () {
         //Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
         ArrayList<Quiz> quizzes = new ArrayList<>();
