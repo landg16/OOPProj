@@ -246,7 +246,7 @@ public class DatabaseManager {
         return categories;
     }
 
-        public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
+    public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
 
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO announcements (announcer_id, title, text, announce_date) VALUES (?,?,?,?)");

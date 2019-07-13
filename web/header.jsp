@@ -27,7 +27,7 @@
                             <a class="nav-link" href="index.jsp">Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Quizes</a>
+                            <a class="nav-link" href="quizzes.jsp">Quizzes</a>
                         </li>
                         <!--
                         THIS SHOULD BE DISPLAYED WHEN ADMIN IS LOGGED IN
