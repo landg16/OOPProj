@@ -246,3 +246,22 @@ function counterUp() {
         });
     }
 }
+
+// $(document).ready(function () {
+//     $('#myResults').DataTable({
+//         "ordering": false // false to disable sorting (or any other option)
+//     });
+//     $('.dataTables_length').addClass('bs-select');
+// });
+//
+// $(document).ready(function () {
+//     $('#myResults').DataTable();
+//     $('.dataTables_length').addClass('bs-select');
+// });
+
+$('table').addClass('tablesorter');
+
+$("#myResults").tablesorter({
+   theme: 'black',
+    sortList: [[0,0],[1,0]]
+});

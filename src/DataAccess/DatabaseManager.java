@@ -2,15 +2,9 @@ package DataAccess;
 
 import Objects.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
-import java.sql.*;
-import java.lang.String;
 
 public class DatabaseManager {
 
@@ -242,14 +236,14 @@ public class DatabaseManager {
     }
 
     public static ArrayList<Quiz> getQuizes () {
-        //Quiz quiz = new Quiz(1, 1, "Didebuli quizi","img/quizzes/football.jpg", "Sport");
+        Quiz quiz = new Quiz(1, 1, "Didebuli quizi", "zviadii", "img/quizzes/football.jpg", "Sport", false);
         ArrayList<Quiz> quizzes = new ArrayList<>();
-//        quizzes.add(quiz);
-//        quizzes.add(quiz);
-//        quizzes.add(quiz);
-//        quizzes.add(quiz);
-//        quizzes.add(quiz);
-//        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
+        quizzes.add(quiz);
 //        try {
 //            PreparedStatement state = connect.prepareStatement("select q.id, q.title, q.description, q.image, c.name from quizes q" +
 //                    "inner join category c on q.category_id = c.id");
@@ -316,7 +310,9 @@ public class DatabaseManager {
 
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = new UserHistory(1, 11, 12,10);
+        UserHistory history1 = new UserHistory(2, 13, 5,11);
         histories.add(history);
+        histories.add(history1);
 //        try {
 //            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quit_time, uh.quiz_score " +
 //                    "from user_history uh INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = "+userId);
@@ -336,31 +332,33 @@ public class DatabaseManager {
 
 
     public static Quiz getQuiz(int quizId) {
-        Quiz quiz = null;
-        try {
-            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.quiz_id = ?");
-            state.setInt(1, quizId);
-            ResultSet result = state.executeQuery();
-            //quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        Quiz quiz = null;
+//        try {
+//            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.quiz_id = ?");
+//            state.setInt(1, quizId);
+//            ResultSet result = state.executeQuery();
+//            //quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4), result.getString(5));
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+        Quiz quiz = new Quiz(1, 1, "sjo", "daw", "dwa", "daw", false);
         return quiz;
     }
 
     public static User getUser(int userId) {
-        User user = null;
-        try {
-            PreparedStatement state = connect.prepareStatement("select * from users where id = ?");
-            state.setInt(1, userId);
-            ResultSet result = state.executeQuery();
-            if (result.next()) {
-                user = new User(result.getString("firstname"), result.getString("lastname"), result.getString("username"),
-                        result.getString("email"), result.getString("password"), result.getString("imageurl"));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+//        User user = null;
+//        try {
+//            PreparedStatement state = connect.prepareStatement("select * from users where id = ?");
+//            state.setInt(1, userId);
+//            ResultSet result = state.executeQuery();
+//            if (result.next()) {
+//                user = new User(result.getString("firstname"), result.getString("lastname"), result.getString("username"),
+//                        result.getString("email"), result.getString("password"), result.getString("imageurl"));
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+        User user = new User("d", "da", "dwa", "daw", "daw", "daw");
         return user;
     }
         //return all time best 5 users with best score in this quiz
