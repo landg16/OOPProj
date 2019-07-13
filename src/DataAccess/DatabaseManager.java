@@ -2,17 +2,9 @@ package DataAccess;
 
 import Objects.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
-import java.sql.*;
-import java.lang.String;
-import java.util.HashMap;
-import java.util.Map;
 
 public class DatabaseManager {
 

@@ -287,6 +287,10 @@ function quizValidation() {
     });
 }
 
-/*function search() {
 
-} */
+$('table').addClass('tablesorter');
+
+$("#myResults").tablesorter({
+   theme: 'black',
+    sortList: [[0,0],[1,0]]
+});

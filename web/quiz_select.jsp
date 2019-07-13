@@ -4,13 +4,13 @@
     <jsp:param name="title" value="Quiz Select"/>
 </jsp:include>
 <div class="container-fluid heading">
-    <h2>REGISTRATION PAGE</h2>
+    <h2>Select Desirable Quiz</h2>
 </div>
 <div class="container">
     <div class="row justify-content-around">
         <div class="col-md-12 quiz_prepare">
             <div class="Quiz_List">
-                <div class="row justify-content-around">
+                <div class="row">
                     <%for (Quiz quiz : DatabaseManager.getQuizes()) {%>
                     <div class="col-sm-3 item">
                         <div class="img" style="background-image:url(<%=quiz.getQuizImage()%>);"></div>
