@@ -11,15 +11,15 @@
         <div class="col-md-12 quiz_prepare">
             <div class="Quiz_List">
                 <div class="row">
-                    <%for (Quiz quiz : DatabaseManager.getQuizes()) {%>
+                    <%for (Quiz quiz : DatabaseManager.getAllQuizes()) {%>
                     <div class="col-sm-3 item">
-                        <div class="img" style="background-image:url(<%=quiz.getQuizImage()%>);"></div>
+                        <div class="img" style="background-image:url(<%=quiz.getImageUrl()%>);"></div>
                         <div class="description">
-                            <span class="left"><%=quiz.getQuizDescription()%></span>
-                            <span class="right"><%=quiz.getQuizType()%></span>
+                            <span class="left"><%=quiz.getDescription()%></span>
+                            <span class="right"><%=quiz.getType()%></span>
                             <div class="clear"></div>
                             <hr>
-                            <a href="quiz.jsp?id=<%=quiz.getQuizId()%>">Take Quiz</a>
+                            <a href="quiz.jsp?id=<%=quiz.getId()%>">Take Quiz</a>
                         </div>
                     </div>
                     <%}%>

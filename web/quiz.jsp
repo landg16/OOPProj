@@ -20,23 +20,24 @@
                 <%
                         int quizId = Integer.parseInt(request.getParameter("id"));
                         Quiz quiz = DatabaseManager.getQuiz(quizId);
+                        System.out.println(quiz.getQuizOwnerId());
                         User user = DatabaseManager.getUser(quiz.getQuizOwnerId());
                 %>
             <div class="row">
                 <div class="col-sm-4">
-                    <img class="img-fluid" src="<%=quiz.getQuizImage()%>;">
+                    <img class="img-fluid" src="<%=quiz.getImageUrl()%>;">
                 </div>
                 <div class="col-sm-8">
-                    <h1><%=quiz.getQuizTitle()%></h1>
+                    <h1><%=quiz.getTitle()%></h1>
                     <h4>Quiz Made By <a href="#"><%=user.getUsername()%></a></h4>
-                    <p>(Category: <a href="quiz_select.jsp"><%=quiz.getQuizType()%>)</a></p>
-                    <p>(Quiz type: <%if (quiz.getQuizIsImmediate()==true){
+                    <p>(Category: <a href="quizzes.jsp"><%=quiz.getType()%>)</a></p>
+                    <p>(Quiz type: <%if (quiz.isImmediateCorrection()==true){
                         out.println("Not immediate)");
                     }%>
-                    <%if (quiz.getQuizIsImmediate()==false){
+                    <%if (quiz.isImmediateCorrection()==false){
                         out.println("immediate)");
                     }%>
-                    <h5>Description: <%=quiz.getQuizDescription()%></h5>
+                    <h5>Description: <%=quiz.getDescription()%></h5>
                     <br>
                 </div>
             </div>
@@ -142,7 +143,7 @@
                 </div>
                 <div id="bestPerformers_thisDay" class="row">
                     <div class="form-group">
-                        <label">Today's Best Performers</label>
+                        <label>Today's Best Performers</label>
                     </div>
                     <table class="table">
                         <thead class="thead-dark">
