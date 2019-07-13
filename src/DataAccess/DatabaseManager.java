@@ -394,6 +394,40 @@ public class DatabaseManager {
         return null;
     }
 
+    private static int getId(String name) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT c.id  from category c WHERE c.name = ?");
+            state.setString(1, name);
+            ResultSet result = state.executeQuery();
+            if (result.next()) return result.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public static void setQuizSettings(Quiz editedQuiz) {
+
+        int catId = getId(editedQuiz.getType());
+        if (catId == -1) return;
+        try {
+            PreparedStatement state = connect.prepareStatement("UPDATE quizes SET title = ?, description = ?, image = ?, category_id = ?," +
+                    " random = ?, one_page = ?, immediate_correction = ?, practice_mode = ? where id = ?");
+            state.setString(1, editedQuiz.getTitle());
+            state.setString(2, editedQuiz.getDescription());
+            state.setString(3, editedQuiz.getImageUrl());
+            state.setInt(4, catId);
+            state.setBoolean(5, editedQuiz.isRandom());
+            state.setBoolean(6, editedQuiz.isOnePage());
+            state.setBoolean(7, editedQuiz.isImmediateCorrection());
+            state.setBoolean(8, editedQuiz.isPracticeMode());
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     private static ArrayList<User> castResults(ResultSet results) {
 
         ArrayList<User> users = new ArrayList<User>();
@@ -494,5 +528,75 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void insertAchievement() {
+
+    }
+
+    public static ArrayList<String> getAchievement(int userId) {
+
+        ArrayList<String> achievements = new ArrayList<String>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT u.firstach, u.secondach, u.thirdach," +
+                    " u.fourthach, u.fifthach, u.sixthach FROM achievements a where a.userid = ?");
+            state.setInt(1, userId);
+            ResultSet result = state.executeQuery();
+            if (result.next()) {
+                if (result.getBoolean(1)) achievements.add("firstach");
+                if (result.getBoolean(2)) achievements.add("secondach");
+                if (result.getBoolean(3)) achievements.add("thirdach");
+                if (result.getBoolean(4)) achievements.add("fourthach");
+                if (result.getBoolean(5)) achievements.add("fifthach");
+                if (result.getBoolean(6)) achievements.add("sixthach");
+            }
+            return achievements;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void insertFriendRequest(int senderId, int receiverId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("INSERT INTO friendRequest (senderid, receiverid) values(?,?)");
+            state.setInt(1, senderId);
+            state.setInt(2, receiverId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<User> getFriendRequest(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imagerurl " +
+                    "from friendRequest f INNER JOIN users u on f.senderid = u.id where f.receiverid = ?");
+            state.setInt(1, userId);
+            ResultSet result = state.executeQuery();
+            return castResults(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static void insertChatMessages(int senderId, int receiverId, String txt) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("INSERT INTO chats (sernderid, receiverid, txt) values (?,?,?)");
+            state.setInt(1, senderId);
+            state.setInt(2, receiverId);
+            state.setString(3, txt);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void getChatMessages() {
+
     }
 }
