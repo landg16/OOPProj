@@ -1,6 +1,7 @@
 package DataAccess;
 
 import Objects.*;
+import sun.nio.cs.US_ASCII;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -311,16 +312,11 @@ public class DatabaseManager {
     }
 
     public static ArrayList<User> getAdmins() {
-        ArrayList<User> admins = new ArrayList<User>();
-        User admin = null;
+
         try {
             PreparedStatement state = connect.prepareStatement("SELECT * from users u where u.isadmin = 1");
             ResultSet result = state.executeQuery();
-            while (result.next()) {
-                admin = new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getBoolean(7), result.getString(8));
-                admins.add(admin);
-            }
+            return castResults(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -328,8 +324,7 @@ public class DatabaseManager {
     }
 
     public static ArrayList<User> searchUser(String searchValue) {
-        ArrayList<User> users = new ArrayList<User>();
-        User user = null;
+
         try {
             PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isAdmin," +
                     " u.imageurl from users u where u.firstname like ? or u.lastname like ? or u.email like ? or u.username like ?");
@@ -338,12 +333,7 @@ public class DatabaseManager {
             state.setString(3, "'%"+searchValue+"%'");
             state.setString(4, "'%"+searchValue+"%'");
             ResultSet result = state.executeQuery();
-            while (result.next()) {
-                user = new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6),result.getBoolean(7), result.getString(8));
-                users.add(user);
-            }
-            return users;
+            return castResults(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -351,18 +341,13 @@ public class DatabaseManager {
     }
 
     public static ArrayList<User> getFriends(int userId) {
-        ArrayList<User> friends = new ArrayList<User>();
-        User user = null;
+
         try {
             PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.imageurl from users u " +
                     "INNER JOIN user_history uh on u.id = uh.friend_id where uh.account_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
-            while (result.next()) {
-                user = new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getBoolean(7), result.getString(8));
-            }
-            return friends;
+            return castResults(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -415,15 +400,15 @@ public class DatabaseManager {
         return null;
     }
 
-    private static ArrayList<LeaderUsers> castResults(ResultSet results) {
+    private static ArrayList<User> castResults(ResultSet results) {
 
-        ArrayList<LeaderUsers> users = new ArrayList<LeaderUsers>();
+        ArrayList<User> users = new ArrayList<User>();
+        User leaders = null;
         try {
             while (results.next()) {
-                LeaderUsers leaders = null;
-                    leaders = new LeaderUsers(results.getInt(1), results.getString(2),
-                            results.getString(3), results.getInt(4));
-
+                leaders = new User(results.getInt(1), results.getString(2), results.getString(3),
+                        results.getString(4), results.getString(5), results.getString(6),
+                        results.getBoolean(7), results.getString(8));
                 users.add(leaders);
             }
             return users;
@@ -433,32 +418,33 @@ public class DatabaseManager {
         return null;
     }
 
-    public static ArrayList<LeaderUsers> getLeaderUsers() {
-        //        try {
-//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
-//                    " inner join user_history uh on u.id = uh.user_id group by uh.user_id order by scores desc limit 100");
+    public static ArrayList<User> getLeaderUsers() {
+//        try {
+//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl,
+//                  sum(uh.quiz_score) scores from user_history uh inner join users u on uh.user_id = u.id group by uh.user_id order by scores desc limit 100");
 //            ResultSet list = state.executeQuery();
 //            return castResults(list);
-        //        } catch (SQLException e) {
+//        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-        ArrayList<LeaderUsers> leaderUsers = new ArrayList<>();
-        LeaderUsers leaderUser = new LeaderUsers(1, "revaz", "meshvelashvili", 10);
+//        return null;
+        ArrayList<User> leaderUsers = new ArrayList<>();
+        User leaderUser = new User(1, "revaz", "meshvelashvili", "10", "141", "1324", false, "145");
         leaderUsers.add(leaderUser);
         return leaderUsers;
     }
 
-    public static ArrayList<LeaderUsers> getDailyLeaderUsers() throws SQLException {
+    public static ArrayList<User> getDailyLeaderUsers() throws SQLException {
 //        try {
-        //            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
+//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
 //                    " inner join user_history uh on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc");
 //            ResultSet list = state.executeQuery();
 //            return castResults(list);
-        //        } catch (SQLException e) {
+//        } catch (SQLException e) {
 //            e.printStackTrace();
 //        }
-        ArrayList<LeaderUsers> leaderUsers = new ArrayList<>();
-        LeaderUsers leaderUser = new LeaderUsers(1, "revaz", "meshvelashvili", 10);
+        ArrayList<User> leaderUsers = new ArrayList<>();
+        User leaderUser = new User(1, "revaz", "meshvelashvili", "10", "141", "1324", false, "145");
         leaderUsers.add(leaderUser);
         return leaderUsers;
     }
@@ -503,19 +489,13 @@ public class DatabaseManager {
     }
         //returns all time best 5 users with best score in this quiz
     public static ArrayList<User> getAllTimeBest(int quizId){
-        ArrayList<User> users = new ArrayList<User>();
-        User user = null;
+
         try {
             PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imagerurl, " +
-                    "sum(quiz_score) scores from users u INNER JOIN user_history uh on u.id = uh.user_id group by uh.user_id having uh.quiz_id = ? limit 5");
+                    "sum(quiz_score) scores from user_history uh INNER JOIN users u on  uh.user_id = u.id group by uh.user_id having uh.quiz_id = ? order by scores desc limit 5");
             state.setInt(1, quizId);
             ResultSet result = state.executeQuery();
-            while (result.next()) {
-                user = new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getBoolean(7), result.getString(8));
-                users.add(user);
-            }
-            return users;
+            return castResults(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }

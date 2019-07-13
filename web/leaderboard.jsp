@@ -1,5 +1,5 @@
 <%@ page import="DataAccess.DatabaseManager" %>
-<%@ page import="Objects.LeaderUsers" %>
+<%@ page import="Objects.User" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Leaderboard"/>
 </jsp:include>
@@ -30,13 +30,13 @@
             </thead>
             <tbody>
             <% int count =0; %>
-            <% for (LeaderUsers leaderUsers : DatabaseManager.getLeaderUsers()) { %>
+            <% for (User leaderUsers : DatabaseManager.getLeaderUsers()) { %>
             <tr>
                 <% count++; %>
                 <th scope="row"><%=count%></th>
-                <td><%=leaderUsers.getFirstName() %></td>
-                <td><%=leaderUsers.getLastName() %></td>
-                <td>@<%=leaderUsers.getScore() %></td>
+                <td><%=leaderUsers.getFirstname() %></td>
+                <td><%=leaderUsers.getLastname() %></td>
+                <td>@<%=DatabaseManager.getScore(leaderUsers.getId()) %></td>
                 <td><%=leaderUsers.getId() %></td>
             </tr>
             <% } %>
@@ -55,13 +55,13 @@
 <%--            </thead>--%>
 <%--            <tbody>--%>
 <%--            <% int count1=0; %>--%>
-<%--            <% for (LeaderUsers leaderUsers : DatabaseManager.getDailyLeaderUsers()) { %>--%>
+<%--            <% for (User leaderUsers : DatabaseManager.getDailyLeaderUsers()) { %>--%>
 <%--            <tr>--%>
 <%--                <% count1++; %>--%>
 <%--                <th scope="row"><%=count1%></th>--%>
 <%--                <td><%=leaderUsers.getFirstName() %></td>--%>
 <%--                <td><%=leaderUsers.getLastName() %></td>--%>
-<%--                <td>@<%=leaderUsers.getScore() %></td>--%>
+<%--                <td>@<%=DatabaseManager.getScore(leaderUsers.getId()) %></td>--%>
 <%--                <td><%=leaderUsers.getId() %></td>--%>
 <%--            </tr>--%>
 <%--            <% } %>--%>
