@@ -3,7 +3,7 @@
 </jsp:include>
 
 <div class="container-fluid heading">
-    <h2>USERS</h2>
+    <h2>Friends</h2>
 </div>
 
 <form class="row">
