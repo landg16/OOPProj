@@ -1,6 +1,6 @@
 window.onscroll = function () {
     menuOnScroll();
-    counterUp()
+    counterUp();
 };
 
 // $(window).scroll(counterUp());
@@ -9,6 +9,7 @@ $(document).ready(function () {
     everyInputInsideValue();
     registrationValidation();
     addQuestion();
+    quizValidation();
 });
 
 function showForgotModal() {
@@ -129,7 +130,7 @@ function addQuestion() {
                 '                        <div class="col-md-nine">\n' +
                 '                            <label>Answer (Corrrect)</label>\n' +
                 '                            <div class="input-group">\n' +
-                '                                <input type="text" class="form-control is-valid" name="answer_' + count + '[]" aria-label="Answer box for question" required>\n' +
+                '                                <input type="text" class="form-control is-valid" name="answer' + count + '" aria-label="Answer box for question" required>\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
@@ -139,7 +140,7 @@ function addQuestion() {
                 '                        <div class="col-md-nine">\n' +
                 '                            <label>Answer</label>\n' +
                 '                            <div class="input-group">\n' +
-                '                                <input type="text" class="form-control is-invalid" name="answer_' + count + '[]" aria-label="Answer box for question" required>\n' +
+                '                                <input type="text" class="form-control is-invalid" name="answer' + count + '" aria-label="Answer box for question" required>\n' +
                 '                            </div>\n' +
                 '                        </div>\n' +
                 '                    </div>\n' +
@@ -161,7 +162,7 @@ function addQuestion() {
                     '                        <div class="col-md-nine">\n' +
                     '                            <label>Answer</label>\n' +
                     '                            <div class="input-group">\n' +
-                    '                                <input type="text" class="form-control is-invalid" name="answer_' + count + '[]" aria-label="Answer box for question" required>\n' +
+                    '                                <input type="text" class="form-control is-invalid" name="answer' + count + '" aria-label="Answer box for question" required>\n' +
                     '                            </div>\n' +
                     '                        </div>\n' +
                     '                        <div class="col-md-three d-flex flex-column">\n' +
@@ -247,6 +248,43 @@ function counterUp() {
             })
         });
     }
+}
+
+function quizValidation() {
+    $("#add_quiz_form").validate({
+        ignore: "",
+        rules: {
+            title: "required",
+            description:  {
+                required: true,
+                maxlength: 250
+            },
+            category: "required",
+            image: {
+                required: true,
+                url: true
+            },
+            count: {
+                required: true,
+                minValue: 1,
+                maxValue: 30
+            }
+        },
+        message: {
+            title: "<p class='error'>Please enter quiz title</p>",
+            description: {
+                required: "<p class='error'>Please enter description</p>",
+                maxlength: "<p class='error'>Description's max length is 250 character</p>"
+            },
+            category: "<p class='error'>Please choose category</p>",
+            image: "<p class='error'>Please enter correct image URL</p>",
+            count:  {
+                required: "<p class='error'>You must reload this page.</p>",
+                minValue: "<p class='error'>You must enter at least one question.</p>",
+                maxValue: "<p class='error'>You can only enter 30 question.</p>"
+            }
+        }
+    });
 }
 
 /*function search() {

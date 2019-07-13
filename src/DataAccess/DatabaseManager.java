@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.sql.*;
 import java.lang.String;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DatabaseManager {
 
@@ -155,6 +157,18 @@ public class DatabaseManager {
         return -1;
     }
 
+    public static boolean deleteQuiz(int quiz_id){
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM quizes WHERE id = ?");
+            state.setInt(1, quiz_id);
+            ResultSet result = state.executeQuery();
+            return result.next();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public static int InsertQuestion(int quizId, String type, String question, String secondPart) {
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO questions (quiz_id, question_type, question, secondpart) VALUES (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -219,8 +233,24 @@ public class DatabaseManager {
         }
     }
 
+    public static Map<Integer, String> getCategories() {
+        Map<Integer, String> categories = null;
+        try {
+            PreparedStatement state = connect.prepareStatement("select * from category");
+            ResultSet cats = state.executeQuery();
+            categories = new HashMap<>();
+            while (cats.next()) {
+                int cat_id = cats.getInt(1);
+                String cat_name = cats.getString(2);
+                categories.put(cat_id, cat_name);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return categories;
+    }
 
-    public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
+        public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
 
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO announcements (announcer_id, title, text, announce_date) VALUES (?,?,?,?)");

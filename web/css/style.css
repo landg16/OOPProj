@@ -41,6 +41,11 @@ a:focus {
     padding-bottom: 50px;
 }
 
+.error {
+    color: red;
+    padding-top:5px;
+}
+
 /****************************************************
 *****************************************************
 1. INDEX PAGE
@@ -128,13 +133,16 @@ footer .socials {
 
 .error-container {
     padding: 30px;
-    max-width: 350px;
-    width: 100%!important;
+    width: 100%;
     background-color: #F7F7F7;
     margin: 0 auto;
     border-radius: 2px;
     box-shadow: 0 2px 2px rgba(0,0,0,.3);
     overflow: hidden;
+}
+
+.error-container h3 {
+    font-weight: 800;
 }
 
 /***********************

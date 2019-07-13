@@ -5,16 +5,16 @@
 <div class="cover">
     <div class="hero-text">
         <h1>Challenge your knowledge!</h1>
-        <h4>Register or Sign Up, Create and Take Quizzes.</h4>
         <%
         String username = (String)session.getAttribute("username");
         String password = (String)session.getAttribute("password");
         int k = DatabaseManager.checkLogin(username, password);
-        if(k==-1){
-        %>
+        if(k==-1){ %>
+        <h4>Register or Sign Up, Create and Take Quizzes.</h4>
         <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#logIn">LOG IN</button>
         <a href="register.jsp" class="btn btn-danger btn-lg">SIGN UP</a>
         <% } else {%>
+        <h4>Go to quiz page and test your knowledge.</h4>
         <a href="profile.jsp" class="btn btn-danger btn-lg">PROFILE</a>
         <a href="LogOut" class="btn btn-danger btn-lg">LOG OUT</a>
         <% } %>

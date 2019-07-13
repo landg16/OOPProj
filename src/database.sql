@@ -3,6 +3,7 @@ create database quizDB;
 
 use quizDB;
 
+# CREATE TABLES
 CREATE TABLE users (
     id int primary key auto_increment not null,
     firstname varchar(50) not null,
@@ -32,8 +33,6 @@ CREATE TABLE category (
     id int primary key auto_increment not null,
     name varchar(100) not null
 );
-
-INSERT INTO category (name) value (sport);
 
 CREATE TABLE quizes (
     id int primary key auto_increment not null,
@@ -85,7 +84,15 @@ CREATE TABLE announcements (
     title varchar(100) not null,
     text varchar(250) not null,
     announce_date date not null,
-    FOREIGN KEY (announcer_id) users(id)
-)
+    FOREIGN KEY (announcer_id) REFERENCES users(id)
+);
 
-
+# INSERT CATEGORIES
+INSERT INTO category (name) VALUES ('Sport');
+INSERT INTO category (name) VALUES ('Geography');
+INSERT INTO category (name) VALUES ('Music');
+INSERT INTO category (name) VALUES ('History');
+INSERT INTO category (name) VALUES ('Gaming');
+INSERT INTO category (name) VALUES ('Movies');
+INSERT INTO category (name) VALUES ('Literature');
+INSERT INTO category (name) VALUES ('Science');

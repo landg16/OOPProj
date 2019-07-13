@@ -80,7 +80,7 @@
         if(request.getParameterMap().containsKey("error")) { %>
         <!-- ERROR MODAL -->
         <div class="modal fade" id="error" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="error-container">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h3 class="text-center">ERROR</h3>
@@ -99,7 +99,7 @@
         <% if(request.getParameterMap().containsKey("success")) { %>
         <!-- SUCCESS MODAL -->
         <div class="modal fade" id="success" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="error-container">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h3 class="text-center">SUCCESS</h3>

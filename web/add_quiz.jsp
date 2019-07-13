@@ -1,4 +1,5 @@
 <%@ page import="DataAccess.DatabaseManager" %>
+<%@ page import="java.util.Map" %>
 <%
     String username = (String)session.getAttribute("username");
     String password = (String)session.getAttribute("password");
@@ -19,7 +20,7 @@
 <div class="container">
     <div class="row justify-content-around">
         <div class="col-md-9 quiz_form">
-            <form method="post" action="AddQuiz">
+            <form method="post" action="AddQuiz" id="add_quiz_form">
                 <div class="form-group">
                     <label for="title">Quiz Title</label>
                     <input type="text" class="form-control" name="title" id="title" required>
@@ -31,6 +32,15 @@
                 <div class="form-group">
                     <label for="image">Quiz Image</label>
                     <input type="text" class="form-control" name="image" id="image" required/>
+                </div>
+                <div class="form-group">
+                    <label for="category">Choose Category</label>
+                    <select id="category" name="category" class="form-control">
+                        <% Map<Integer, String> categorys = DatabaseManager.getCategories();
+                        for(Map.Entry<Integer, String> tmp : categorys.entrySet()) {%>
+                        <option value="<%=tmp.getKey()%>"><%=tmp.getValue()%></option>
+                        <% } %>
+                    </select>
                 </div>
                 <hr>
                 <div class="row two_column">
