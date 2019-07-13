@@ -12,7 +12,40 @@ CREATE TABLE users (
     email varchar(50) unique not null,
     password varchar(256) not null,
     isadmin bool not null,
-    imageurl varchar(500) not null
+    imageurl varchar(500) not null,
+    achievements int not null
+);
+
+CREATE TABLE achievements(
+    id int primary key auto_increment not null,
+    userid int not null,
+    firstach bool not null,
+    secondach bool not null,
+    thirdach bool not null,
+    fourthach bool not null,
+    fifthach bool not null,
+    sixthach bool not null
+);
+
+CREATE TABLE chats
+(
+    id int primary key auto_increment not null,
+    senderId int not null,
+    receiverId int not null,
+    txt int not null
+);
+
+CREATE TABLE challenges(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null,
+    quizid int not null
+);
+
+CREATE TABLE friendRequest(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null
 );
 
 CREATE TABLE friends (

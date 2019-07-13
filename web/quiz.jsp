@@ -20,6 +20,7 @@
                 <%
                         int quizId = Integer.parseInt(request.getParameter("id"));
                         Quiz quiz = DatabaseManager.getQuiz(quizId);
+                        System.out.println(quiz.getQuizOwnerId());
                         User user = DatabaseManager.getUser(quiz.getQuizOwnerId());
                 %>
             <div class="row">
