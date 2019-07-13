@@ -130,7 +130,7 @@ public class DatabaseManager {
     public static int insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, int count) {
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO quizes (creator_id, title, description, image, category_id, random, one_page," +
-                    "immediate_correction, practice_mode, count) VALUES (?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    "immediate_correction, practice_mode) VALUES (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, creator_id);
             state.setString(2, title);
             state.setString(3, descripption);
@@ -140,7 +140,6 @@ public class DatabaseManager {
             state.setBoolean(7, onePage);
             state.setBoolean(8, immCorr);
             state.setBoolean(9, pracMode);
-            state.setInt(10, count);
             state.executeUpdate();
 
             ResultSet rs = state.getGeneratedKeys();
@@ -153,12 +152,65 @@ public class DatabaseManager {
         return -1;
     }
 
-    public static boolean deleteQuiz(int quiz_id){
+    private static void dropAnswers(int answerId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM answers WHERE id = ?");
+            state.setInt(1, answerId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void dropQuestion(int questionId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM questions where id = ?");
+            state.setInt(1, questionId);
+            state.executeUpdate();
+            state = connect.prepareStatement("SELECT a.id FROM answers a WHERE a.question_id = ?");
+            state.setInt(1, questionId);
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                dropAnswers(result.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void dropQuiz(int quizId){
         try {
             PreparedStatement state = connect.prepareStatement("DELETE FROM quizes WHERE id = ?");
-            state.setInt(1, quiz_id);
+            state.setInt(1, quizId);
+            state.executeUpdate();
+            state = connect.prepareStatement("SELECT q.id FROM questions q where q.quiz_id = ?");
+            state.setInt(1, quizId);
+            ResultSet resultSet = state.executeQuery();
+            while (resultSet.next()) {
+                dropQuestion(resultSet.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static boolean dropUser(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM users WHERE id = ?");
+            state.setInt(1, userId);
+            state.executeUpdate();
+            state = connect.prepareStatement("SELECT q.id from quizes where q.creator_id = ?");
+            state.setInt(1, userId);
             ResultSet result = state.executeQuery();
-            return result.next();
+            while (result.next()) {
+                dropQuiz(result.getInt(1));
+            }
+            state = connect.prepareStatement("DELETE FROM userhistory where user_id = ?");
+            state.setInt(1, userId);
+            state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -335,8 +387,7 @@ public class DatabaseManager {
     public static ArrayList<User> getFriends(int userId) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.imageurl from users u " +
-                    "INNER JOIN user_history uh on u.id = uh.friend_id where uh.account_id = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT * from users u INNER JOIN friends f on u.id = f.friend_id where f.account_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return castResults(result);
@@ -422,6 +473,7 @@ public class DatabaseManager {
             state.setBoolean(6, editedQuiz.isOnePage());
             state.setBoolean(7, editedQuiz.isImmediateCorrection());
             state.setBoolean(8, editedQuiz.isPracticeMode());
+            state.setInt(9, editedQuiz.getId());
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -519,8 +571,8 @@ public class DatabaseManager {
     public static ArrayList<User> getAllTimeBest(int quizId){
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imagerurl, " +
-                    "sum(quiz_score) scores from user_history uh INNER JOIN users u on  uh.user_id = u.id group by uh.user_id having uh.quiz_id = ? order by scores desc limit 5");
+            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl, " +
+                    "sum(quiz_score) scores from user_history uh INNER JOIN users u on  uh.user_id = u.id where uh.quiz_id = ? group by uh.user_id order by scores desc limit 5");
             state.setInt(1, quizId);
             ResultSet result = state.executeQuery();
             return castResults(result);
@@ -532,6 +584,11 @@ public class DatabaseManager {
 
     public static void insertAchievement() {
 
+        try {
+            PreparedStatement state = connect.prepareStatement("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public static ArrayList<String> getAchievement(int userId) {
@@ -583,6 +640,8 @@ public class DatabaseManager {
         return null;
     }
 
+    
+
     public static void insertChatMessages(int senderId, int receiverId, String txt) {
 
         try {
@@ -599,4 +658,6 @@ public class DatabaseManager {
     public static void getChatMessages() {
 
     }
+
+
 }

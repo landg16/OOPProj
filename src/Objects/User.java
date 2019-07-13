@@ -9,11 +9,11 @@ public class User {
     private String email;
     private String password;
     private boolean isAdmin; // equal to 0 or 1
-    private String imageurl;
+    private String imageUrl;
     private hashPassword hash;
 
     public User(int id, String firstName, String lastName, String username,
-                     String email, String password, boolean isAdmin, String imageurl){
+                     String email, String password, boolean isAdmin, String imageUrl){
         this.id = id;
         hash = new hashPassword();
         this.firstName = firstName;
@@ -22,7 +22,7 @@ public class User {
         this.email = email;
         this.isAdmin = isAdmin;
         this.password = hash.hashPassword(password);
-        this.imageurl = imageurl;
+        this.imageUrl = imageUrl;
     }
 
     public void getRank(){
@@ -49,7 +49,7 @@ public class User {
         return email;
     }
 
-    public String getImageurl () { return imageurl; }
+    public String getImageurl () { return imageUrl; }
 
     public String getPassword() {
         return password;
