@@ -247,14 +247,13 @@ public class DatabaseManager {
         return categories;
     }
 
-        public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
+        public static void InsertAnnouncement(int announcerId, String title, String text) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO announcements (announcer_id, title, text, announce_date) VALUES (?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO announcements (announcer_id, title, text, announce_date) VALUES (?,?,?,NOW())");
             state.setInt(1, announcerId);
             state.setString(2, title);
             state.setString(3, text);
-            state.setDate(4, (java.sql.Date) date);
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

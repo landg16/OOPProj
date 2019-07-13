@@ -138,13 +138,13 @@
         <div class="col-sm-4">
             <div class="row achievements justify-content-around">
                 <div class="col-sm-10">
-                    <h2>ACHIEVEMENTS ⭐</h2>
-                    <p>Amateur Author ⭐</p>
-                    <p>Prolific Author ⭐</p>
-                    <p>Prodigous Author ⭐</p>
-                    <p>Quiz Machine ⭐</p>
-                    <p>I'm the greatest ⭐</p>
-                    <p>Practice Makes Perfect ⭐</p>
+                    <h2>ACHIEVEMENTS</h2>
+                    <p>Amateur Author</p>
+                    <p>Prolific Author</p>
+                    <p>Prodigous Author</p>
+                    <p>Quiz Machine</p>
+                    <p>I'm the greatest</p>
+                    <p>Practice Makes Perfect</p>
                 </div>
             </div>
         </div>
