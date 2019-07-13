@@ -38,7 +38,7 @@ public class DatabaseManager {
             state.setString(3, newUser.getUsername());
             state.setString(4, newUser.getEmail());
             state.setString(5, newUser.getPassword());
-            state.setInt(6, newUser.getIsAdmin());
+            state.setBoolean(6, newUser.getIsAdmin());
             state.setString(7, newUser.getImageurl());
             state.executeUpdate();
         } catch (SQLException e) {
@@ -290,7 +290,7 @@ public class DatabaseManager {
     public static void setAsAdmin(int userId) {
         try {
             PreparedStatement state = connect.prepareStatement("UPDATE users set isadmin = ? where userid = ?");
-            state.setInt(1,1);
+            state.setBoolean(1,true);
             state.setInt(2,userId);
             state.executeUpdate();
         } catch (SQLException e) {
@@ -300,7 +300,7 @@ public class DatabaseManager {
 
     public static boolean isAdmin(int userId) {
         try {
-            PreparedStatement state = connect.prepareStatement("select u.id from users u where u.id = ? and u.isadmin = 1");
+            PreparedStatement state = connect.prepareStatement("select u.id from users u where u.id = ? and u.isadmin = true");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return result.next();
@@ -318,7 +318,7 @@ public class DatabaseManager {
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 admin = new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getInt(7), result.getString(8));
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getString(8));
                 admins.add(admin);
             }
         } catch (SQLException e) {
@@ -339,8 +339,8 @@ public class DatabaseManager {
             state.setString(4, "'%"+searchValue+"%'");
             ResultSet result = state.executeQuery();
             while (result.next()) {
-                user = new User(result.getInt(1), result.getString(2), result.getString(3),
-                        result.getString(4), result.getString(5), result.getString(6), result.getInt(7), result.getString(8));
+                user = new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4),
+                        result.getString(5), result.getString(6),result.getBoolean(7), result.getString(8));
                 users.add(user);
             }
             return users;
@@ -360,7 +360,7 @@ public class DatabaseManager {
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 user = new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getInt(7), result.getString(8));
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getString(8));
             }
             return friends;
         } catch (SQLException e) {
@@ -493,7 +493,7 @@ public class DatabaseManager {
             if (result.next()) {
                 user = new User(result.getInt("id"), result.getString("firstname"), result.getString("lastname"),
                         result.getString("username"), result.getString("email"), result.getString("password"),
-                        result.getInt("isadmin"), result.getString("imageurl"));
+                        result.getBoolean("isadmin"), result.getString("imageurl"));
             }
             return user;
         } catch (SQLException e) {
@@ -512,7 +512,7 @@ public class DatabaseManager {
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 user = new User(result.getInt(1), result.getString(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getInt(7), result.getString(8));
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getString(8));
                 users.add(user);
             }
             return users;

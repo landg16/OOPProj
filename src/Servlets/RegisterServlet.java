@@ -54,7 +54,7 @@ public class RegisterServlet extends HttpServlet {
             image = "img/default-avatar.png";
         }
 
-        User newUser = new User(0, firstName, lastName, userName, email, password, 0, image);
+        User newUser = new User(0, firstName, lastName, userName, email, password, false, image);
         DatabaseManager.insertUser(newUser);
 
         response.sendRedirect("index.jsp?success=You have successfully created account");

@@ -11,7 +11,7 @@ CREATE TABLE users (
     username varchar(50) unique not null,
     email varchar(50) unique not null,
     password varchar(256) not null,
-    isadmin int not null,
+    isadmin bool not null,
     imageurl varchar(500) not null
 );
 

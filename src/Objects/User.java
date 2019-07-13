@@ -8,12 +8,12 @@ public class User {
     private String userName;
     private String email;
     private String password;
-    private int isAdmin; // equal to 0 or 1
+    private boolean isAdmin; // equal to 0 or 1
     private String imageurl;
     private hashPassword hash;
 
     public User(int id, String firstName, String lastName, String username,
-                     String email, String password, int isAdmin, String imageurl){
+                     String email, String password, boolean isAdmin, String imageurl){
         this.id = id;
         hash = new hashPassword();
         this.firstName = firstName;
@@ -51,7 +51,7 @@ public class User {
         return password;
     }
 
-    public int getIsAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
