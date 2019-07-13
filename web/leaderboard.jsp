@@ -9,11 +9,12 @@
 <div class="container leaderboard_page">
     <div class="row">
         <div class="btn-group btn-group-toggle" data-toggle="buttons">
-            <label class="btn btn-light active">
-                <input type="radio" name="period" autocomplete="off" checked required id="today_button"> Today
+            <label class="btn btn-light active" id="today_button">
+                <input type="radio" name="period" autocomplete="off" checked required> Today
             </label>
-            <label class="btn btn-light">
-                <input type="radio" name="period" autocomplete="off" id="allTime_button"> All Time
+            <label class="btn btn-light" id="allTime_button">
+                <input type="radio" name="period" autocomplete="off"> All
+                Time
             </label>
         </div>
     </div>
@@ -60,18 +61,18 @@
             </thead>
             <tbody>
             <% int count1 = 0; %>
-            <% for (LeaderUsers leaderUsers : DatabaseManager.getDailyLeaderUsers()) { %>
+            <% for (User user : DatabaseManager.getDailyLeaderUsers()) { %>
             <tr>
                 <% count1++; %>
                 <th scope="row"><%=count1%>
                 </th>
-                <td><%=leaderUsers.getFirstName() %>
+                <td><%=user.getFirstname() %>
                 </td>
-                <td><%=leaderUsers.getLastName() %>
+                <td><%=user.getLastname() %>
                 </td>
-                <td>@<%=leaderUsers.getScore() %>
+                <td>@<%=DatabaseManager.getScore(user.getId()) %>
                 </td>
-                <td><%=leaderUsers.getId() %>
+                <td><%=user.getId() %>
                 </td>
             </tr>
             <% } %>
@@ -79,9 +80,4 @@
         </table>
     </div>
 </div>
-<script>
-    // $('#today_button').click(function () {
-    //     $('#allTime_leaderboard, #today_leaderboard ').removeClass(, b');
-    // });
-</script>
 <jsp:include page="footer.jsp"/>
