@@ -5,6 +5,7 @@ import Objects.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class DatabaseManager {
 
@@ -228,8 +229,8 @@ public class DatabaseManager {
         }
     }
 
-    public static Map<Integer, String> getCategories() {
-        Map<Integer, String> categories = null;
+    public static HashMap<Integer, String> getCategories() {
+        HashMap<Integer, String> categories = null;
         try {
             PreparedStatement state = connect.prepareStatement("select * from category");
             ResultSet cats = state.executeQuery();
