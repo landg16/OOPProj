@@ -6,6 +6,8 @@ window.onscroll = function () {
 // $(window).scroll(counterUp());
 
 $(document).ready(function () {
+    filterQuizes();
+    sortTable();
     everyInputInsideValue();
     registrationValidation();
     addQuestion();
@@ -288,6 +290,8 @@ function quizValidation() {
     });
 }
 
+function sortTable(){
+    $('table').addClass('tablesorter');
 function toggleLeaderboard() {
     $("#today_leaderboard").show();
     $("#allTime_leaderboard").hide();
@@ -303,7 +307,29 @@ function toggleLeaderboard() {
 
 $('table').addClass('tablesorter');
 
-$("#myResults").tablesorter({
-   theme: 'black',
-    sortList: [[0,0],[1,0]]
-});
+    $("#myResults").tablesorter({
+        theme: 'black',
+        sortList: [[0,0],[1,0]]
+    });
+}
+
+function filterQuizes() {
+    var checked = new Set();
+    $(".filter_category").click(function () {
+        var id = this.id;
+        if($(this).is(":checked")) {
+            checked.add(id);
+            $(".filter_box").hide();
+            checked.forEach(function(value) {
+                $("." + value).show();
+            });
+        } else {
+            checked.delete(id);
+            if(checked.size === 0){
+                $(".filter_box").show();
+            } else {
+                $("." + id).hide();
+            }
+        }
+    });
+}

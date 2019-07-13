@@ -571,6 +571,10 @@ footer .socials {
     font-size: 1.1rem;
 }
 
+.select_categories{
+    margin-top: 60px;
+}
+
 
 /****************************************************
 *****************************************************
@@ -828,3 +832,4 @@ footer .socials {
     background: lightgray;
     border-radius: 50%;
 }
+
