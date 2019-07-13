@@ -12,8 +12,7 @@ CREATE TABLE users (
     email varchar(50) unique not null,
     password varchar(256) not null,
     isadmin bool not null,
-    imageurl varchar(500) not null,
-    achievements int not null
+    imageurl varchar(500) not null
 );
 
 CREATE TABLE achievements(

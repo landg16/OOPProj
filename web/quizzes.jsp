@@ -6,7 +6,16 @@
 <div class="container-fluid heading">
     <h2>Select Desirable Quiz</h2>
 </div>
+
 <div class="container">
+    <div class="row">
+        <div class="col-sm-10">
+            <input class="form-control" type="text" placeholder="Type here">
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" class="form-control"><p>Search</p></button>
+        </div>
+    </div>
     <div class="row justify-content-around">
         <div class="col-md-12 quiz_prepare">
             <div class="Quiz_List">
