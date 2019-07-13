@@ -29,14 +29,14 @@
                 <div class="col-sm-8">
                     <h1><%=quiz.getTitle()%></h1>
                     <h4>Quiz Made By <a href="#"><%=user.getUsername()%></a></h4>
-                    <p>(Category: <a href="quiz_select.jsp"><%=quiz.getType()%>)</a></p>
+                    <p>(Category: <a href="quizzes.jsp"><%=quiz.getType()%>)</a></p>
                     <p>(Quiz type: <%if (quiz.isImmediateCorrection()==true){
                         out.println("Not immediate)");
                     }%>
                     <%if (quiz.isImmediateCorrection()==false){
                         out.println("immediate)");
                     }%>
-                    <h5>Description: <%=quiz.getQuizDescription()%></h5>
+                    <h5>Description: <%=quiz.getDescription()%></h5>
                     <br>
                 </div>
             </div>

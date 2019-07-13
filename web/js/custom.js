@@ -10,6 +10,7 @@ $(document).ready(function () {
     registrationValidation();
     addQuestion();
     quizValidation();
+    toggleLeaderboard();
 });
 
 function showForgotModal() {
@@ -287,6 +288,18 @@ function quizValidation() {
     });
 }
 
+function toggleLeaderboard() {
+    $("#today_leaderboard").show();
+    $("#allTime_leaderboard").hide();
+    $("#today_button").click(function () {
+        $("#today_leaderboard").show();
+        $("#allTime_leaderboard").hide();
+    });
+    $("#allTime_button").click(function () {
+        $("#today_leaderboard").hide();
+        $("#allTime_leaderboard").show();
+    });
+}
 
 $('table').addClass('tablesorter');
 

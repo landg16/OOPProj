@@ -89,7 +89,7 @@
         </div>
 
         <div class="col-sm-6">
-            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR A OWN QUIZ</a>
+            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
         </div>
     </div>
 
@@ -138,13 +138,13 @@
         <div class="col-sm-4">
             <div class="row achievements justify-content-around">
                 <div class="col-sm-10">
-                    <h2>ACHIEVEMENTS ⭐</h2>
-                    <p>Amateur Author ⭐</p>
-                    <p>Prolific Author ⭐</p>
-                    <p>Prodigous Author ⭐</p>
-                    <p>Quiz Machine ⭐</p>
-                    <p>I'm the greatest ⭐</p>
-                    <p>Practice Makes Perfect ⭐</p>
+                    <h2>ACHIEVEMENTS</h2>
+                    <p>Amateur Author</p>
+                    <p>Prolific Author</p>
+                    <p>Prodigous Author</p>
+                    <p>Quiz Machine</p>
+                    <p>I'm the greatest</p>
+                    <p>Practice Makes Perfect</p>
                 </div>
             </div>
         </div>
@@ -197,7 +197,7 @@
 
     es washalet tu gindat shesvla profile.jsp ze
 
-    <%if(DatabaseManager.isAdmin()){%>
+    <%if(DatabaseManager.isAdmin(userId)){%>
 
     <div class="row buttons"
         <div class="col-sm-6">

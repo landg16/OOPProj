@@ -247,14 +247,13 @@ public class DatabaseManager {
         return categories;
     }
 
-        public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
+        public static void InsertAnnouncement(int announcerId, String title, String text) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO announcements (announcer_id, title, text, announce_date) VALUES (?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO announcements (announcer_id, title, text, announce_date) VALUES (?,?,?,NOW())");
             state.setInt(1, announcerId);
             state.setString(2, title);
             state.setString(3, text);
-            state.setDate(4, (java.sql.Date) date);
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -364,9 +363,11 @@ public class DatabaseManager {
                     "q.one_page, q.immediate_correction, q.practice_mode from quizes q inner join category c on q.category_id = c.id where q.id = ?");
             state.setInt(1, quizId);
             ResultSet result = state.executeQuery();
-            quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
-                    result.getString(5), result.getString(6), result.getBoolean(7),
-                    result.getBoolean(8), result.getBoolean(9), result.getBoolean(10));
+            if(result.next()) {
+                quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
+                        result.getString(5), result.getString(6), result.getBoolean(7),
+                        result.getBoolean(8), result.getBoolean(9), result.getBoolean(10));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -413,8 +414,8 @@ public class DatabaseManager {
 
     public static ArrayList<User> getLeaderUsers() {
 //        try {
-//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl,
-//                  sum(uh.quiz_score) scores from user_history uh inner join users u on uh.user_id = u.id group by uh.user_id order by scores desc limit 100");
+//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl, " +
+//                    "sum(uh.quiz_score) scores from user_history uh inner join users u on uh.user_id = u.id group by uh.user_id order by scores desc limit 100");
 //            ResultSet list = state.executeQuery();
 //            return castResults(list);
 //        } catch (SQLException e) {
@@ -447,7 +448,7 @@ public class DatabaseManager {
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = null;
         try {
-            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quit_time, uh.quiz_score " +
+            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quiz_time, uh.quiz_score " +
                     "from user_history uh INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
