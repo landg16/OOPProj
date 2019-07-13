@@ -41,6 +41,11 @@ a:focus {
     padding-bottom: 50px;
 }
 
+.error {
+    color: red;
+    padding-top:5px;
+}
+
 /****************************************************
 *****************************************************
 1. INDEX PAGE
@@ -128,13 +133,16 @@ footer .socials {
 
 .error-container {
     padding: 30px;
-    max-width: 350px;
-    width: 100%!important;
+    width: 100%;
     background-color: #F7F7F7;
     margin: 0 auto;
     border-radius: 2px;
     box-shadow: 0 2px 2px rgba(0,0,0,.3);
     overflow: hidden;
+}
+
+.error-container h3 {
+    font-weight: 800;
 }
 
 /***********************
@@ -671,6 +679,11 @@ footer .socials {
     margin-bottom: 50px;
 }
 
+.headline_text{
+    color: #b21f2d;
+    font-weight: bolder;
+    font-size: 25px;
+}
 
 /****************************************************
 *****************************************************
@@ -701,4 +714,117 @@ footer .socials {
 .search{
     width:100%;
     text-align: center;
+}
+
+/****************************************************
+*****************************************************
+11. Chat
+
+*****************************************************
+*****************************************************/
+
+.chat_header {
+    border: 1px solid black;
+    width: 100%;
+    height: 5%;
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-top: -8px;
+}
+
+.chat_header h1 {
+    text-align: center;
+    color: white;
+    font-size: x-large;
+}
+
+.chat_box {
+    padding: 0 0 50px 0;
+}
+
+.chat_box_center {
+    padding: 10px;
+    width: 100%;
+    height: 450px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.chat_box_center::-webkit-scrollbar{
+    width: 10px;
+}
+
+.chat_box_center::-webkit-scrollbar-track{
+    background: #dee0e5;
+    border-radius: 5px;
+}
+
+.chat_box_center::-webkit-scrollbar-thumb{
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 2);
+}
+
+
+.received_message {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 10px 0;
+    background: gainsboro;
+    border-radius: 10px;
+    color: black;
+    font-size: 17px;
+}
+
+.sent_message {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 10px 0;
+    background: #a08105;
+    border-radius: 10px;
+    color: white;
+    font-size: 17px;
+}
+
+.time{
+    font-size: 12px;
+}
+
+.chat_user{
+    font-size: 19px;
+}
+
+.chat_bottom {
+    margin-top: 15px;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    padding: initial;
+}
+
+.chat_bottom textarea{
+    display: inline-block;
+    background: gainsboro;
+    width: 80%;
+    height: 50px;
+    border: 1px solid black;
+    resize: none;
+    padding: 10px;
+}
+
+.chat_bottom button{
+    display: inline-block;
+    background: gainsboro;
+    height: 50px;
+    border: 1px solid black;
+    resize: none;
+    padding: 5px 15px;
+    color: #1b1e21;
+    margin: 0 10px;
+}
+
+.profile_picture{
+    width: 50px;
+    height: 50px;
+    background: lightgray;
+    border-radius: 50%;
 }
