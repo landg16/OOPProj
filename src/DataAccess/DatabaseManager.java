@@ -6,6 +6,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 public class DatabaseManager {
 
@@ -229,8 +230,8 @@ public class DatabaseManager {
         }
     }
 
-    public static HashMap<Integer, String> getCategories() {
-        HashMap<Integer, String> categories = null;
+    public static Map<Integer, String> getCategories() {
+        Map<Integer, String> categories = null;
         try {
             PreparedStatement state = connect.prepareStatement("select * from category");
             ResultSet cats = state.executeQuery();
@@ -246,7 +247,7 @@ public class DatabaseManager {
         return categories;
     }
 
-    public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
+        public static void InsertAnnouncement(int announcerId, String title, String text, Date date) {
 
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO announcements (announcer_id, title, text, announce_date) VALUES (?,?,?,?)");
