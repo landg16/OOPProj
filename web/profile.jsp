@@ -53,9 +53,8 @@
 
     <% if(id==null){ %>
     <div class="row buttons">
-        <div class="col-sm-3">
-            <a href="register.jsp" class="btn btn-danger btn-lg">CHALLENGE REQUESTS</a>
-            <br>
+        <div class="col-sm-4">
+            <p class="headline_text">CHALLENGE REQUESTS</p>
             <p class="requests">Guja Lortkipanidze</p>
             <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
@@ -64,14 +63,14 @@
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
         </div>
 
-        <div class="col-sm-3">
-            <a href="register.jsp" class="btn btn-danger btn-lg">CHAT WITH FRIENDS</a>
+        <div class="col-sm-4">
+            <p class="headline_text">CHAT WITH FRIENDS</p>
             <p style="margin-top: 10px"> <a href="register.jsp">Nikolai nikolaevich </a></p>
             <p> <a href="register.jsp">guja gujaevich</a></p>
         </div>
 
-        <div class="col-sm-3">
-            <a href="register.jsp" class="btn btn-danger btn-lg">FRIEND REQUESTS</a>
+        <div class="col-sm-4">
+            <p class="headline_text">FRIEND REQUESTS</p>
             <p class="requests">Guja Lortkipanidze</p>
             <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
@@ -79,9 +78,18 @@
             <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
         </div>
+    </div>
 
-        <div class="col-sm-3">
+    <br>
+    <br>
+
+    <div class="row buttons">
+        <div class="col-sm-6">
             <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
+        </div>
+
+        <div class="col-sm-6">
+            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR A OWN QUIZ</a>
         </div>
     </div>
 
@@ -130,13 +138,13 @@
         <div class="col-sm-4">
             <div class="row achievements justify-content-around">
                 <div class="col-sm-10">
-                    <h2>ACHIEVEMENTS</h2>
-                    <p>Amateur Author</p>
-                    <p>Prolific Author</p>
-                    <p>Prodigous Author</p>
-                    <p>Quiz Machine</p>
-                    <p>I'm the greatest</p>
-                    <p>Practice Makes Perfect</p>
+                    <h2>ACHIEVEMENTS ⭐</h2>
+                    <p>Amateur Author ⭐</p>
+                    <p>Prolific Author ⭐</p>
+                    <p>Prodigous Author ⭐</p>
+                    <p>Quiz Machine ⭐</p>
+                    <p>I'm the greatest ⭐</p>
+                    <p>Practice Makes Perfect ⭐</p>
                 </div>
             </div>
         </div>
@@ -160,9 +168,11 @@
         </div>
 
         <!--- when he isn't friend, then remove
+
         <div class="col-sm-4">
             <a href="register.jsp" class="btn btn-danger btn-lg">SEND FRIEND REQUEST</a>
         </div>
+
         -->
 
         <div class="col-sm-4">
@@ -185,6 +195,10 @@
 
     THIS IS WHEN ADMIN IS VIEWING PROFILE OF USER
 
+    es washalet tu gindat shesvla profile.jsp ze
+
+    <%if(DatabaseManager.isAdmin(userId)){%>
+
     <div class="row buttons"
         <div class="col-sm-6">
              <a href="register.jsp" class="btn btn-danger btn-lg">REMOVE USER ACCOUNT</a>
@@ -194,7 +208,10 @@
              <a href="register.jsp" class="btn btn-danger btn-lg">PROMOTE USER TO ADMIN</a>
         </div>
     </div>
-    -->
+
+    <%}%>
+
+    END OF AMDIN'S PROFILE-->
 </div>
 
 <jsp:include page="footer.jsp"/>

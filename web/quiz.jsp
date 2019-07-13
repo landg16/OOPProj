@@ -16,7 +16,7 @@
 <div class="container">
     <div class="col-md-12 quiz_summary">
         <form id="quizSummaryForm" method="post">
-<%--            <div class="head_info"--%>
+            <div class="head_info"
                 <%
                         int quizId = Integer.parseInt(request.getParameter("id"));
                         Quiz quiz = DatabaseManager.getQuiz(quizId);
@@ -24,19 +24,19 @@
                 %>
             <div class="row">
                 <div class="col-sm-4">
-                    <img class="img-fluid" src="<%=quiz.getQuizImage()%>;">
+                    <img class="img-fluid" src="<%=quiz.getImageUrl()%>;">
                 </div>
                 <div class="col-sm-8">
-                    <h1><%=quiz.getQuizTitle()%></h1>
+                    <h1><%=quiz.getTitle()%></h1>
                     <h4>Quiz Made By <a href="#"><%=user.getUsername()%></a></h4>
-                    <p>(Category: <a href="quiz_select.jsp"><%=quiz.getQuizType()%>)</a></p>
-                    <p>(Quiz type: <%if (quiz.getQuizIsImmediate()==true){
+                    <p>(Category: <a href="quizzes.jsp"><%=quiz.getType()%>)</a></p>
+                    <p>(Quiz type: <%if (quiz.isImmediateCorrection()==true){
                         out.println("Not immediate)");
                     }%>
-                    <%if (quiz.getQuizIsImmediate()==false){
+                    <%if (quiz.isImmediateCorrection()==false){
                         out.println("immediate)");
                     }%>
-                    <h5>Description: <%=quiz.getQuizDescription()%></h5>
+                    <h5>Description: <%=quiz.getDescription()%></h5>
                     <br>
                 </div>
             </div>
@@ -59,23 +59,32 @@
             <div class="statistics">
                 <div id="user_results" class="row">
                     <div class="form-group">
-                        <label for="type">Sort Your Results By</label>
-                        <select name="type" id="type" class="form-control">
-                            <option value="date">Date</option>
-                            <option value="score">Score</option>
-                            <option value="time">Time</option>
-                        </select>
+                        <label>Your Results In This Quiz</label>
+<%--                        <select name="type" id="type" class="form-control">--%>
+<%--                            <option value="date">Date</option>--%>
+<%--                            <option value="score">Score</option>--%>
+<%--                            <option value="time">Time</option>--%>
+<%--                        </select>--%>
                     </div>
-                    <table class="table">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Score</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Time</th>
-                        </tr>
-                        </thead>
-
+<%--                    <table class="table">--%>
+<%--                        <thead class="thead-dark">--%>
+<%--                        <tr>--%>
+<%--                            <th scope="col">#</th>--%>
+<%--                            <th scope="col">Score</th>--%>
+<%--                            <th scope="col">Date</th>--%>
+<%--                            <th scope="col">Time</th>--%>
+<%--                        </tr>--%>
+<%--                        </thead>--%>
+<%--                        <table id="myResults" class="table table-striped table-bordered table-sm">--%>
+                    <table id="myResults" class="table tablesorter">
+                            <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                                <th>Duration</th>
+                            </tr>
+                            </thead>
                         <tbody
                         <%
                             Helper help = new Helper();
@@ -100,7 +109,7 @@
                 </div>
                 <div id="bestPerformers_allTime" class="row">
                     <div class="form-group">
-                        <label for="type">Best Performers Of All Time</label>
+                        <label>Best Performers Of All Time</label>
                     </div>
                     <table class="table">
                         <thead class="thead-dark">
@@ -133,7 +142,7 @@
                 </div>
                 <div id="bestPerformers_thisDay" class="row">
                     <div class="form-group">
-                        <label for="type">Today's Best Performers</label>
+                        <label>Today's Best Performers</label>
                     </div>
                     <table class="table">
                         <thead class="thead-dark">
@@ -166,7 +175,7 @@
                 </div>
                 <div id="recentPerformers" class="row">
                     <div class="form-group">
-                        <label for="type">Recent Performers</label>
+                        <label>Recent Performers</label>
                     </div>
                     <table class="table">
                         <thead class="thead-dark">

@@ -32,7 +32,8 @@
 
         <div class="col-sm-4">
             <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>                <h2>Nick Oniani</h2>
+                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
+                <h2>Nick Oniani</h2>
                 <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
                 <h6>Free University of Georgia</h6>
                 <p>10 quizzes</p>
@@ -44,7 +45,8 @@
 
         <div class="col-sm-4">
             <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>                <h2>Nick Oniani</h2>
+                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
+                <h2>Nick Oniani</h2>
                 <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
                 <h6>Free University of Georgia</h6>
                 <p>10 quizzes</p>
@@ -70,7 +72,8 @@
 
         <div class="col-sm-4">
             <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>                <h2>Nick Oniani</h2>
+                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
+                <h2>Nick Oniani</h2>
                 <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
                 <h6>Free University of Georgia</h6>
                 <p>10 quizzes</p>
@@ -82,7 +85,8 @@
 
         <div class="col-sm-4">
             <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>                <h2>Nick Oniani</h2>
+                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
+                <h2>Nick Oniani</h2>
                 <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
                 <h6>Free University of Georgia</h6>
                 <p>10 quizzes</p>

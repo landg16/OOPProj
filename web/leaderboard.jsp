@@ -1,5 +1,5 @@
 <%@ page import="DataAccess.DatabaseManager" %>
-<%@ page import="Objects.LeaderUsers" %>
+<%@ page import="Objects.User" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Leaderboard"/>
 </jsp:include>
@@ -30,16 +30,16 @@
             </thead>
             <tbody>
             <% int count = 0; %>
-            <% for (LeaderUsers leaderUsers : DatabaseManager.getLeaderUsers()) { %>
+            <% for (User leaderUsers : DatabaseManager.getLeaderUsers()) { %>
             <tr>
-                <% count++; %>  
+                <% count++; %>
                 <th scope="row"><%=count%>
                 </th>
-                <td><%=leaderUsers.getFirstName() %>
+                <td><%=leaderUsers.getFirstname() %>
                 </td>
-                <td><%=leaderUsers.getLastName() %>
+                <td><%=leaderUsers.getLastname() %>
                 </td>
-                <td>@<%=leaderUsers.getScore() %>
+                <td>@<%=DatabaseManager.getScore(leaderUsers.getId()) %>
                 </td>
                 <td><%=leaderUsers.getId() %>
                 </td>

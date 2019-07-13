@@ -5,42 +5,68 @@ import java.util.ArrayList;
 
 public class Quiz {
 
-    private String title;
     private int id;
     private int quizOwnerId;
+    private String title;
     private String description;
     private String imageUrl;
     private String type;
-    private boolean immediate_correction;
+    private boolean immediateCorrection;
+    private boolean random;
+    private boolean onePage;
+    private boolean practiceMode;
 
-
-    public Quiz(int id, int quizOwnerId, String description, String imageUrl, String type, String title, boolean immediate_correction){
+    public Quiz(int id, int quizOwnerId, String title, String description, String imageUrl, String type,
+                boolean random, boolean onePage, boolean immediateCorrection, boolean practiceMode) {
+        this.title = title;
         this.id = id;
         this.quizOwnerId = quizOwnerId;
         this.description = description;
         this.imageUrl = imageUrl;
         this.type = type;
-        this.title = title;
-        this.immediate_correction = immediate_correction;
+        this.immediateCorrection = immediateCorrection;
+        this.random = random;
+        this.onePage = onePage;
+        this.practiceMode = practiceMode;
     }
 
-    public int getQuizId(){ return id; }
+    public String getTitle() {
+        return title;
+    }
 
-    public int getQuizOwnerId() { return quizOwnerId; }
+    public int getId() {
+        return id;
+    }
 
-    public String getQuizDescription(){
+    public int getQuizOwnerId() {
+        return quizOwnerId;
+    }
+
+    public String getDescription() {
         return description;
     }
 
-    public String getQuizImage(){
+    public String getImageUrl() {
         return imageUrl;
     }
 
-    public String getQuizType(){
+    public String getType() {
         return type;
     }
 
-    public String getQuizTitle() { return title;};
+    public boolean isImmediateCorrection() {
+        return immediateCorrection;
+    }
 
-    public boolean getQuizIsImmediate() { return immediate_correction; }
+    public boolean isRandom() {
+        return random;
+    }
+
+    public boolean isOnePage() {
+        return onePage;
+    }
+
+    public boolean isPracticeMode() {
+        return practiceMode;
+    }
 }

@@ -5,22 +5,24 @@ import java.util.Date;
 
 public class UserHistory {
     private int quizId;
-    private int quizDate;
+    private String quizName;
+    private Date quizDate;
     private int quizTime;
-    private int score;
+    private int quizScore;
 
-    public UserHistory(int quizId, int quizDate, int quizTime, int score) {
+    public UserHistory(int quizId, String quizName, Date quizDate, int quizTime, int score) {
         this.quizId = quizId;
+        this.quizName = quizName;
         this.quizDate = quizDate;
         this.quizTime = quizTime;
-        this.score = score;
+        this.quizScore = score;
     }
 
     public int getQuizId() {
         return quizId;
     }
 
-    public int getQuizDate() {
+    public Date getQuizDate() {
         return quizDate;
     }
 
@@ -29,6 +31,11 @@ public class UserHistory {
     }
 
     public int getScore() {
-        return score;
+        return quizScore;
     }
+
+    public String getQuizName() {
+        return quizName;
+    }
+
 }
