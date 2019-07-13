@@ -413,8 +413,8 @@ public class DatabaseManager {
 
     public static ArrayList<User> getLeaderUsers() {
 //        try {
-//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl,
-//                  sum(uh.quiz_score) scores from user_history uh inner join users u on uh.user_id = u.id group by uh.user_id order by scores desc limit 100");
+//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl, " +
+//                    "sum(uh.quiz_score) scores from user_history uh inner join users u on uh.user_id = u.id group by uh.user_id order by scores desc limit 100");
 //            ResultSet list = state.executeQuery();
 //            return castResults(list);
 //        } catch (SQLException e) {
