@@ -16,7 +16,7 @@
 <div class="container">
     <div class="col-md-12 quiz_summary">
         <form id="quizSummaryForm" method="post">
-<%--            <div class="head_info"--%>
+            <div class="head_info"
                 <%
                         int quizId = Integer.parseInt(request.getParameter("id"));
                         Quiz quiz = DatabaseManager.getQuiz(quizId);
@@ -59,23 +59,32 @@
             <div class="statistics">
                 <div id="user_results" class="row">
                     <div class="form-group">
-                        <label for="type">Sort Your Results By</label>
-                        <select name="type" id="type" class="form-control">
-                            <option value="date">Date</option>
-                            <option value="score">Score</option>
-                            <option value="time">Time</option>
-                        </select>
+                        <label>Your Results In This Quiz</label>
+<%--                        <select name="type" id="type" class="form-control">--%>
+<%--                            <option value="date">Date</option>--%>
+<%--                            <option value="score">Score</option>--%>
+<%--                            <option value="time">Time</option>--%>
+<%--                        </select>--%>
                     </div>
-                    <table class="table">
-                        <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Score</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Time</th>
-                        </tr>
-                        </thead>
-
+<%--                    <table class="table">--%>
+<%--                        <thead class="thead-dark">--%>
+<%--                        <tr>--%>
+<%--                            <th scope="col">#</th>--%>
+<%--                            <th scope="col">Score</th>--%>
+<%--                            <th scope="col">Date</th>--%>
+<%--                            <th scope="col">Time</th>--%>
+<%--                        </tr>--%>
+<%--                        </thead>--%>
+<%--                        <table id="myResults" class="table table-striped table-bordered table-sm">--%>
+                    <table id="myResults" class="table tablesorter">
+                            <thead>
+                            <tr role="row">
+                                <th>#</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                                <th>Duration</th>
+                            </tr>
+                            </thead>
                         <tbody
                         <%
                             Helper help = new Helper();
@@ -100,7 +109,7 @@
                 </div>
                 <div id="bestPerformers_allTime" class="row">
                     <div class="form-group">
-                        <label for="type">Best Performers Of All Time</label>
+                        <label>Best Performers Of All Time</label>
                     </div>
                     <table class="table">
                         <thead class="thead-dark">
@@ -133,7 +142,7 @@
                 </div>
                 <div id="bestPerformers_thisDay" class="row">
                     <div class="form-group">
-                        <label for="type">Today's Best Performers</label>
+                        <label">Today's Best Performers</label>
                     </div>
                     <table class="table">
                         <thead class="thead-dark">
@@ -166,7 +175,7 @@
                 </div>
                 <div id="recentPerformers" class="row">
                     <div class="form-group">
-                        <label for="type">Recent Performers</label>
+                        <label>Recent Performers</label>
                     </div>
                     <table class="table">
                         <thead class="thead-dark">
