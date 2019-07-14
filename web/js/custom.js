@@ -19,6 +19,7 @@ $(document).ready(function () {
     countUpTimer();
 });
 
+
 function showForgotModal() {
     $('#logIn').modal('hide');
     $('#forgotPassword').modal('show');

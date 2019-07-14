@@ -74,6 +74,7 @@ CREATE TABLE achievements(
     id int primary key auto_increment not null,
     userid int not null,
     name varchar (100) not null,
+    achievedate DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userid) REFERENCES users(id)
 );
 

@@ -39,9 +39,7 @@ public class Quiz {
         return id;
     }
 
-    public int getQuizOwnerId() {
-        return quizOwnerId;
-    }
+    public int getQuizOwnerId() { return quizOwnerId; }
 
     public String getDescription() {
         return description;
