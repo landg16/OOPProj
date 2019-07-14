@@ -16,6 +16,7 @@ $(document).ready(function () {
     quizValidation();
     toggleLeaderboard();
     equalHeights(".item .description");
+    countUpTimer();
 });
 
 
@@ -314,6 +315,32 @@ function toggleLeaderboard() {
         $("#today_leaderboard").hide();
         $("#allTime_leaderboard").show();
     });
+}
+
+var totalSeconds = 0;
+
+function countUpTimer() {
+    if($("#timer") == null){
+        return;
+    }
+    setInterval(setTime, 1000);
+}
+
+function setTime() {
+    var minutesLabel = $("#minutes");
+    var secondsLabel = $("#seconds");
+    totalSeconds++;
+    secondsLabel.html(pad(totalSeconds % 60));
+    minutesLabel.html(pad(parseInt(totalSeconds / 60)));
+}
+
+function pad(val) {
+    var valString = val + "";
+    if (valString.length < 2) {
+        return "0" + valString;
+    } else {
+        return valString;
+    }
 }
 
 function filterQuizes() {

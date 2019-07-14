@@ -7,12 +7,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 @WebServlet("/AddQuiz")
 public class AddQuiz extends HttpServlet {
@@ -71,11 +68,9 @@ public class AddQuiz extends HttpServlet {
         boolean onePage = page.equals("true");
         boolean immediate = immed.equals("true");
         boolean practice = prac.equals("true");
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        Date date = new Date(System.currentTimeMillis());
 
         //Quiz insert and get quiz ID
-        int quiz_id = DatabaseManager.insertQuiz(user_id, title, description, category_id, randomize, onePage, immediate, practice, image, (java.sql.Date) date);
+        int quiz_id = DatabaseManager.insertQuiz(user_id, title, description, category_id, randomize, onePage, immediate, practice, image);
 
         //Insert Questions and Answers :)
         label:
