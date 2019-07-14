@@ -18,6 +18,7 @@ $(document).ready(function () {
     equalHeights(".item .description");
 });
 
+
 function showForgotModal() {
     $('#logIn').modal('hide');
     $('#forgotPassword').modal('show');
