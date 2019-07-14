@@ -323,6 +323,18 @@ public class DatabaseManager {
         }
     }
 
+    public static void insertFriendRequest(int sender, int receiver) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("INSERT INTO friendRequest (senderid, receiverid) VALUES (?,?)");
+            state.setInt(1, sender);
+            state.setInt(2, receiver);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static ArrayList<Announcement> getAnnouncements(int id) {
 
         ArrayList<Announcement> announcements= new ArrayList<Announcement>();
@@ -395,10 +407,25 @@ public class DatabaseManager {
         return null;
     }
 
+    public static ArrayList<User> getFriendRequest(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl " +
+                    "from users u INNER JOIN friendRequest f on u.id  = f.senderid where f.receiverid = ?");
+            state.setInt(1, userId);
+            ResultSet result = state.executeQuery();
+            return castResults(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static ArrayList<User> getFriends(int userId) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT * from users u INNER JOIN friends f on u.id = f.friend_id where f.account_id = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT * from users u " +
+                    "INNER JOIN friends f on u.id = f.friend_id where f.account_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return castResults(result);
@@ -633,33 +660,6 @@ public class DatabaseManager {
         }
         return null;
     }
-
-    public static void insertFriendRequest(int senderId, int receiverId) {
-
-        try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO friendRequest (senderid, receiverid) values(?,?)");
-            state.setInt(1, senderId);
-            state.setInt(2, receiverId);
-            state.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static ArrayList<User> getFriendRequest(int userId) {
-
-        try {
-            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl " +
-                    "from users u INNER JOIN friendRequest f on u.id  = f.senderid where f.receiverid = ?");
-            state.setInt(1, userId);
-            ResultSet result = state.executeQuery();
-            return castResults(result);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
 
 
     public static void insertChatMessages(int senderId, int receiverId, String txt) {
