@@ -75,7 +75,7 @@ public class AddQuiz extends HttpServlet {
         Date date = new Date(System.currentTimeMillis());
 
         //Quiz insert and get quiz ID
-        int quiz_id = DatabaseManager.insertQuiz(user_id, title, description, category_id, randomize, onePage, immediate, practice, image, (java.sql.Date) date);
+        int quiz_id = DatabaseManager.insertQuiz(user_id, title, description, category_id, randomize, onePage, immediate, practice, image);
 
         //Insert Questions and Answers :)
         label:
