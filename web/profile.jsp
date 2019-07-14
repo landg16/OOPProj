@@ -255,21 +255,31 @@
     es washalet tu gindat shesvla profile.jsp ze
 
     -->
-    <%if(!DatabaseManager.isAdmin(userId) && id!=null){%>
+    <%if(id==null && DatabaseManager.isAdmin(DatabaseManager.checkLogin(username, password))){%>
+
+    <%}else{%>
+
+    <%if(DatabaseManager.isAdmin(DatabaseManager.checkLogin(username, password)) && (DatabaseManager.checkLogin(username, password)!= Integer.parseInt(id))){%>
 
     <br>
 
     <div class="row buttons">
         <div class="col-sm-6">
-             <a href="register.jsp" class="btn btn-danger btn-lg">REMOVE USER ACCOUNT</a>
+            <form method="post" action="RemoveUser" id="remove_user">
+                <input type="hidden" name="id" value=<%=userId%>>
+                <button class="btn btn-danger btn-lg">REMOVE USER</button>
+            </form>
         </div>
 
         <div class="col-sm-6">
-             <a href="register.jsp" class="btn btn-danger btn-lg">PROMOTE USER TO ADMIN</a>
+            <form method="post" action="PromoteAdmin" id="set_as_admin_form">
+                <input type="hidden" name="id" value=<%=userId%>>
+                <button class="btn btn-danger btn-lg">PROMOTE USER TO ADMIN</button>
+            </form>
         </div>
     </div>
 
-    <%}%>
+    <%}}%>
 
     <!-- END OF AMDIN'S PROFILE-->
 </div>

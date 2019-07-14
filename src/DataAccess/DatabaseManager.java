@@ -166,15 +166,15 @@ public class DatabaseManager {
     private static void dropQuestion(int questionId) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("DELETE FROM questions where id = ?");
-            state.setInt(1, questionId);
-            state.executeUpdate();
-            state = connect.prepareStatement("SELECT a.id FROM answers a WHERE a.question_id = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT a.id FROM answers a WHERE a.question_id = ?");
             state.setInt(1, questionId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 dropAnswers(result.getInt(1));
             }
+            state = connect.prepareStatement("DELETE FROM questions where id = ?");
+            state.setInt(1, questionId);
+            state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -182,15 +182,15 @@ public class DatabaseManager {
 
     public static void dropQuiz(int quizId){
         try {
-            PreparedStatement state = connect.prepareStatement("DELETE FROM quizes WHERE id = ?");
-            state.setInt(1, quizId);
-            state.executeUpdate();
-            state = connect.prepareStatement("SELECT q.id FROM questions q where q.quiz_id = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT q.id FROM questions q where q.quiz_id = ?");
             state.setInt(1, quizId);
             ResultSet resultSet = state.executeQuery();
             while (resultSet.next()) {
                 dropQuestion(resultSet.getInt(1));
             }
+            state = connect.prepareStatement("DELETE FROM quizes WHERE id = ?");
+            state.setInt(1, quizId);
+            state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -199,7 +199,7 @@ public class DatabaseManager {
     public static boolean dropUser(int userId) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("DELETE FROM users WHERE id = ?");
+            PreparedStatement state = connect.prepareStatement("DELETE FROM user_history where user_id = ?");
             state.setInt(1, userId);
             state.executeUpdate();
             state = connect.prepareStatement("SELECT q.id from quizes q where q.creator_id = ?");
@@ -208,7 +208,7 @@ public class DatabaseManager {
             while (result.next()) {
                 dropQuiz(result.getInt(1));
             }
-            state = connect.prepareStatement("DELETE FROM user_history where user_id = ?");
+            state = connect.prepareStatement("DELETE FROM users WHERE id = ?");
             state.setInt(1, userId);
             state.executeUpdate();
         } catch (SQLException e) {
@@ -505,6 +505,7 @@ public class DatabaseManager {
     }
 
     public static ArrayList<Answer> getAnswers(int questionId) {
+
         ArrayList<Answer> answers = new ArrayList<>();
         try {
             PreparedStatement state = connect.prepareStatement("SELECT id, question_id, answer, iscorrect FROM answers WHERE question_id = ? ORDER BY RAND()");
@@ -679,6 +680,8 @@ public class DatabaseManager {
 
         try {
             PreparedStatement state = connect.prepareStatement("SELECT count(u.id) from users u");
+            ResultSet result = state.executeQuery();
+            if (result.next()) return result.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -689,6 +692,30 @@ public class DatabaseManager {
 
         try {
             PreparedStatement state = connect.prepareStatement("SELECT count(q.creator_id) from quizes q");
+            ResultSet result = state.executeQuery();
+            if (result.next()) return result.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int numberOfQuizzes() {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT count(q.id) from quizes q");
+            ResultSet result = state.executeQuery();
+            if (result.next()) return result.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static int averageAllQuizDuration() {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -827,7 +854,7 @@ public class DatabaseManager {
         return quizzes;
     }
 
-    public static ArrayList<Quiz> popularQuizzes() {
+    public static ArrayList<Quiz> getPopularQuizzes() {
 
         try {
             PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, q.one_page, " +
@@ -841,8 +868,7 @@ public class DatabaseManager {
         return null;
     }
 
-    public static ArrayList<Quiz> recentlyCreatedQuizzes() {
-
+    public static ArrayList<Quiz> getRecentlyCreatedQuizzes() {
 
         try {
             PreparedStatement state = connect.prepareStatement("select * from quizes q where q.creation_date >= (NOW() - INTERVAL 1 HOUR)");
@@ -854,7 +880,7 @@ public class DatabaseManager {
         return null;
     }
 
-    public static HashMap<Quiz, Integer> usersRecentTakenQuizzes(int userId) {
+    public static HashMap<Quiz, Integer> getUsersRecentTakenQuizzes(int userId) {
 
         HashMap<Quiz, Integer> recents = new HashMap<Quiz, Integer>();
         try {

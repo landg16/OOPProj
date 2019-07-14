@@ -7,6 +7,10 @@
         <listener-class>ServerListener.ServerListener</listener-class>
     </listener>
 <!--    <servlet>-->
+<!--        <servlet-name>CompleteQuiz</servlet-name>-->
+<!--        <servlet-class>Servlets.CompleteQuiz</servlet-class>-->
+<!--    </servlet>-->
+    <!--    <servlet>-->
 <!--        <servlet-name>Login</servlet-name>-->
 <!--        <servlet-class>Servlets.Login</servlet-class>-->
 <!--    </servlet>-->
