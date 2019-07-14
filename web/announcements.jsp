@@ -1,4 +1,6 @@
-<%@ page import="DataAccess.DatabaseManager" %><%--
+<%@ page import="DataAccess.DatabaseManager" %>
+<%@ page import="Objects.Announcement" %>
+<%@ page import="java.util.ArrayList" %><%--
   Created by IntelliJ IDEA.
   User: Oniani
   Date: 7/11/2019
@@ -25,26 +27,17 @@
 </div>
 <div class="container form">
     <div class="row buttons">
+        <%
+            ArrayList<Announcement> announcements = DatabaseManager.getAnnouncements();
+            if(announcements!=null){
+                for(Announcement ann : announcements){
+        %>
         <div class="col-sm-4">
-            <h2>Announcement#1</h2>
-            <p>Date: 23 DICK DAY</p>
-            <h6>LASHA YLEA, MAGIS YLEOBA DIZAINIS GAMO ALERTEBI UNDA GAMEKETEBINA ROMELIC DEDAMOTyNULAD MAXINJI
-            IQNEBODA, AMITOM ESE IYOS DA YVELA DAKMAYOFILDES.</h6>
+            <h2><%=ann.getTitle()%></h2>
+            <p> By user: <%=ann.getAnnouncerId()%></p>
+            <h6><%=ann.getText()%></h6>
         </div>
-
-        <div class="col-sm-4">
-            <h2>Announcement#2</h2>
-            <p>Date: 23 Dick day</p>
-            <h6>(same but in lowercase) lasha ylea, magis yleoba dizainis gamo alertebi unda gameketebina romelic dedamotynulad maxinji
-            iqneboda, amitom ese iyos da yvela dakmayofildeba</h6>
-        </div>
-
-        <div class="col-sm-4">
-            <h2>Announcement#3</h2>
-            <p>Date: 23 YlE RiCxVi</p>
-            <h6>(same but fuck knows) lAsHa YlEa, MaGiS yLeObA dIzAiNiS gAmO aLeRtEbI uNdA gAmEkEtEbInA rOmElIc DeDaMoTyNuLaD mAxInJi
-                IqNeBoDa, AmItOm EsE iYoS dA yVeLa DaKmaYoFiLdEbA</h6>
-        </div>
+        <%}}%>
     </div>
 </div>
 <jsp:include page="footer.jsp"/>
