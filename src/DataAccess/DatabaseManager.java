@@ -660,7 +660,7 @@ public class DatabaseManager {
         return null;
     }
 
-    
+
 
     public static void insertChatMessages(int senderId, int receiverId, String txt) {
 

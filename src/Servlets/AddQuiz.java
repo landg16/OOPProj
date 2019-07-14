@@ -101,7 +101,7 @@ public class AddQuiz extends HttpServlet {
                     String before_gap = request.getParameter("before_gap" + i);
                     String gap = request.getParameter("gap" + i);
                     String after_gap = request.getParameter("after_gap" + i);
-                    if (before_gap.length() == 0 || after_gap.length() == 0) {
+                    if (before_gap.length() == 0 && after_gap.length() == 0) {
                         errors += "<p class='error'>You must enter before or after gap</p>";
                         break label;
                     }

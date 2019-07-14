@@ -587,30 +587,40 @@ footer .socials {
     margin-bottom: 50px;
 }
 
-.quiz_summary .head_info{
-    font-weight: bold;
-    text-align: center;
+.quiz_summary {
+    margin-top: 40px;
 }
 
-.quiz_summary .description{
-    padding-left: 10px;
-}
-
-.quiz_summary .img{
-    height:300px;
-    background-position: right center;
+.quiz_summary .image {
+    height: 300px;
+    background-position: center center;
     background-size: cover;
 }
 
-.quiz_summary .statistics{
-    padding-top: 30px;
+.quiz_summary .description {
+    padding-left:15px;
+}
+
+.quiz_summary .description h1 {
+    text-transform: uppercase;
+}
+
+.quiz_summary .description p {
+    margin-bottom:3px;
+}
+
+.quiz_summary .buttons a {
+    margin-bottom:10px;
+}
+
+.result_table {
+    margin-top:30px;
+    padding-left:0;
+    padding-right:0;
 }
 
 #user_results{
-    margin-top:130px;
-    margin-bottom: 50px;
-    margin-left: 0;
-    margin-right: 0;
+    margin: 130px 0 50px;
 }
 
 #bestPerformers_allTime{
