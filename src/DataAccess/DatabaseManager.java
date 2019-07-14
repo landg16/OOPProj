@@ -118,7 +118,7 @@ public class DatabaseManager {
     public static int getScore(int userId) {
         int score = 0;
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT sum(uh.quiz_score) FROM user_history uh group by uh.user_id having user_id = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT sum(uh.quiz_score) FROM user_history uh groub by uh.user_id having userid = ?");
             state.setInt(1, userId);
             score = state.executeQuery().getInt(1);
         } catch (SQLException e) {
@@ -283,7 +283,7 @@ public class DatabaseManager {
 
     public static void setAsAdmin(int userId) {
         try {
-            PreparedStatement state = connect.prepareStatement("UPDATE users set isadmin = ? where id = ?");
+            PreparedStatement state = connect.prepareStatement("UPDATE users set isadmin = ? where userid = ?");
             state.setBoolean(1,true);
             state.setInt(2,userId);
             state.executeUpdate();
@@ -373,43 +373,6 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return quiz;
-    }
-
-    public static ArrayList<Question> getQuestions(int quizId, boolean random) {
-        ArrayList<Question> quests = new ArrayList<>();
-        try {
-            PreparedStatement state;
-            if(random) {
-                state = connect.prepareStatement("SELECT id, question_type, question, secondpart FROM questions WHERE quiz_id = ? ORDER BY RAND()");
-            } else {
-                state = connect.prepareStatement("SELECT id, question_type, question, secondpart FROM questions WHERE quiz_id = ?");
-            }
-            state.setInt(1, quizId);
-            ResultSet result = state.executeQuery();
-            while(result.next()){
-                Question quest = new Question(result.getInt(1), quizId, result.getString(2), result.getString(3), result.getString(4));
-                quests.add(quest);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return quests;
-    }
-
-    public static ArrayList<Answer> getAnswers(int questionId) {
-        ArrayList<Answer> answers = new ArrayList<>();
-        try {
-            PreparedStatement state = connect.prepareStatement("SELECT id, question_id, answer, iscorrect FROM answers WHERE question_id = ? ORDER BY RAND()");
-            state.setInt(1, questionId);
-            ResultSet result = state.executeQuery();
-            while(result.next()) {
-                Answer ans = new Answer(result.getInt(1), questionId, result.getString(2), result.getBoolean(4));
-                answers.add(ans);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return answers;
     }
 
     public static ArrayList<Quiz> getAllQuizes () {
@@ -524,7 +487,7 @@ public class DatabaseManager {
 
         try {
             PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl, " +
-                    "sum(quiz_score) scores from user_history uh INNER JOIN users u on  uh.user_id = u.id group by uh.user_id having uh.quiz_id = ? order by scores desc limit 5");
+                    "sum(quiz_score) scores from user_history uh INNER JOIN users u on  uh.user_id = u.id where uh.quiz_id = ? group by uh.user_id order by scores desc limit 5");
             state.setInt(1, quizId);
             ResultSet result = state.executeQuery();
             return castResults(result);

@@ -1,8 +1,5 @@
 package Objects;
 
-import java.awt.*;
-import java.util.ArrayList;
-
 public class Quiz {
 
     private int id;
@@ -69,4 +66,6 @@ public class Quiz {
     public boolean isPracticeMode() {
         return practiceMode;
     }
+
+    public boolean getQuizDescription() { return false; }
 }

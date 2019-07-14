@@ -1,10 +1,30 @@
+<%@ page import="DataAccess.DatabaseManager" %>
+<%@ page import="Objects.User" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Friends"/>
 </jsp:include>
 
+<%
+    String id = request.getParameter("id");
+    String username = (String)session.getAttribute("username");
+    String password = (String)session.getAttribute("password");
+    int k = DatabaseManager.checkLogin(username, password);
+
+    if(k==-1){
+        response.sendRedirect("index.jsp?error=You are not logged in!");
+        return;
+    }
+%>
+
 <div class="container-fluid heading">
     <h2>Friends</h2>
 </div>
+
+<%
+    int userId;
+    userId = DatabaseManager.checkLogin(username, password);
+    User user = DatabaseManager.getUser(userId);
+%>
 
 <form class="row">
     <div class="col-sm-10">

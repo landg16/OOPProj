@@ -3,7 +3,7 @@
 </jsp:include>
 
 <div class="about" style = "background-image: url('https://images.pexels.com/photos/239548/pexels-photo-239548.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260')">
-    <div class="big-text">
+    <div class="hero-text container">
         <h1>QuizCake</h1>
         <h2>QuizCake The Best Quiz website in CEE</h2>
         <h4>Take/Make quizzes, learn and compete with the best minds across the world</h4>
