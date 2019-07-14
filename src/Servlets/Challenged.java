@@ -15,20 +15,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet("/Friended")
-public class Friended extends HttpServlet {
+@WebServlet("/Challenged")
+public class Challenged extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String receiverId = request.getParameter("receiverId");
+        String recieverId = request.getParameter("receiverId");
         String senderId = request.getParameter("senderId");
+        String quizId = request.getParameter("quizId");
         String whatToDo = request.getParameter("whatToDo");
-        int receiver = Integer.parseInt(receiverId);
+        int receiver = Integer.parseInt(recieverId);
         int sender = Integer.parseInt(senderId);
-        DatabaseManager.dropFriendRequest(receiver, sender);
-        if(whatToDo.equals("accept")) {
-            DatabaseManager.insertFriend(sender, receiver);
-            response.sendRedirect("profile.jsp?success=You are now friends!");
-        } else {
-            response.sendRedirect("profile.jsp?success=You have declined friend request!");
+        int quiz = Integer.parseInt(quizId);
+        DatabaseManager.dropChallenge(sender, receiver, quiz);
+        if(whatToDo.equals("decline")){
+            response.sendRedirect("profile.jsp?success=You have declined request");
+            return;
         }
+        response.sendRedirect("quiz_start.jsp?id="+quiz +"&success=You have accepted request");
     }
 }

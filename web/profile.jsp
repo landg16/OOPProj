@@ -62,15 +62,17 @@
         <div class="col-sm-4">
             <p class="headline_text">CHALLENGE REQUESTS</p>
             <% HashMap<Integer, Integer> requestss = DatabaseManager.getChallenges(userId);
-                if(requestss != null){
+                if(requestss != null && requestss.size()!=0){
                     for (HashMap.Entry<Integer, Integer> tmp : requestss.entrySet()){
                         User usrr = DatabaseManager.getUser(tmp.getKey());
                         Quiz quiz = DatabaseManager.getQuiz(tmp.getValue());
             %>
             <p> <%=usrr.getFirstname()%> <%=usrr.getLastname()%> has challenged you for <%=quiz.getTitle()%> </p>
-            <a href="#" class="btn btn-danger btn-sm">Accept</a>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
-            <%}}%>
+            <a href="Challenged?senderId=<%=usrr.getId()%>&receiverId=<%=userId%>&quizId=<%=quiz.getId()%>&whatToDo=accept" class="btn btn-danger btn-sm">Accept</a>
+            <a href="Challenged?senderId=<%=usrr.getId()%>&receiverId=<%=userId%>&quizId=<%=quiz.getId()%>&whatToDo=decline" class="btn btn-danger btn-sm">Decline</a>
+            <%}} else { %>
+                <h5>You have no challenge requests</h5>
+            <% } %>
         </div>
 
         <div class="col-sm-4">
@@ -82,12 +84,14 @@
         <div class="col-sm-4">
             <p class="headline_text">FRIEND REQUESTS</p>
            <% ArrayList<User> requests = DatabaseManager.getFriendRequest(userId);
-              if(requests != null){
+              if(requests != null && requests.size() != 0){
                for (User us : requests){%>
             <p> <%=us.getFirstname()%> <%=us.getLastname()%> </p>
-            <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>" class="btn btn-danger btn-sm">Accept</a>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
-            <%}}%>
+            <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>&whatToDo=accept" class="btn btn-danger btn-sm">Accept</a>
+            <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>&whatToDo=decline" class="btn btn-danger btn-sm">Decline</a>
+            <%}} else { %>
+                <h5>You have no friend requests</h5>
+            <% } %>
         </div>
     </div>
 
@@ -107,7 +111,7 @@
         </div>
 
         <div class="col-sm-4">
-            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">MAKE AN ANNOUNCEMENT</a>
+            <a href="add_announcement.jsp" class="btn btn-danger btn-lg">MAKE AN ANNOUNCEMENT</a>
         </div>
     </div>
     <% } else { %>
@@ -173,12 +177,14 @@
             <div class="row achievements justify-content-around">
                 <div class="col-sm-10">
                     <h2>ACHIEVEMENTS</h2>
-                    <p>Amateur Author</p>
-                    <p>Prolific Author</p>
-                    <p>Prodigous Author</p>
-                    <p>Quiz Machine</p>
-                    <p>I'm the greatest</p>
-                    <p>Practice Makes Perfect</p>
+                    <%
+                        ArrayList<String> achievements = DatabaseManager.getAchievement(userId);
+                        if(achievements!=null){
+                            for(String ach : achievements){
+
+                    %>
+                    <p><%=ach%></p>
+                    <%}}%>
                 </div>
             </div>
         </div>
@@ -245,7 +251,7 @@
     es washalet tu gindat shesvla profile.jsp ze
 
     -->
-    <%if(DatabaseManager.isAdmin(userId) && id!=null){%>
+    <%if(!DatabaseManager.isAdmin(userId) && id!=null){%>
 
     <br>
 

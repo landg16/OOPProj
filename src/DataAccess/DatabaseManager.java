@@ -335,13 +335,24 @@ public class DatabaseManager {
         }
     }
 
-    public static ArrayList<Announcement> getAnnouncements(int id) {
+    public static void dropFriendRequest(int senderId, int receiverId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM friendrequest where senderid = ? and receiverid = ?");
+            state.setInt(1, senderId);
+            state.setInt(2, receiverId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Announcement> getAnnouncements() {
 
         ArrayList<Announcement> announcements= new ArrayList<Announcement>();
         Announcement announcement = null;
         try {
-            PreparedStatement state = connect.prepareStatement("select id, announcer_id, title, text, announce_date from announcements where id = ?");
-            state.setInt(1, id);
+            PreparedStatement state = connect.prepareStatement("select * from announcements");
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 announcement = new Announcement(result.getInt(1), result.getInt(2),
@@ -354,6 +365,7 @@ public class DatabaseManager {
         }
         return null;
     }
+
 
     public static void setAsAdmin(int userId) {
         try {
@@ -734,7 +746,7 @@ public class DatabaseManager {
 
         HashMap<Integer, Integer> challenges = new HashMap<Integer, Integer>();
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT ch.receiverid, ch.quizid from challenges ch where ch.senderid = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT ch.senderid, ch.quizid from challenges ch where ch.receiverid= ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
