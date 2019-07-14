@@ -495,4 +495,8 @@ public class DatabaseManager {
         }
         return null;
     }
+
+    public static ArrayList<User> getAllUsers(){
+        return null;
+    }
 }

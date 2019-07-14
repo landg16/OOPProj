@@ -6,6 +6,7 @@ window.onscroll = function () {
 // $(window).scroll(counterUp());
 
 $(document).ready(function () {
+    findUsers();
     filterQuizes();
     sortTable();
     everyInputInsideValue();
@@ -333,3 +334,15 @@ function filterQuizes() {
         }
     });
 }
+
+function findUsers() {
+    $("#userSearchForm").keyup()(function () {
+        var searchText = $(this).val();
+        if(searchText != ''){
+
+        }
+    });
+}
+
+
+

@@ -42,6 +42,12 @@
         <div class="col-sm-8">
             <h1><%=user.getFirstname()%> <%=user.getLastname()%></h1>
             <h4><%=user.getEmail()%></h4>
+            <div class="md-form">
+                <form id="searchUsr" action="search.jsp" method="get">
+                    <input type="text" name="searchUsr" id="searchForm" class="form-control" property="searchUsr">
+                    <button class="btn btn-primary" type="submit" value="Search" id="mySearch">Search</button>
+                </form>
+            </div>
         </div>
 
     </div>
