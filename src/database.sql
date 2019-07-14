@@ -37,18 +37,20 @@ CREATE TABLE challenges(
     quizid int not null
 );
 
-CREATE TABLE friendRequest(
-    id int primary key auto_increment not null,
-    senderid int not null,
-    receiverid int not null
-);
-
 CREATE TABLE friends (
     id int primary key auto_increment not null,
     account_id int not null,
     friend_id int not null,
     FOREIGN KEY (friend_id) REFERENCES users(id),
     FOREIGN KEY (account_id) REFERENCES users(id)
+);
+
+CREATE TABLE friendRequest(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null,
+    FOREIGN KEY (senderid) REFERENCES users(id),
+    FOREIGN KEY (receiverid) REFERENCES users(id)
 );
 
 CREATE TABLE category (
