@@ -117,7 +117,7 @@ public class DatabaseManager {
     public static int getScore(int userId) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT sum(uh.quiz_score) FROM user_history uh groub by uh.user_id having userid = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT sum(uh.quiz_score) FROM user_history uh group by uh.user_id having userid = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             if (result.next()) return result.getInt(1);
@@ -691,7 +691,7 @@ public class DatabaseManager {
     public static ArrayList<Quiz> popularQuizzes() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("select q.id q.creator_id, q.title, q.description, q.image, c.name, q.random, q.one_page, " +
+            PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, q.one_page, " +
                     "q.immediate_correction, q.practice_mode, count(uh.user_id) counts from user_history uh INNER join quizes q on uh.quiz_id = q.id" +
                     "INNER join category c on q.category_id = c.id group by uh.quiz_id order by counts limit 5");
             ArrayList<Quiz> populars = new ArrayList<Quiz>();
