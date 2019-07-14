@@ -742,22 +742,6 @@ public class DatabaseManager {
         }
     }
 
-    public static HashMap<Integer, Integer> getChallenges(int userId) {
-
-        HashMap<Integer, Integer> challenges = new HashMap<Integer, Integer>();
-        try {
-            PreparedStatement state = connect.prepareStatement("SELECT ch.receiverid, ch.quizid from challenges ch where ch.senderid = ?");
-            state.setInt(1, userId);
-            ResultSet result = state.executeQuery();
-            while (result.next()) {
-                challenges.put(result.getInt(1), result.getInt(2));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return challenges;
-    }
-
     public static void dropChallenge() {
 
         try {

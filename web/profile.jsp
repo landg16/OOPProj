@@ -1,6 +1,8 @@
 <%@ page import="Objects.User" %>
 <%@ page import="DataAccess.DatabaseManager" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="Objects.Quiz" %>
 <%--
   Created by IntelliJ IDEA.
   User: Oniani
@@ -59,12 +61,16 @@
     <div class="row buttons">
         <div class="col-sm-4">
             <p class="headline_text">CHALLENGE REQUESTS</p>
-            <p class="requests">Guja Lortkipanidze</p>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
+            <% HashMap<Integer, Integer> requestss = DatabaseManager.getChallenges(userId);
+                if(requestss != null){
+                    for (HashMap.Entry<Integer, Integer> tmp : requestss.entrySet()){
+                        User usrr = DatabaseManager.getUser(tmp.getKey());
+                        Quiz quiz = DatabaseManager.getQuiz(tmp.getValue());
+            %>
+            <p> <%=usrr.getFirstname()%> <%=usrr.getLastname()%> has challenged you for <%=quiz.getTitle()%> </p>
+            <a href="#" class="btn btn-danger btn-sm">Accept</a>
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
-            <p class="requests">Guja Lortkipanidze</p>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
+            <%}}%>
         </div>
 
         <div class="col-sm-4">

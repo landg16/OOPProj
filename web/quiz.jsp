@@ -209,8 +209,14 @@
                     <div class="col-md-6">
                         <p><%=usr.getFirstname()%> <%=usr.getLastname()%> (<%=usr.getUsername()%>)</p>
                     </div>
-                    <div class="col-md-6">
-                        <a href="ChallengeFriend?senderId=<%=k%>receiverId=<%=usr.getId()%>quizId=<%=quizId%>">Send Challenge</a>
+                    <div class="col-md-6 text-right">
+                        <form method="get" action="ChallengeRequest" id="send_friend_request_form">
+                            <input type="hidden" name="senderId" value="<%=k%>">
+                            <input type="hidden" name="receiverId" value="<%=user.getId()%>">
+                            <input type="hidden" name="quizId" value="<%=quizId%>">
+                            <button type="submit" class="btn btn-danger">Send Challenge</button>
+                        </form>
+                    </div>
                 </div>
                 <%
                         }
@@ -218,7 +224,7 @@
                 <h4>You have no friends :(</h4>
                 <%
                     } %>
-            </h4>
+            </div>
         </div>
     </div>
 </div>

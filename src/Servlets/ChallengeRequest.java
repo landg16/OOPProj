@@ -17,7 +17,7 @@ import java.util.List;
 
 @WebServlet("/ChallengeRequest")
 public class ChallengeRequest extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String errors = "";
         String recieverId = request.getParameter("receiverId");
         String senderId = request.getParameter("senderId");
