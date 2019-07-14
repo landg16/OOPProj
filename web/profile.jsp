@@ -106,12 +106,16 @@
     </div>
     <% } else { %>
     <div class="row buttons">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
+        </div>
+
+        <div class="col-sm-4">
+            <a href="friends.jsp" class="btn btn-danger btn-lg">FRIENDS</a>
         </div>
     </div>
 
@@ -184,7 +188,7 @@
 
     <!-- when you are visiting someone else's profile-->
 
-    <%if (id != null && DatabaseManager.checkLogin(username, password) != -1) {%>
+    <%if (id!= null && DatabaseManager.checkLogin(username, password)!= Integer.parseInt(id) && DatabaseManager.checkLogin(username, password) != -1) {%>
 
 
 
@@ -199,7 +203,7 @@
             if((us!=null && !st) || us==null){
         %>
         <div class="col-sm-6">
-            <form method="post" action="friendRequest" id="send_friend_request_form">
+            <form method="post" action="FriendRequest" id="send_friend_request_form">
                 <input type="hidden" name="id" value=<%=userId%>>
                 <button class="btn btn-danger btn-lg">SEND FRIEND REQUEST</button>
             </form>
@@ -235,7 +239,7 @@
     es washalet tu gindat shesvla profile.jsp ze
 
     -->
-    <%if(!DatabaseManager.isAdmin(userId) && id!=null){%>
+    <%if(DatabaseManager.isAdmin(userId) && id!=null){%>
 
     <br>
 

@@ -210,7 +210,7 @@
                         <p><%=usr.getFirstname()%> <%=usr.getLastname()%> (<%=usr.getUsername()%>)</p>
                     </div>
                     <div class="col-md-6">
-                        <a href="ChallengeFriend?senderId=<%=k%>receieverId=<%=usr.getId()%>quizId=<%=quizId%>">Send Challenge</a>
+                        <a href="ChallengeFriend?senderId=<%=k%>receiverId=<%=usr.getId()%>quizId=<%=quizId%>">Send Challenge</a>
                 </div>
                 <%
                         }
