@@ -453,7 +453,7 @@ public class DatabaseManager {
         Quiz quiz = null;
         try {
             PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, " +
-                    "q.one_page, q.immediate_correction, q.practice_mode from quizes q inner join category c on q.category_id = c.id");
+                    "q.one_page, q.immediate_correction, q.practice_mode, q.creation_date from quizes q inner join category c on q.category_id = c.id");
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
