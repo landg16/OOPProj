@@ -343,15 +343,32 @@ public class DatabaseManager {
         }
     }
 
-    public static void insertHistory(int userId, int quizId, double quizScore, Date dateTime, Time time) {
+    public static int insertHistory(int userId, int quizId, double quizScore, Timestamp startTime, Timestamp endTime) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_date, quiz_time) VALUES (?,?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_date, quiz_time) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, userId);
             state.setInt(2, quizId);
             state.setDouble(3, quizScore);
-            state.setDate(4, (java.sql.Date) dateTime);
-            state.setTime(5, time);
+            state.setTimestamp(4, startTime);
+            state.setTimestamp(5, endTime);
+            state.executeUpdate();
+            ResultSet result = state.getGeneratedKeys();
+            if (result.next()){
+                return result.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  -1;
+    }
+
+    public static void updateHistory(int id, Timestamp endTime) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("UPDATE user_history SET quiz_end = ? where id = ?");
+            state.setTimestamp(1, endTime);
+            state.setInt(2, id);
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -717,20 +734,21 @@ public class DatabaseManager {
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = null;
         try {
-            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quiz_time, uh.quiz_score " +
-                    "from user_history uh INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = ?");
+            PreparedStatement state = connect.prepareStatement("select * from user_history uh" +
+                    " INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
-                    history = new UserHistory(result.getInt(1), result.getString(2), result.getDate(3),
-                            result.getInt(4), result.getInt(5));
+                    history = new UserHistory(result.getInt(1), result.getInt(2),
+                            result.getInt(3), result.getDouble(4),
+                            result.getTimestamp(5), result.getTimestamp(6), false);
                 histories.add(history);
             }
             return histories;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return histories;
+        return null;
     }
 
     public static User getUser(int userId) {
