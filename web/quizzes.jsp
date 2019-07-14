@@ -17,7 +17,7 @@
                 <input type="checkbox" class="custom-control-input filter_category" id="<%=tmp.getValue()%>">
                 <label class="custom-control-label" for="<%=tmp.getValue()%>"><%=tmp.getValue()%></label>
             </div>
-            <% } %>
+            <%}%>
         </div>
         <div class="col-sm-9 quiz_prepare">
             <div class="row Quiz_List">

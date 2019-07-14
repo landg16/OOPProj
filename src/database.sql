@@ -15,13 +15,6 @@ CREATE TABLE users (
     imageurl varchar(500) not null
 );
 
-CREATE TABLE challenges(
-    id int primary key auto_increment not null,
-    senderid int not null,
-    receiverid int not null,
-    quizid int not null
-);
-
 CREATE TABLE friends (
     id int primary key auto_increment not null,
     account_id int not null,
@@ -54,7 +47,7 @@ CREATE TABLE quizes (
     one_page bool not null,
     immediate_correction bool not null,
     practice_mode bool not null,
-    creation_date date not null,
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     count int default 0,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (creator_id) REFERENCES users(id)
@@ -81,6 +74,7 @@ CREATE TABLE achievements(
     id int primary key auto_increment not null,
     userid int not null,
     name varchar (100) not null,
+    achievedate DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userid) REFERENCES users(id)
 );
 
@@ -89,7 +83,7 @@ CREATE TABLE user_history (
     user_id int not null,
     quiz_id int not null,
     quiz_score double not null,
-    quiz_date datetime not null,
+    quiz_date datetime DEFAULT CURRENT_TIMESTAMP,
     quiz_time int not null,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
@@ -129,6 +123,8 @@ INSERT INTO category (name) VALUES ('Gaming');
 INSERT INTO category (name) VALUES ('Movies');
 INSERT INTO category (name) VALUES ('Literature');
 INSERT INTO category (name) VALUES ('Science');
+
+INSERT INTO users (firstname, lastname, username, email, password, isadmin, imageurl) VALUES ('Administrator', 'QuizCake', 'admin', 'admin@quizcake.com', '123456', true, 'img/default-avatar.png');
 
 
 INSERT INTO `quizes` (`id`, `creator_id`, `title`, `description`, `image`, `category_id`, `random`, `one_page`, `immediate_correction`, `practice_mode`, `count`) VALUES

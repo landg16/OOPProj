@@ -17,7 +17,7 @@ import java.util.List;
 
 @WebServlet("/ChallengeRequest")
 public class ChallengeRequest extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String errors = "";
         String recieverId = request.getParameter("receiverId");
         String senderId = request.getParameter("senderId");
@@ -25,7 +25,7 @@ public class ChallengeRequest extends HttpServlet {
         int receiver = Integer.parseInt(recieverId);
         int sender = Integer.parseInt(senderId);
         int quiz = Integer.parseInt(quizId);
-       // DatabaseManager.insertChallengeRequest(sender, receiver, quiz);
-        response.sendRedirect("profile.jsp?success=You have sent challenge request!");
+        DatabaseManager.insertChallenge(sender, receiver, quiz);
+        response.sendRedirect("quiz_start.jsp?id="+ quiz);
     }
 }
