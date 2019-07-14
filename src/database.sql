@@ -15,21 +15,6 @@ CREATE TABLE users (
     imageurl varchar(500) not null
 );
 
-CREATE TABLE achievements(
-    id int primary key auto_increment not null,
-    userid int not null,
-    name varchar (100) not null,
-    FOREIGN KEY (userid) REFERENCES users(id)
-);
-
-CREATE TABLE chats
-(
-    id int primary key auto_increment not null,
-    senderId int not null,
-    receiverId int not null,
-    txt int not null
-);
-
 CREATE TABLE challenges(
     id int primary key auto_increment not null,
     senderid int not null,
@@ -92,6 +77,13 @@ CREATE TABLE answers (
      FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
+CREATE TABLE achievements(
+    id int primary key auto_increment not null,
+    userid int not null,
+    name varchar (100) not null,
+    FOREIGN KEY (userid) REFERENCES users(id)
+);
+
 CREATE TABLE user_history (
     id int primary key auto_increment not null,
     user_id int not null,
@@ -110,6 +102,22 @@ CREATE TABLE announcements (
     text varchar(250) not null,
     announce_date date not null,
     FOREIGN KEY (announcer_id) REFERENCES users(id)
+);
+
+CREATE TABLE challenges(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null,
+    quizid int not null
+);
+
+CREATE TABLE chats (
+    id int primary key auto_increment not null,
+    senderId int not null,
+    receiverId int not null,
+    txt mediumtext not null,
+    FOREIGN KEY (senderId) REFERENCES users(id),
+    FOREIGN KEY (receiverId) REFERENCES users(id)
 );
 
 # INSERT CATEGORIES
