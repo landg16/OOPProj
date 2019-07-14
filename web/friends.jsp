@@ -1,5 +1,6 @@
 <%@ page import="DataAccess.DatabaseManager" %>
 <%@ page import="Objects.User" %>
+<%@ page import="java.util.ArrayList" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Friends"/>
 </jsp:include>
@@ -37,82 +38,21 @@
 
 <div class="container user-margin">
     <div class="row justify-content-around">
+        <%ArrayList <User> us = DatabaseManager.getFriends(userId);
+        if(us!=null){
+            for(User usr : us){
+        %>
         <div class="col-sm-4">
             <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
-                <h2>Nick Oniani</h2>
-                <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
+                <div class="square" style="background-image: url('<%=usr.getImageurl()%>')"></div>
+                <h2><%=usr.getFirstname()%> <%=usr.getLastname()%></h2>
+                <h6><%=usr.getEmail()%></h6>
                 <h6>Free University of Georgia</h6>
                 <p>10 quizzes</p>
-                <p><button class="btn btn-dark w-100 button-class">View</button></p>
+                <a href="profile.jsp?id=<%=usr.getId()%>" class="btn btn-dark w-100 button-class">View</a>
             </div>
         </div>
-
-
-
-        <div class="col-sm-4">
-            <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
-                <h2>Nick Oniani</h2>
-                <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
-                <h6>Free University of Georgia</h6>
-                <p>10 quizzes</p>
-                <p><button class="btn btn-dark w-100 button-class">View</button></p>
-            </div>
-        </div>
-
-
-
-        <div class="col-sm-4">
-            <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
-                <h2>Nick Oniani</h2>
-                <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
-                <h6>Free University of Georgia</h6>
-                <p>10 quizzes</p>
-                <p><button class="btn btn-dark w-100 button-class">View</button></p>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="row justify-content-around">
-        <div class="col-sm-4">
-            <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
-                <h2>Nick Oniani</h2>
-                <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
-                <h6>Free University of Georgia</h6>
-                <p>10 quizzes</p>
-                <p><button class="btn btn-dark w-100 button-class">View</button></p>
-            </div>
-        </div>
-
-
-
-        <div class="col-sm-4">
-            <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
-                <h2>Nick Oniani</h2>
-                <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
-                <h6>Free University of Georgia</h6>
-                <p>10 quizzes</p>
-                <p><button class="btn btn-dark w-100 button-class">View</button></p>
-            </div>
-        </div>
-
-
-
-        <div class="col-sm-4">
-            <div class="personal">
-                <div class="square" style="background-image: url('https://scontent.ftbs5-1.fna.fbcdn.net/v/t1.0-9/66132146_2136193703157888_3685640234176872448_n.jpg?_nc_cat=104&_nc_oc=AQnR61l1CnK1367Q-5KlSVJb9r44pdM5vOf2EEH2mnBSQHgZtdaHifTiskDtKq-JJ8w&_nc_ht=scontent.ftbs5-1.fna&oh=0f1f070e4e883ed79b0afc78b2bf072f&oe=5DB8B875')"></div>
-                <h2>Nick Oniani</h2>
-                <h6>CEO & CO-FOUNDER @UNLEASH AR</h6>
-                <h6>Free University of Georgia</h6>
-                <p>10 quizzes</p>
-                <p><button class="btn btn-dark w-100 button-class">View</button></p>
-            </div>
-        </div>
+        <%}}%>
     </div>
 </div>
 

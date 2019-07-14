@@ -1,6 +1,7 @@
 <%@ page import="Objects.User" %>
 <%@ page import="DataAccess.DatabaseManager" %>
-<%@ page import="javax.xml.crypto.Data" %><%--
+<%@ page import="java.util.ArrayList" %>
+<%--
   Created by IntelliJ IDEA.
   User: Oniani
   Date: 7/9/2019
@@ -54,7 +55,7 @@
 
     <!-- When you are visiting your own profile-->
 
-    <% if (id == null) { %>
+    <% if (id == null || Integer.parseInt(id) == DatabaseManager.checkLogin(username, password)) { %>
     <div class="row buttons">
         <div class="col-sm-4">
             <p class="headline_text">CHALLENGE REQUESTS</p>
@@ -74,18 +75,36 @@
 
         <div class="col-sm-4">
             <p class="headline_text">FRIEND REQUESTS</p>
-            <p class="requests">Guja Lortkipanidze</p>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
+           <% ArrayList<User> requests = DatabaseManager.getFriendRequest(userId);
+              if(requests != null){
+               for (User us : requests){%>
+            <p> <%=us.getFirstname()%> <%=us.getLastname()%> </p>
+            <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>" class="btn btn-danger btn-sm">Accept</a>
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
-            <p class="requests">Guja Lortkipanidze</p>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
+            <%}}%>
         </div>
     </div>
 
     <br>
     <br>
 
+
+
+    <%if(DatabaseManager.isAdmin(userId)){%>
+    <div class="row buttons">
+        <div class="col-sm-4">
+            <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
+        </div>
+
+        <div class="col-sm-4">
+            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
+        </div>
+
+        <div class="col-sm-4">
+            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">MAKE AN ANNOUNCEMENT</a>
+        </div>
+    </div>
+    <% } else { %>
     <div class="row buttons">
         <div class="col-sm-6">
             <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
@@ -95,6 +114,8 @@
             <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
         </div>
     </div>
+
+    <%}%>
 
     <br>
     <br>
@@ -165,14 +186,20 @@
 
     <%if (id != null && DatabaseManager.checkLogin(username, password) != -1) {%>
 
+
+
     <div class="row buttons">
-        <input type="hidden" name="id" value=<%=userId%>>
+        <%ArrayList<User> us = DatabaseManager.getFriends(userId);
+            if((us!=null && !us.contains(id)) || us==null){
+        %>
         <div class="col-sm-6">
             <form method="post" action="friendRequest" id="send_friend_request_form">
+                <input type="hidden" name="id" value=<%=userId%>>
                 <button class="btn btn-danger btn-lg">SEND FRIEND REQUEST</button>
             </form>
         </div>
 
+        <%}%>
 
         <!--- when he isn't friend, then remove
 

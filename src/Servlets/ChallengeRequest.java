@@ -15,14 +15,17 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@WebServlet("/friendRequest")
-public class friendRequest extends HttpServlet {
+@WebServlet("/ChallengeRequest")
+public class ChallengeRequest extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String errors = "";
-        String recieverId = request.getParameter("id");
+        String recieverId = request.getParameter("receiverId");
+        String senderId = request.getParameter("senderId");
+        String quizId = request.getParameter("quizId");
         int receiver = Integer.parseInt(recieverId);
-        int sender = (int) request.getSession().getAttribute("user_id");
-        DatabaseManager.insertFriendRequest(sender, receiver);
-        response.sendRedirect("profile.jsp?success=You have sent friend request!");
+        int sender = Integer.parseInt(senderId);
+        int quiz = Integer.parseInt(quizId);
+       // DatabaseManager.insertChallengeRequest(sender, receiver, quiz);
+        response.sendRedirect("profile.jsp?success=You have sent challenge request!");
     }
 }
