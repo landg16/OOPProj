@@ -827,7 +827,7 @@ public class DatabaseManager {
         return quizzes;
     }
 
-    public static ArrayList<Quiz> popularQuizzes() {
+    public static ArrayList<Quiz> getPopularQuizzes() {
 
         try {
             PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, q.one_page, " +
@@ -841,8 +841,7 @@ public class DatabaseManager {
         return null;
     }
 
-    public static ArrayList<Quiz> recentlyCreatedQuizzes() {
-
+    public static ArrayList<Quiz> getRecentlyCreatedQuizzes() {
 
         try {
             PreparedStatement state = connect.prepareStatement("select * from quizes q where q.creation_date >= (NOW() - INTERVAL 1 HOUR)");
@@ -854,7 +853,7 @@ public class DatabaseManager {
         return null;
     }
 
-    public static HashMap<Quiz, Integer> usersRecentTakenQuizzes(int userId) {
+    public static HashMap<Quiz, Integer> getUsersRecentTakenQuizzes(int userId) {
 
         HashMap<Quiz, Integer> recents = new HashMap<Quiz, Integer>();
         try {
