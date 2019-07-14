@@ -446,6 +446,7 @@ public class DatabaseManager {
     }
 
     public static Quiz getQuiz(int quizId) {
+
         Quiz quiz = null;
         try {
             PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, " +
@@ -461,6 +462,43 @@ public class DatabaseManager {
             e.printStackTrace();
         }
         return quiz;
+    }
+
+    public static ArrayList<Question> getQuestions(int quizId, boolean random) {
+        ArrayList<Question> quests = new ArrayList<>();
+        try {
+            PreparedStatement state;
+            if(random) {
+                state = connect.prepareStatement("SELECT id, question_type, question, secondpart FROM questions WHERE quiz_id = ? ORDER BY RAND()");
+            } else {
+                state = connect.prepareStatement("SELECT id, question_type, question, secondpart FROM questions WHERE quiz_id = ?");
+            }
+            state.setInt(1, quizId);
+            ResultSet result = state.executeQuery();
+            while(result.next()){
+                Question quest = new Question(result.getInt(1), quizId, result.getString(2), result.getString(3), result.getString(4));
+                quests.add(quest);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quests;
+    }
+
+    public static ArrayList<Answer> getAnswers(int questionId) {
+        ArrayList<Answer> answers = new ArrayList<>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT id, question_id, answer, iscorrect FROM answers WHERE question_id = ? ORDER BY RAND()");
+            state.setInt(1, questionId);
+            ResultSet result = state.executeQuery();
+            while(result.next()) {
+                Answer ans = new Answer(result.getInt(1), questionId, result.getString(2), result.getBoolean(4));
+                answers.add(ans);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return answers;
     }
 
     public static ArrayList<User> getAllUsers() {
@@ -480,7 +518,7 @@ public class DatabaseManager {
         Quiz quiz = null;
         try {
             PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, " +
-                    "q.one_page, q.immediate_correction, q.practice_mode from quizes q inner join category c on q.category_id = c.id");
+                    "q.one_page, q.immediate_correction, q.practice_mode, q.creation_date from quizes q inner join category c on q.category_id = c.id");
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
@@ -699,6 +737,31 @@ public class DatabaseManager {
             state.setInt(2, receiverId);
             state.setInt(3, quizId);
             state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static HashMap<Integer, Integer> getChallenges(int userId) {
+
+        HashMap<Integer, Integer> challenges = new HashMap<Integer, Integer>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT ch.receiverid, ch.quizid from challenges ch where ch.senderid = ?");
+            state.setInt(1, userId);
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                challenges.put(result.getInt(1), result.getInt(2));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return challenges;
+    }
+
+    public static void dropChallenge() {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("");
         } catch (SQLException e) {
             e.printStackTrace();
         }
