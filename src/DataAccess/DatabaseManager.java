@@ -464,6 +464,43 @@ public class DatabaseManager {
         return quiz;
     }
 
+    public static ArrayList<Question> getQuestions(int quizId, boolean random) {
+        ArrayList<Question> quests = new ArrayList<>();
+        try {
+            PreparedStatement state;
+            if(random) {
+                state = connect.prepareStatement("SELECT id, question_type, question, secondpart FROM questions WHERE quiz_id = ? ORDER BY RAND()");
+            } else {
+                state = connect.prepareStatement("SELECT id, question_type, question, secondpart FROM questions WHERE quiz_id = ?");
+            }
+            state.setInt(1, quizId);
+            ResultSet result = state.executeQuery();
+            while(result.next()){
+                Question quest = new Question(result.getInt(1), quizId, result.getString(2), result.getString(3), result.getString(4));
+                quests.add(quest);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quests;
+    }
+
+    public static ArrayList<Answer> getAnswers(int questionId) {
+        ArrayList<Answer> answers = new ArrayList<>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT id, question_id, answer, iscorrect FROM answers WHERE question_id = ? ORDER BY RAND()");
+            state.setInt(1, questionId);
+            ResultSet result = state.executeQuery();
+            while(result.next()) {
+                Answer ans = new Answer(result.getInt(1), questionId, result.getString(2), result.getBoolean(4));
+                answers.add(ans);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return answers;
+    }
+
     public static ArrayList<User> getAllUsers() {
 
         try {
