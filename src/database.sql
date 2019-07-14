@@ -74,6 +74,7 @@ CREATE TABLE achievements(
     id int primary key auto_increment not null,
     userid int not null,
     name varchar (100) not null,
+    achievedate DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (userid) REFERENCES users(id)
 );
 
@@ -82,7 +83,7 @@ CREATE TABLE user_history (
     user_id int not null,
     quiz_id int not null,
     quiz_score double not null,
-    quiz_date datetime not null,
+    quiz_date datetime DEFAULT CURRENT_TIMESTAMP,
     quiz_time int not null,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)

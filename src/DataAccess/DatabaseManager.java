@@ -699,6 +699,23 @@ public class DatabaseManager {
         return null;
     }
 
+    public static HashMap<Integer, ArrayList<String> > getRecentAchievements(int userId) {
+
+        ArrayList<String> achievements = new ArrayList<String>();
+        HashMap<Integer, ArrayList<String> > recents = new HashMap<Integer, ArrayList<String>>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT a.name from achievements a where a.userid = ?");
+            state.setInt(1, userId);
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                achievements.add(result.getString(1));
+            }
+            if (!achievements.isEmpty()) recents.put(userId, achievements);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return recents;
+    }
 
     public static void insertChatMessages(int senderId, int receiverId, String txt) {
 
@@ -742,26 +759,14 @@ public class DatabaseManager {
         }
     }
 
-    public static HashMap<Integer, Integer> getChallenges(int userId) {
-
-        HashMap<Integer, Integer> challenges = new HashMap<Integer, Integer>();
-        try {
-            PreparedStatement state = connect.prepareStatement("SELECT ch.receiverid, ch.quizid from challenges ch where ch.senderid = ?");
-            state.setInt(1, userId);
-            ResultSet result = state.executeQuery();
-            while (result.next()) {
-                challenges.put(result.getInt(1), result.getInt(2));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return challenges;
-    }
-
-    public static void dropChallenge() {
+    public static void dropChallenge(int senderId, int receiverId, int quizId) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("");
+            PreparedStatement state = connect.prepareStatement("DELETE FROM challenges where senderid = ? and  receiverid = ? and quizid = ?");
+            state.setInt(1, senderId);
+            state.setInt(2, receiverId);
+            state.setInt(3, quizId);
+            state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
