@@ -31,7 +31,7 @@ public class addAnnouncement extends HttpServlet {
         if(description == null || description.length()<1) errors += "<p class='error'>Description is Required</p>";
         else if(description.length()>250) errors += "<p class='error'>Description's maximum length is 250 character.";
 
-        DatabaseManager.InsertAnnouncement(user_id, title, description, date);
+        DatabaseManager.InsertAnnouncement(user_id, title, description);
         response.sendRedirect("profile.jsp?success=You have successfuly added announcement!");
     }
 }
