@@ -1,4 +1,4 @@
-<%--
+<%@ page import="DataAccess.DatabaseManager" %><%--
   Created by IntelliJ IDEA.
   User: Oniani
   Date: 7/9/2019
@@ -9,6 +9,17 @@
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="History"/>
 </jsp:include>
+
+<%
+    String username = (String)session.getAttribute("username");
+    String password = (String)session.getAttribute("password");
+    int k = DatabaseManager.checkLogin(username, password);
+
+    if(k==-1){
+        response.sendRedirect("index.jsp?error=You are not logged in!");
+        return;
+    }
+%>
 
 <div class="container-fluid heading">
     <h2>HISTORY</h2>

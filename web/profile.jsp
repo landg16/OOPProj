@@ -89,7 +89,7 @@
         </div>
 
         <div class="col-sm-6">
-            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR A OWN QUIZ</a>
+            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
         </div>
     </div>
 

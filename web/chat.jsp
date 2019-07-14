@@ -1,9 +1,22 @@
+<%@ page import="DataAccess.DatabaseManager" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Leaderboard"/>
 </jsp:include>
 <div class="container-fluid heading">
     <h2>Chat Room</h2>
 </div>
+
+<%
+    String username = (String)session.getAttribute("username");
+    String password = (String)session.getAttribute("password");
+    int k = DatabaseManager.checkLogin(username, password);
+
+    if(k==-1){
+        response.sendRedirect("index.jsp?error=You are not logged in!");
+        return;
+    }
+%>
+
 <div class="container chat_panel">
     <div class="chat_header btn-dark">
         <h1>Team Poxuist</h1>
