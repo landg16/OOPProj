@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.crypto.Data;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @WebServlet("/AddQuiz")
@@ -69,9 +71,11 @@ public class AddQuiz extends HttpServlet {
         boolean onePage = page.equals("true");
         boolean immediate = immed.equals("true");
         boolean practice = prac.equals("true");
+        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+        Date date = new Date(System.currentTimeMillis());
 
         //Quiz insert and get quiz ID
-        int quiz_id = DatabaseManager.insertQuiz(user_id, title, description, category_id, randomize, onePage, immediate, practice, image, 0);
+        int quiz_id = DatabaseManager.insertQuiz(user_id, title, description, category_id, randomize, onePage, immediate, practice, image, (java.sql.Date) date);
 
         //Insert Questions and Answers :)
         label:
@@ -97,7 +101,7 @@ public class AddQuiz extends HttpServlet {
                     String before_gap = request.getParameter("before_gap" + i);
                     String gap = request.getParameter("gap" + i);
                     String after_gap = request.getParameter("after_gap" + i);
-                    if (before_gap.length() == 0 || after_gap.length() == 0) {
+                    if (before_gap.length() == 0 && after_gap.length() == 0) {
                         errors += "<p class='error'>You must enter before or after gap</p>";
                         break label;
                     }
@@ -154,7 +158,7 @@ public class AddQuiz extends HttpServlet {
 
         //If error occured during answer inserting, delete quiz and redirect to add quiz page with errors :)
         if(errors.length() != 0){
-            DatabaseManager.deleteQuiz(quiz_id);
+            DatabaseManager.dropQuiz(quiz_id);
             response.sendRedirect("add_quiz.jsp?error="+errors);
             return;
         }

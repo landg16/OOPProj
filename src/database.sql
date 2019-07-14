@@ -15,36 +15,11 @@ CREATE TABLE users (
     imageurl varchar(500) not null
 );
 
-CREATE TABLE achievements(
-    id int primary key auto_increment not null,
-    userid int not null,
-    firstach bool not null,
-    secondach bool not null,
-    thirdach bool not null,
-    fourthach bool not null,
-    fifthach bool not null,
-    sixthach bool not null
-);
-
-CREATE TABLE chats
-(
-    id int primary key auto_increment not null,
-    senderId int not null,
-    receiverId int not null,
-    txt int not null
-);
-
 CREATE TABLE challenges(
     id int primary key auto_increment not null,
     senderid int not null,
     receiverid int not null,
     quizid int not null
-);
-
-CREATE TABLE friendRequest(
-    id int primary key auto_increment not null,
-    senderid int not null,
-    receiverid int not null
 );
 
 CREATE TABLE friends (
@@ -53,6 +28,14 @@ CREATE TABLE friends (
     friend_id int not null,
     FOREIGN KEY (friend_id) REFERENCES users(id),
     FOREIGN KEY (account_id) REFERENCES users(id)
+);
+
+CREATE TABLE friendRequest(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null,
+    FOREIGN KEY (senderid) REFERENCES users(id),
+    FOREIGN KEY (receiverid) REFERENCES users(id)
 );
 
 CREATE TABLE category (
@@ -71,6 +54,7 @@ CREATE TABLE quizes (
     one_page bool not null,
     immediate_correction bool not null,
     practice_mode bool not null,
+    creation_date date not null,
     count int default 0,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (creator_id) REFERENCES users(id)
@@ -93,6 +77,13 @@ CREATE TABLE answers (
      FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
+CREATE TABLE achievements(
+    id int primary key auto_increment not null,
+    userid int not null,
+    name varchar (100) not null,
+    FOREIGN KEY (userid) REFERENCES users(id)
+);
+
 CREATE TABLE user_history (
     id int primary key auto_increment not null,
     user_id int not null,
@@ -111,6 +102,22 @@ CREATE TABLE announcements (
     text varchar(250) not null,
     announce_date date not null,
     FOREIGN KEY (announcer_id) REFERENCES users(id)
+);
+
+CREATE TABLE challenges(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null,
+    quizid int not null
+);
+
+CREATE TABLE chats (
+    id int primary key auto_increment not null,
+    senderId int not null,
+    receiverId int not null,
+    txt mediumtext not null,
+    FOREIGN KEY (senderId) REFERENCES users(id),
+    FOREIGN KEY (receiverId) REFERENCES users(id)
 );
 
 # INSERT CATEGORIES
