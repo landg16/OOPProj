@@ -117,7 +117,7 @@ public class DatabaseManager {
     public static int getScore(int userId) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT sum(uh.quiz_score) FROM user_history uh group by uh.user_id having userid = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT sum(uh.quiz_score) FROM user_history uh group by uh.user_id having uh.user_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             if (result.next()) return result.getInt(1);
@@ -203,13 +203,13 @@ public class DatabaseManager {
             PreparedStatement state = connect.prepareStatement("DELETE FROM users WHERE id = ?");
             state.setInt(1, userId);
             state.executeUpdate();
-            state = connect.prepareStatement("SELECT q.id from quizes where q.creator_id = ?");
+            state = connect.prepareStatement("SELECT q.id from quizes q where q.creator_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 dropQuiz(result.getInt(1));
             }
-            state = connect.prepareStatement("DELETE FROM userhistory where user_id = ?");
+            state = connect.prepareStatement("DELETE FROM user_history where user_id = ?");
             state.setInt(1, userId);
             state.executeUpdate();
         } catch (SQLException e) {
@@ -357,7 +357,7 @@ public class DatabaseManager {
 
     public static void setAsAdmin(int userId) {
         try {
-            PreparedStatement state = connect.prepareStatement("UPDATE users set isadmin = ? where userid = ?");
+            PreparedStatement state = connect.prepareStatement("UPDATE users set isadmin = ? where id = ?");
             state.setBoolean(1,true);
             state.setInt(2,userId);
             state.executeUpdate();
@@ -719,7 +719,7 @@ public class DatabaseManager {
 
         try {
             PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, q.one_page, " +
-                    "q.immediate_correction, q.practice_mode, count(uh.user_id) counts from user_history uh INNER join quizes q on uh.quiz_id = q.id" +
+                    "q.immediate_correction, q.practice_mode, count(uh.user_id) counts from user_history uh INNER join quizes q on uh.quiz_id = q.id " +
                     "INNER join category c on q.category_id = c.id group by uh.quiz_id order by counts limit 5");
             ArrayList<Quiz> populars = new ArrayList<Quiz>();
             ResultSet result = state.executeQuery();
@@ -739,7 +739,7 @@ public class DatabaseManager {
 
         ArrayList<Quiz> recents = new ArrayList<Quiz>();
         try {
-            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.quiz_date >= (NOW() - INTERVAL 1 HOUR)");
+            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.creation_date >= (NOW() - INTERVAL 1 HOUR)");
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 recents.add(new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
