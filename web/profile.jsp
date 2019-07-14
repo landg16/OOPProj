@@ -189,8 +189,14 @@
 
 
     <div class="row buttons">
-        <%ArrayList<User> us = DatabaseManager.getFriends(userId);
-            if((us!=null && !us.contains(id)) || us==null){
+        <%ArrayList<User> us = DatabaseManager.getFriends(DatabaseManager.checkLogin(username, password));
+        boolean st=false;
+        for(User uss : us){
+                if(uss.getId()==Integer.parseInt(id)){
+                    st=true;
+                }
+            }
+            if((us!=null && !st) || us==null){
         %>
         <div class="col-sm-6">
             <form method="post" action="friendRequest" id="send_friend_request_form">
