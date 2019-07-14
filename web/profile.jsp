@@ -1,5 +1,9 @@
 <%@ page import="Objects.User" %>
-<%@ page import="DataAccess.DatabaseManager" %><%--
+<%@ page import="DataAccess.DatabaseManager" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="Objects.Quiz" %>
+<%--
   Created by IntelliJ IDEA.
   User: Oniani
   Date: 7/9/2019
@@ -15,20 +19,20 @@
     <h2>USER'S PROFILE</h2>
 </div>
 
-<div class="container profile" >
+<div class="container profile">
 
     <%
         String id = request.getParameter("id");
-        String username = (String)session.getAttribute("username");
-        String password = (String)session.getAttribute("password");
+        String username = (String) session.getAttribute("username");
+        String password = (String) session.getAttribute("password");
         int userId;
-        if(id==null){
+        if (id == null) {
             userId = DatabaseManager.checkLogin(username, password);
         } else {
             userId = Integer.parseInt(id);
         }
         User user = DatabaseManager.getUser(userId);
-        if(user == null) {
+        if (user == null) {
             response.sendRedirect("index.jsp?error=Wrong URL!");
             return;
         }
@@ -48,6 +52,10 @@
                     <button class="btn btn-primary" type="submit" value="Search" id="mySearch">Search</button>
                 </form>
             </div>
+            <h1><%=user.getFirstname()%> <%=user.getLastname()%>
+            </h1>
+            <h4><%=user.getEmail()%>
+            </h4>
         </div>
 
     </div>
@@ -57,47 +65,75 @@
 
     <!-- When you are visiting your own profile-->
 
-    <% if(id==null){ %>
+    <% if (id == null || Integer.parseInt(id) == DatabaseManager.checkLogin(username, password)) { %>
     <div class="row buttons">
         <div class="col-sm-4">
             <p class="headline_text">CHALLENGE REQUESTS</p>
-            <p class="requests">Guja Lortkipanidze</p>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
+            <% HashMap<Integer, Integer> requestss = DatabaseManager.getChallenges(userId);
+                if(requestss != null){
+                    for (HashMap.Entry<Integer, Integer> tmp : requestss.entrySet()){
+                        User usrr = DatabaseManager.getUser(tmp.getKey());
+                        Quiz quiz = DatabaseManager.getQuiz(tmp.getValue());
+            %>
+            <p> <%=usrr.getFirstname()%> <%=usrr.getLastname()%> has challenged you for <%=quiz.getTitle()%> </p>
+            <a href="#" class="btn btn-danger btn-sm">Accept</a>
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
-            <p class="requests">Guja Lortkipanidze</p>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
+            <%}}%>
         </div>
 
         <div class="col-sm-4">
             <p class="headline_text">CHAT WITH FRIENDS</p>
-            <p style="margin-top: 10px"> <a href="register.jsp">Nikolai nikolaevich </a></p>
-            <p> <a href="register.jsp">guja gujaevich</a></p>
+            <p style="margin-top: 10px"><a href="register.jsp">Nikolai nikolaevich </a></p>
+            <p><a href="register.jsp">guja gujaevich</a></p>
         </div>
 
         <div class="col-sm-4">
             <p class="headline_text">FRIEND REQUESTS</p>
-            <p class="requests">Guja Lortkipanidze</p>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
+           <% ArrayList<User> requests = DatabaseManager.getFriendRequest(userId);
+              if(requests != null){
+               for (User us : requests){%>
+            <p> <%=us.getFirstname()%> <%=us.getLastname()%> </p>
+            <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>" class="btn btn-danger btn-sm">Accept</a>
             <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
-            <p class="requests">Guja Lortkipanidze</p>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Accept</a>
-            <a href="register.jsp" class="btn btn-danger btn-sm">Decline</a>
+            <%}}%>
         </div>
     </div>
 
     <br>
     <br>
 
+
+
+    <%if(DatabaseManager.isAdmin(userId)){%>
     <div class="row buttons">
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-sm-4">
             <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
         </div>
+
+        <div class="col-sm-4">
+            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">MAKE AN ANNOUNCEMENT</a>
+        </div>
     </div>
+    <% } else { %>
+    <div class="row buttons">
+        <div class="col-sm-4">
+            <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
+        </div>
+
+        <div class="col-sm-4">
+            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
+        </div>
+
+        <div class="col-sm-4">
+            <a href="friends.jsp" class="btn btn-danger btn-lg">FRIENDS</a>
+        </div>
+    </div>
+
+    <%}%>
 
     <br>
     <br>
@@ -166,12 +202,28 @@
 
     <!-- when you are visiting someone else's profile-->
 
-    <%if(id!=null && DatabaseManager.checkLogin(username, password)!=-1){%>
+    <%if (id!= null && DatabaseManager.checkLogin(username, password)!= Integer.parseInt(id) && DatabaseManager.checkLogin(username, password) != -1) {%>
+
+
 
     <div class="row buttons">
-        <div class="col-sm-4">
-            <a href="register.jsp" class="btn btn-danger btn-lg">SEND FRIEND REQUEST</a>
+        <%ArrayList<User> us = DatabaseManager.getFriends(DatabaseManager.checkLogin(username, password));
+        boolean st=false;
+        for(User uss : us){
+                if(uss.getId()==Integer.parseInt(id)){
+                    st=true;
+                }
+            }
+            if((us!=null && !st) || us==null){
+        %>
+        <div class="col-sm-6">
+            <form method="post" action="FriendRequest" id="send_friend_request_form">
+                <input type="hidden" name="id" value=<%=userId%>>
+                <button class="btn btn-danger btn-lg">SEND FRIEND REQUEST</button>
+            </form>
         </div>
+
+        <%}%>
 
         <!--- when he isn't friend, then remove
 
@@ -181,13 +233,10 @@
 
         -->
 
-        <div class="col-sm-4">
-            <a href="register.jsp" class="btn btn-danger btn-lg">CHAT WITH HIM/HER</a>
+        <div class="col-sm-6">
+            <a href="chat.jsp" class="btn btn-danger btn-lg">CHAT WITH HIM/HER</a>
         </div>
 
-        <div class="col-sm-4">
-            <a href="register.jsp" class="btn btn-danger btn-lg">CHALLENGE TO QUIZ</a>
-        </div>
     </div>
 
     <!-- END OF when you are visiting someone else's profile-->
@@ -203,9 +252,12 @@
 
     es washalet tu gindat shesvla profile.jsp ze
 
-    <%if(DatabaseManager.isAdmin(userId)){%>
+    -->
+    <%if(DatabaseManager.isAdmin(userId) && id!=null){%>
 
-    <div class="row buttons"
+    <br>
+
+    <div class="row buttons">
         <div class="col-sm-6">
              <a href="register.jsp" class="btn btn-danger btn-lg">REMOVE USER ACCOUNT</a>
         </div>
@@ -217,7 +269,7 @@
 
     <%}%>
 
-    END OF AMDIN'S PROFILE-->
+    <!-- END OF AMDIN'S PROFILE-->
 </div>
 
 <jsp:include page="footer.jsp"/>

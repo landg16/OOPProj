@@ -15,44 +15,20 @@ CREATE TABLE users (
     imageurl varchar(500) not null
 );
 
-CREATE TABLE achievements(
-    id int primary key auto_increment not null,
-    userid int not null,
-    firstach bool not null,
-    secondach bool not null,
-    thirdach bool not null,
-    fourthach bool not null,
-    fifthach bool not null,
-    sixthach bool not null
-);
-
-CREATE TABLE chats
-(
-    id int primary key auto_increment not null,
-    senderId int not null,
-    receiverId int not null,
-    txt int not null
-);
-
-CREATE TABLE challenges(
-    id int primary key auto_increment not null,
-    senderid int not null,
-    receiverid int not null,
-    quizid int not null
-);
-
-CREATE TABLE friendRequest(
-    id int primary key auto_increment not null,
-    senderid int not null,
-    receiverid int not null
-);
-
 CREATE TABLE friends (
     id int primary key auto_increment not null,
     account_id int not null,
     friend_id int not null,
     FOREIGN KEY (friend_id) REFERENCES users(id),
     FOREIGN KEY (account_id) REFERENCES users(id)
+);
+
+CREATE TABLE friendRequest(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null,
+    FOREIGN KEY (senderid) REFERENCES users(id),
+    FOREIGN KEY (receiverid) REFERENCES users(id)
 );
 
 CREATE TABLE category (
@@ -71,6 +47,7 @@ CREATE TABLE quizes (
     one_page bool not null,
     immediate_correction bool not null,
     practice_mode bool not null,
+    creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
     count int default 0,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (creator_id) REFERENCES users(id)
@@ -93,12 +70,20 @@ CREATE TABLE answers (
      FOREIGN KEY (question_id) REFERENCES questions(id)
 );
 
+CREATE TABLE achievements(
+    id int primary key auto_increment not null,
+    userid int not null,
+    name varchar (100) not null,
+    achievedate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (userid) REFERENCES users(id)
+);
+
 CREATE TABLE user_history (
     id int primary key auto_increment not null,
     user_id int not null,
     quiz_id int not null,
     quiz_score double not null,
-    quiz_date datetime not null,
+    quiz_date datetime DEFAULT CURRENT_TIMESTAMP,
     quiz_time int not null,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
@@ -113,6 +98,22 @@ CREATE TABLE announcements (
     FOREIGN KEY (announcer_id) REFERENCES users(id)
 );
 
+CREATE TABLE challenges(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null,
+    quizid int not null
+);
+
+CREATE TABLE chats (
+    id int primary key auto_increment not null,
+    senderId int not null,
+    receiverId int not null,
+    txt mediumtext not null,
+    FOREIGN KEY (senderId) REFERENCES users(id),
+    FOREIGN KEY (receiverId) REFERENCES users(id)
+);
+
 # INSERT CATEGORIES
 INSERT INTO category (name) VALUES ('Sport');
 INSERT INTO category (name) VALUES ('Geography');
@@ -122,6 +123,8 @@ INSERT INTO category (name) VALUES ('Gaming');
 INSERT INTO category (name) VALUES ('Movies');
 INSERT INTO category (name) VALUES ('Literature');
 INSERT INTO category (name) VALUES ('Science');
+
+INSERT INTO users (firstname, lastname, username, email, password, isadmin, imageurl) VALUES ('Administrator', 'QuizCake', 'admin', 'admin@quizcake.com', '123456', true, 'img/default-avatar.png');
 
 
 INSERT INTO `quizes` (`id`, `creator_id`, `title`, `description`, `image`, `category_id`, `random`, `one_page`, `immediate_correction`, `practice_mode`, `count`) VALUES

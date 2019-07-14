@@ -19,15 +19,19 @@ public class Question {
         SecondPart = secondPart;
     }
 
+    public int getId() { return QuestionId; }
+
     public int getQuizId(){
         return QuizId;
     }
+
+    public String getQuestion() { return Question; }
 
     public String getSecondPart(){
         return SecondPart;
     }
 
-    public String getQuestionType(){
+    public String getType(){
         return Type;
     }
 
