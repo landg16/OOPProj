@@ -52,10 +52,6 @@
                     <button class="btn btn-primary" type="submit" value="Search" id="mySearch">Search</button>
                 </form>
             </div>
-            <h1><%=user.getFirstname()%> <%=user.getLastname()%>
-            </h1>
-            <h4><%=user.getEmail()%>
-            </h4>
         </div>
 
     </div>
