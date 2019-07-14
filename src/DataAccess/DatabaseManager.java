@@ -4,7 +4,6 @@ import Objects.*;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -116,21 +115,22 @@ public class DatabaseManager {
     }
 
     public static int getScore(int userId) {
-        int score = 0;
+
         try {
             PreparedStatement state = connect.prepareStatement("SELECT sum(uh.quiz_score) FROM user_history uh groub by uh.user_id having userid = ?");
             state.setInt(1, userId);
-            score = state.executeQuery().getInt(1);
+            ResultSet result = state.executeQuery();
+            if (result.next()) return result.getInt(1);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return score;
+        return 0;
     }
 
-    public static int insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, int count) {
+    public static int insertQuiz(int creator_id, String title, String descripption, int category_id, boolean random, boolean onePage, boolean immCorr, boolean pracMode, String image, Date creationDate) {
         try {
             PreparedStatement state = connect.prepareStatement("INSERT INTO quizes (creator_id, title, description, image, category_id, random, one_page," +
-                    "immediate_correction, practice_mode) VALUES (?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    "immediate_correction, practice_mode, creation_date) VALUES (?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, creator_id);
             state.setString(2, title);
             state.setString(3, descripption);
@@ -140,6 +140,7 @@ public class DatabaseManager {
             state.setBoolean(7, onePage);
             state.setBoolean(8, immCorr);
             state.setBoolean(9, pracMode);
+            state.setDate(10, creationDate);
             state.executeUpdate();
 
             ResultSet rs = state.getGeneratedKeys();
@@ -259,6 +260,16 @@ public class DatabaseManager {
             state.setInt(2, userId2);
             state.executeUpdate();
 
+            state.setInt(1, userId2);
+            state.setInt(2, userId1);
+            state.executeUpdate();
+
+            state = connect.prepareStatement("DELETE FROM friendRequest where senderid = ? and receiverid = ?");
+            state.setInt(1, userId1);
+            state.setInt(2, userId2);
+            state.executeUpdate();
+
+            state = connect.prepareStatement("DELETE FROM friendRequest where senderid = ? and receiverid = ?");
             state.setInt(1, userId2);
             state.setInt(2, userId1);
             state.executeUpdate();
@@ -411,18 +422,30 @@ public class DatabaseManager {
         Quiz quiz = null;
         try {
             PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, " +
-                    "q.one_page, q.immediate_correction, q.practice_mode from quizes q inner join category c on q.category_id = c.id where q.id = ?");
+                    "q.one_page, q.immediate_correction, q.practice_mode, q.creation_date from quizes q inner join category c on q.category_id = c.id where q.id = ?");
             state.setInt(1, quizId);
             ResultSet result = state.executeQuery();
             if(result.next()) {
                 quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getBoolean(7),
-                        result.getBoolean(8), result.getBoolean(9), result.getBoolean(10));
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getBoolean(8),
+                        result.getBoolean(9), result.getBoolean(10), result.getDate(11));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return quiz;
+    }
+
+    public static ArrayList<User> getAllUsers() {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("select * from users");
+            ResultSet result = state.executeQuery();
+            return castResults(result);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static ArrayList<Quiz> getAllQuizes () {
@@ -434,8 +457,8 @@ public class DatabaseManager {
             ResultSet result = state.executeQuery();
             while (result.next()) {
                 quiz = new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getBoolean(7),
-                        result.getBoolean(8), result.getBoolean(9), result.getBoolean(10));
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getBoolean(8),
+                        result.getBoolean(9), result.getBoolean(10), result.getDate(11));
                 quizes.add(quiz);
             }
             return quizes;
@@ -572,7 +595,7 @@ public class DatabaseManager {
 
         try {
             PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl, " +
-                    "sum(quiz_score) scores from user_history uh INNER JOIN users u on  uh.user_id = u.id where uh.quiz_id = ? group by uh.user_id order by scores desc limit 5");
+                    "sum(quiz_score) scores from users u INNER JOIN user_history uh on  uh.user_id = u.id where uh.quiz_id = ? group by uh.user_id order by scores desc limit 5");
             state.setInt(1, quizId);
             ResultSet result = state.executeQuery();
             return castResults(result);
@@ -582,10 +605,13 @@ public class DatabaseManager {
         return null;
     }
 
-    public static void insertAchievement() {
+    public static void insertAchievement(int userId, String achievement) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO achievements(userid, name) VALUES (?,?)");
+            state.setInt(1, userId);
+            state.setString(2, achievement);
+            state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -595,17 +621,11 @@ public class DatabaseManager {
 
         ArrayList<String> achievements = new ArrayList<String>();
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT u.firstach, u.secondach, u.thirdach," +
-                    " u.fourthach, u.fifthach, u.sixthach FROM achievements a where a.userid = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT a.name FROM achievements a where a.userid = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
-            if (result.next()) {
-                if (result.getBoolean(1)) achievements.add("firstach");
-                if (result.getBoolean(2)) achievements.add("secondach");
-                if (result.getBoolean(3)) achievements.add("thirdach");
-                if (result.getBoolean(4)) achievements.add("fourthach");
-                if (result.getBoolean(5)) achievements.add("fifthach");
-                if (result.getBoolean(6)) achievements.add("sixthach");
+            while (result.next()) {
+                achievements.add(new String(result.getString(1)));
             }
             return achievements;
         } catch (SQLException e) {
@@ -629,8 +649,8 @@ public class DatabaseManager {
     public static ArrayList<User> getFriendRequest(int userId) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imagerurl " +
-                    "from friendRequest f INNER JOIN users u on f.senderid = u.id where f.receiverid = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT u.id, u.firstname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl " +
+                    "from users u INNER JOIN friendRequest f on u.id  = f.senderid where f.receiverid = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return castResults(result);
@@ -655,9 +675,93 @@ public class DatabaseManager {
         }
     }
 
-    public static void getChatMessages() {
+    public static void insertChallenge(int senderId, int receiverId, int quizId) {
 
+        try {
+            PreparedStatement state = connect.prepareStatement("INSERT INTO challenges (senderid, receiverid, quizid) VALUES (?,?,?)");
+            state.setInt(1, senderId);
+            state.setInt(2, receiverId);
+            state.setInt(3, quizId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
+    public static ArrayList<Quiz> popularQuizzes() {
 
+        try {
+            PreparedStatement state = connect.prepareStatement("select q.id q.creator_id, q.title, q.description, q.image, c.name, q.random, q.one_page, " +
+                    "q.immediate_correction, q.practice_mode, count(uh.user_id) counts from user_history uh INNER join quizes q on uh.quiz_id = q.id" +
+                    "INNER join category c on q.category_id = c.id group by uh.quiz_id order by counts limit 5");
+            ArrayList<Quiz> populars = new ArrayList<Quiz>();
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                populars.add(new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getBoolean(8),
+                        result.getBoolean(9), result.getBoolean(10), result.getDate(11)));
+            }
+            return populars;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<Quiz> recentlyCreatedQuizzes() {
+
+        ArrayList<Quiz> recents = new ArrayList<Quiz>();
+        try {
+            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.quiz_date >= (NOW() - INTERVAL 1 HOUR)");
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                recents.add(new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getBoolean(8),
+                        result.getBoolean(9), result.getBoolean(10), result.getDate(11)));
+            }
+            return recents;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static HashMap<Quiz, Integer> usersRecentTakenQuizzes(int userId) {
+
+        HashMap<Quiz, Integer> recents = new HashMap<Quiz, Integer>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT *, uh.quiz_score from quizes q INNER JOIN user_history uh on q.id = uh.quiz_id " +
+                    "where (uh.quiz_date >= (NOW() - INTERVAL 1 HOUR)) and (uh.user_id = ?)");
+            state.setInt(1, userId);
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                recents.put(new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getBoolean(8),
+                        result.getBoolean(9), result.getBoolean(10), result.getDate(11)), result.getInt(12));
+            }
+            return recents;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static ArrayList<Quiz> usersRecentlyAddedQuizzes(int userId) {
+
+        ArrayList<Quiz> quizzes = new ArrayList<Quiz>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q where (q.creation_date >= (NOW() - INTERVAL 1 HOUR)) and (q.creator_id = ?)");
+            state.setInt(1, userId);
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                quizzes.add(new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
+                        result.getString(5), result.getString(6), result.getBoolean(7), result.getBoolean(8),
+                        result.getBoolean(9), result.getBoolean(10), result.getDate(12)));
+            }
+            return quizzes;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

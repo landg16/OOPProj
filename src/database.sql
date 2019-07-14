@@ -18,12 +18,8 @@ CREATE TABLE users (
 CREATE TABLE achievements(
     id int primary key auto_increment not null,
     userid int not null,
-    firstach bool not null,
-    secondach bool not null,
-    thirdach bool not null,
-    fourthach bool not null,
-    fifthach bool not null,
-    sixthach bool not null
+    name varchar (100) not null,
+    FOREIGN KEY (userid) REFERENCES users(id)
 );
 
 CREATE TABLE chats
@@ -71,6 +67,7 @@ CREATE TABLE quizes (
     one_page bool not null,
     immediate_correction bool not null,
     practice_mode bool not null,
+    creation_date date not null,
     count int default 0,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (creator_id) REFERENCES users(id)
