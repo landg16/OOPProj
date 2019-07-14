@@ -112,12 +112,6 @@ a:focus {
     background-color: #4285F4;
 }
 
-@media only screen and (max-width: 768px) {
-    .navbar {
-        background-color: #4285F4;
-    }
-}
-
 /***********************
  2. FOOTER
  ***********************/
@@ -543,6 +537,18 @@ footer .socials {
 
 .quiz_prepare .item {
     padding: 20px;
+    -webkit-transition: all .1s ease-in-out;
+    -moz-transition: all .1s ease-in-out;
+    -o-transition: all .1s ease-in-out;
+    transition: all .1s ease-in-out;
+}
+
+.quiz_prepare .item.hide {
+    width: 0;
+    height: 0;
+    opacity: 0;
+    margin: 0;
+    padding: 0;
 }
 
 .quiz_prepare .item .img {
@@ -554,12 +560,12 @@ footer .socials {
 .quiz_prepare .item .description {
     padding: 15px;
     text-align: center;
+    font-weight: bold;
     box-shadow: 0px 6px 12px 2px rgba(0,0,0,0.07);
 }
 
 .quiz_prepare .item .description .left {
     float:left;
-    font-weight: bold;
 }
 
 .quiz_prepare .item .description .right {
@@ -573,6 +579,12 @@ footer .socials {
 
 .select_categories{
     margin-top: 60px;
+}
+
+.select_categories .cat_title {
+    padding-bottom: 10px;
+    border-bottom:1px solid #000;
+    margin-bottom: 13px;
 }
 
 

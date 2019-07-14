@@ -62,32 +62,10 @@
                 <a href="edit_quiz.jsp" class="btn btn-danger w-100">Edit Quiz</a>
             <% } %>
                 <a href="quiz_start.jsp?id=<%=quizId%>" class="btn btn-danger w-100">Start Quiz</a>
-                <a href="challengeFriend.jsp" class="btn btn-danger w-100">Challenge a friend</a>
+                <a href="#" class="btn btn-danger w-100" data-toggle="modal" data-target="#challengeFriend">Challenge a friend</a>
             <% } %>
         </div>
     </div>
-<%--    <div class="row buttons">--%>
-<%--        <% if(user==null){ %>--%>
-<%--        <div class="col-sm-4">--%>
-<%--            <a href="register.jsp" class="btn btn-danger btn-lg">Start Quiz</a>--%>
-<%--        </div>--%>
-<%--        <div class="col-sm-4">--%>
-<%--            <a href="register.jsp" class="btn btn-danger btn-lg">Challenge a friend</a>--%>
-<%--        </div>--%>
-<%--        <% } else { %>--%>
-<%--        <% if(user.getId()==quiz_owner.getId()){ %>--%>
-<%--        <div class="col-sm-4">--%>
-<%--            <a href="edit_quiz.jsp" class="btn btn-danger btn-lg">Edit Quiz</a>--%>
-<%--        </div>--%>
-<%--        <% } %>--%>
-<%--        <div class="col-sm-4">--%>
-<%--            <a href="quiz_start.jsp?id=<%=quizId%>" class="btn btn-danger btn-lg">Start Quiz</a>--%>
-<%--        </div>--%>
-<%--        <div class="col-sm-4">--%>
-<%--            <a href="challengeFriend.jsp" class="btn btn-danger btn-lg">Challenge a friend</a>--%>
-<%--        </div>--%>
-<%--        <% } %>--%>
-<%--    </div>--%>
     <div class="row">
         <div class="col-md-6 result_table">
             <h4>Your Past Results</h4>
@@ -127,7 +105,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Score</th>
                         <th scope="col">Date</th>
-                        <th scope="col">Time</th>
+                        <th scope="col">Duration</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -159,7 +137,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Score</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Time</th>
+                    <th scope="col">Duration</th>
                 </tr>
                 </thead>
 
@@ -190,7 +168,7 @@
                     <th scope="col">#</th>
                     <th scope="col">Score</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Time</th>
+                    <th scope="col">Duration</th>
                 </tr>
                 </thead>
 
@@ -212,4 +190,37 @@
         </div>
     </div>
 </div>
+
+<div class="modal login" tabindex="-1" role="dialog" id="challengeFriend">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Challenge a friend</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <%
+                    ArrayList<User> friends = DatabaseManager.getFriends(k);
+                    if(friends != null && friends.size()>0){
+                        for(User usr : friends) { %>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><%=usr.getFirstname()%> <%=usr.getLastname()%> (<%=usr.getUsername()%>)</p>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="ChallengeFriend?senderId=<%=k%>receieverId=<%=usr.getId()%>quizId=<%=quizId%>">Send Challenge</a>
+                </div>
+                <%
+                        }
+                    } else {  %>
+                <h4>You have no friends :(</h4>
+                <%
+                    } %>
+            </h4>
+        </div>
+    </div>
+</div>
+
 <jsp:include page="footer.jsp"/>

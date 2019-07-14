@@ -3,7 +3,9 @@ window.onscroll = function () {
     counterUp();
 };
 
-// $(window).scroll(counterUp());
+$( window ).on( "resize",function() {
+    equalHeights(".item .description");
+});
 
 $(document).ready(function () {
     filterQuizes();
@@ -13,6 +15,7 @@ $(document).ready(function () {
     addQuestion();
     quizValidation();
     toggleLeaderboard();
+    equalHeights(".item .description");
 });
 
 function showForgotModal() {
@@ -291,7 +294,14 @@ function quizValidation() {
 }
 
 function sortTable(){
-    $('table').addClass('tablesorter');
+    $('#myResults').addClass('tablesorter');
+
+    $("#myResults").tablesorter({
+        theme: 'black',
+        sortList: [[0,0],[1,0]]
+    });
+}
+
 function toggleLeaderboard() {
     $("#today_leaderboard").show();
     $("#allTime_leaderboard").hide();
@@ -302,14 +312,6 @@ function toggleLeaderboard() {
     $("#allTime_button").click(function () {
         $("#today_leaderboard").hide();
         $("#allTime_leaderboard").show();
-    });
-}
-
-$('table').addClass('tablesorter');
-
-    $("#myResults").tablesorter({
-        theme: 'black',
-        sortList: [[0,0],[1,0]]
     });
 }
 
@@ -332,4 +334,15 @@ function filterQuizes() {
             }
         }
     });
+}
+
+function equalHeights(className){
+    const selector = $(className);
+    var maxHeight = -1;
+    selector.css('height','auto');
+    selector.each(function() {
+        const currHeight = $(this).height();
+        maxHeight = (currHeight>maxHeight) ? currHeight : maxHeight;
+    });
+    selector.height(maxHeight);
 }

@@ -18,12 +18,8 @@ CREATE TABLE users (
 CREATE TABLE achievements(
     id int primary key auto_increment not null,
     userid int not null,
-    firstach bool not null,
-    secondach bool not null,
-    thirdach bool not null,
-    fourthach bool not null,
-    fifthach bool not null,
-    sixthach bool not null
+    name varchar (100) not null,
+    FOREIGN KEY (userid) REFERENCES users(id)
 );
 
 CREATE TABLE chats
@@ -41,18 +37,20 @@ CREATE TABLE challenges(
     quizid int not null
 );
 
-CREATE TABLE friendRequest(
-    id int primary key auto_increment not null,
-    senderid int not null,
-    receiverid int not null
-);
-
 CREATE TABLE friends (
     id int primary key auto_increment not null,
     account_id int not null,
     friend_id int not null,
     FOREIGN KEY (friend_id) REFERENCES users(id),
     FOREIGN KEY (account_id) REFERENCES users(id)
+);
+
+CREATE TABLE friendRequest(
+    id int primary key auto_increment not null,
+    senderid int not null,
+    receiverid int not null,
+    FOREIGN KEY (senderid) REFERENCES users(id),
+    FOREIGN KEY (receiverid) REFERENCES users(id)
 );
 
 CREATE TABLE category (
@@ -71,6 +69,7 @@ CREATE TABLE quizes (
     one_page bool not null,
     immediate_correction bool not null,
     practice_mode bool not null,
+    creation_date date not null,
     count int default 0,
     FOREIGN KEY (category_id) REFERENCES category(id),
     FOREIGN KEY (creator_id) REFERENCES users(id)
