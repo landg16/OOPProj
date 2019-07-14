@@ -658,6 +658,41 @@ footer .socials {
 
 /****************************************************
 *****************************************************
+8.1 EACH QUIZ PAGE
+*****************************************************
+*****************************************************/
+.quiz_start {
+    margin-top:40px;
+}
+
+.quiz_start .quiz_details {
+    font-size:18px;
+    padding-bottom:10px;
+    border-bottom:1px solid #000;
+    margin-bottom:30px;
+}
+
+.quiz_start .question_block .diff {
+    margin-top:15px;
+}
+
+.quiz_start .question_block .diff1 {
+    margin-top:10px;
+}
+
+.quiz_start .question_block .input-style {
+    padding: 15px;
+    background: #e6e6e6;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.quiz_start .question_block .input-style label {
+    width:100%;
+}
+
+/****************************************************
+*****************************************************
 9. USER PROFILE PAGE
 *****************************************************
 *****************************************************/

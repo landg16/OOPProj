@@ -81,9 +81,9 @@ CREATE TABLE user_history (
     id int primary key auto_increment not null,
     user_id int not null,
     quiz_id int not null,
-    quiz_score double not null,
-    quiz_date datetime not null,
-    quiz_time int not null,
+    quiz_score double default 0,
+    quiz_start datetime not null,
+    quiz_end datetime,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (quiz_id) REFERENCES quizes(id)
 );
