@@ -196,9 +196,84 @@ public class DatabaseManager {
         }
     }
 
+    private static void dropFriendRequestVol2(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM friendrequest where senderid = ? or receiverid = ?");
+            state.setInt(1, userId);
+            state.setInt(2, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void dropFriends(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM friends where account_id = ? or friend_id = ?");
+            state.setInt(1, userId);
+            state.setInt(2, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void dropChatTexts(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM chats where senderId = ? or receiverId = ?");
+            state.setInt(1, userId);
+            state.setInt(2, userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void dropUsersAcnnouncements(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM announcements where announcer_id = ?");
+            state.setInt(1, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void dropAchievements(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM achievements where userid = ?");
+            state.setInt(1, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void dropChallengeVol2(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE  FROM challenges where senderid = ? or receiverid = ?");
+            state.setInt(1, userId);
+            state.setInt(2, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean dropUser(int userId) {
 
         try {
+            dropFriends(userId);
+            dropChallengeVol2(userId);
+            dropChatTexts(userId);
+            dropFriendRequestVol2(userId);
+            dropAchievements(userId);
+            dropUsersAcnnouncements(userId);
             PreparedStatement state = connect.prepareStatement("DELETE FROM user_history where user_id = ?");
             state.setInt(1, userId);
             state.executeUpdate();
