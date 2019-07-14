@@ -212,7 +212,7 @@
                     <div class="col-md-6 text-right">
                         <form method="get" action="ChallengeRequest" id="send_friend_request_form">
                             <input type="hidden" name="senderId" value="<%=k%>">
-                            <input type="hidden" name="receiverId" value="<%=user.getId()%>">
+                            <input type="hidden" name="receiverId" value="<%=usr.getId()%>">
                             <input type="hidden" name="quizId" value="<%=quizId%>">
                             <button type="submit" class="btn btn-danger">Send Challenge</button>
                         </form>

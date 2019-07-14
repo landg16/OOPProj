@@ -1,3 +1,5 @@
+<%@ page import="DataAccess.DatabaseManager" %>
+<%@ page import="Objects.Quiz" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="HomePage"/>
 </jsp:include>
@@ -18,36 +20,36 @@
 <%--            <% } %>--%>
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio">Most Popular
+                    <input type="radio" class="form-check-input" name="popularQuizes">Most Popular
                 </label>
             </div>
             <div class="form-check">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio">Newest
+                    <input type="radio" class="form-check-input" name="newestQuizes">Newest
                 </label>
             </div>
-            <div class="form-check disabled">
+            <div class="form-check">
                 <label class="form-check-label">
-                    <input type="radio" class="form-check-input" name="optradio">Recent Activity
+                    <input type="radio" class="form-check-input" name="recentQuizes">Recent Activity
                 </label>
             </div>
         </div>
-<%--        <div class="col-sm-9 quiz_prepare">--%>
-<%--            <div class="row Quiz_List">--%>
-<%--                <%for (Quiz quiz : DatabaseManager.getAllQuizes()) {%>--%>
-<%--                <div class="col-md-6 col-lg-4 item <%=quiz.getType()%> filter_box">--%>
-<%--                    <div class="img" style="background-image:url(<%=quiz.getImageUrl()%>);"></div>--%>
-<%--                    <div class="description">--%>
-<%--                        <%=quiz.getTitle()%>--%>
-<%--                        <hr>--%>
-<%--                        <span class="left"><a href="quiz.jsp?id=<%=quiz.getId()%>">Take Quiz</a></span>--%>
-<%--                        <span class="right"><%=quiz.getType()%></span>--%>
-<%--                        <div class="clear"></div>--%>
-<%--                    </div>--%>
-<%--                </div>--%>
-<%--                <%}%>--%>
-<%--            </div>--%>
-<%--        </div>--%>
+        <div class="col-sm-9 quiz_prepare">
+            <div class="row Quiz_List">
+                <%for (Quiz quiz : DatabaseManager.getAllQuizes()) {%>
+                <div class="col-md-6 col-lg-4 item <%=quiz.getType()%> filter_box">
+                    <div class="img" style="background-image:url(<%=quiz.getImageUrl()%>);"></div>
+                    <div class="description">
+                        <%=quiz.getTitle()%>
+                        <hr>
+                        <span class="left"><a href="quiz.jsp?id=<%=quiz.getId()%>">Take Quiz</a></span>
+                        <span class="right"><%=quiz.getType()%></span>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+                <%}%>
+            </div>
+        </div>
     </div>
 </div>
 

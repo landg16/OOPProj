@@ -356,6 +356,7 @@ public class DatabaseManager {
         return null;
     }
 
+
     public static void setAsAdmin(int userId) {
         try {
             PreparedStatement state = connect.prepareStatement("UPDATE users set isadmin = ? where id = ?");
@@ -800,7 +801,7 @@ public class DatabaseManager {
 
         HashMap<Integer, Integer> challenges = new HashMap<Integer, Integer>();
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT ch.receiverid, ch.quizid from challenges ch where ch.senderid = ?");
+            PreparedStatement state = connect.prepareStatement("SELECT ch.senderid, ch.quizid from challenges ch where ch.receiverid= ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
