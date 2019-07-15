@@ -1,6 +1,7 @@
 <%@ page import="DataAccess.DatabaseManager" %>
 <%@ page import="Objects.Quiz" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="com.mysql.cj.Session" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="HomePage"/>
 </jsp:include>
@@ -89,8 +90,10 @@
                 </thead>
                 <tbody>
                 <%
+                    int id = (int)(session.getAttribute("user_id"));
+
                     int count3 = 0;
-                    for (Quiz quiz : DatabaseManager.getRecentlyCreatedQuizzes()) {
+                    for (Quiz quiz : DatabaseManager.getUsersRecentTakenQuizzes(id)) {
                         if (count3 == 5) return;
                         count3++;
                 %>
@@ -122,7 +125,7 @@
                 <tbody>
                 <%
                     int count4 = 0;
-                    for (Quiz quiz : DatabaseManager.getRecentlyCreatedQuizzes()) {
+                    for (Quiz quiz : DatabaseManager.usersRecentlyAddedQuizzes(id)) {
                         if (count4 == 5) return;
                         count4++;
                 %>

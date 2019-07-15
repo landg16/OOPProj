@@ -3,7 +3,6 @@
 <%@ page import="Objects.User" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Objects.UserHistory" %>
-<%@ page import="Helper.Helper" %>
 
 <%
     //Check quiz ID
@@ -80,9 +79,7 @@
                 </thead>
                 <tbody>
                     <%
-                        Helper help = new Helper();
                         ArrayList<UserHistory> histories = DatabaseManager.getUserHistory(1);
-                        help.sortByDate(histories);
                         int count1 = 0;
                         for (UserHistory history : DatabaseManager.getUserHistory(1)) {
                             count1++;
@@ -90,8 +87,8 @@
                     <tr>
                         <th scope="row"><%=count1%></th>
                         <td><%=history.getScore()%></td>
-                        <td><%=history.getQuizDate()%></td>
-                        <td><%=history.getQuizTime()%></td>
+                        <td><%=history.getQuizStart()%></td>
+                        <td><%=history.getQuizEnd() - history.getQuizStart()%></td>
                     </tr>
                     <%}%>
                 </tbody>
@@ -118,9 +115,9 @@
                         <th scope="row"><%=count2%></th>
                         <td><%=history.getScore()%>
                         </td>
-                        <td><%=history.getQuizDate()%>
+                        <td><%=history.getQuizStart()%>
                         </td>
-                        <td><%=history.getQuizTime()%>
+                        <td><%=history.getQuizEnd() - history.getQuizStart()%>
                         </td>
                     </tr>
                 <%}%>
@@ -151,9 +148,9 @@
                     <th scope="row"><%=count3%></th>
                     <td><%=history.getScore()%>
                     </td>
-                    <td><%=history.getQuizDate()%>
+                    <td><%=history.getQuizStart()%>
                     </td>
-                    <td><%=history.getQuizTime()%>
+                    <td><%=history.getQuizEnd() - history.getQuizStart()%>
                     </td>
                 </tr>
                 <%}%>
@@ -181,8 +178,8 @@
                 <tr>
                     <th scope="row"><%=count4%></th>
                     <td><%=history.getScore()%></td>
-                    <td><%=history.getQuizDate()%></td>
-                    <td><%=history.getQuizTime()%></td>
+                    <td><%=history.getQuizStart()%></td>
+                    <td><%=history.getQuizEnd() - history.getQuizStart()%></td>
                 </tr>
                 <%}%>
                 </tbody>
