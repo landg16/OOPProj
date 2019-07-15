@@ -27,15 +27,6 @@
     User user = DatabaseManager.getUser(userId);
 %>
 
-<form class="row">
-    <div class="col-sm-10">
-        <input class="form-control" type="text" placeholder="Type here">
-    </div>
-    <div class="col-sm-2">
-        <button type="submit"><p>Search</p></button>
-    </div>
-</form>
-
 <div class="container user-margin">
     <div class="row justify-content-around">
         <%ArrayList <User> us = DatabaseManager.getFriends(userId);
