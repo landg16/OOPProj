@@ -88,20 +88,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 right_align">
-                        <div class="form-group">
-                            <label>Practice Mode</label>
-                            <br>
-                            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                                <label class="btn btn-warning active">
-                                    <input type="radio" name="practice" value="true" autocomplete="off" checked required> YES
-                                </label>
-                                <label class="btn btn-warning">
-                                    <input type="radio" name="practice" value="false" autocomplete="off"> NO
-                                </label>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <hr>
                 <h4>Questions:</h4>

@@ -18,7 +18,55 @@ $(document).ready(function () {
     equalHeights(".item .description");
     countUpTimer();
     showAsPages();
+    immediateCorrection();
 });
+
+function immediateCorrection() {
+    $(".correctMe").click(function () {
+        var id = $(this).data("id");
+        var answer = $("input[name="+$(this).data("answer")+"]").val();
+        if(answer==="") {
+            alert("You must enter answer");
+        } else {
+            $.ajax({
+                url: "ImediateCorrection",
+                type: "post",
+                data: {"id": id, "answer": answer},
+                context: this,
+                success: function (a) {
+                    if (a === "true") {
+                        $(this).parent().parent().find("input[type=text]").addClass("is-valid")
+                    } else {
+                        $(this).parent().parent().find("input[type=text]").addClass("is-invalid");
+                    }
+                    $(this).hide();
+                }
+            });
+        }
+    });
+    $(".correctMe_mc").click(function () {
+        var id = $(this).data("id");
+        var answer = $("input[name='"+$(this).data("answer")+"']:checked").val();
+        if(answer==null) {
+            alert("You must enter answer");
+        } else {
+            $.ajax({
+                url: "ImediateCorrection",
+                type: "post",
+                data: {"id": id, "answer": answer},
+                context: this,
+                success: function (a) {
+                    if (a === "true") {
+                        $(this).parent().parent().find(".input-style").addClass("is-valid")
+                    } else {
+                        $(this).parent().parent().find(".input-style").addClass("is-invalid");
+                    }
+                    $(this).hide();
+                }
+            });
+        }
+    });
+}
 
 function showAsPages() {
     var selector = $("#questionNum");
