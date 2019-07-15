@@ -5,82 +5,113 @@ use quizDB;
 
 # CREATE TABLES
 CREATE TABLE users (
-    id int primary key auto_increment not null,
-    firstname varchar(50) not null,
-    lastname varchar(50) not null,
-    username varchar(50) unique not null,
-    email varchar(50) unique not null,
-    password varchar(256) not null,
-    isadmin bool not null,
-    imageurl varchar(500) not null
+                       id int primary key auto_increment not null,
+                       firstname varchar(50) not null,
+                       lastname varchar(50) not null,
+                       username varchar(50) unique not null,
+                       email varchar(50) unique not null,
+                       password varchar(256) not null,
+                       isadmin bool not null,
+                       imageurl varchar(500) not null
 );
 
 CREATE TABLE friends (
-    id int primary key auto_increment not null,
-    account_id int not null,
-    friend_id int not null,
-    FOREIGN KEY (friend_id) REFERENCES users(id),
-    FOREIGN KEY (account_id) REFERENCES users(id)
+                         id int primary key auto_increment not null,
+                         account_id int not null,
+                         friend_id int not null,
+                         FOREIGN KEY (friend_id) REFERENCES users(id),
+                         FOREIGN KEY (account_id) REFERENCES users(id)
 );
 
 CREATE TABLE friendRequest(
-    id int primary key auto_increment not null,
-    senderid int not null,
-    receiverid int not null,
-    FOREIGN KEY (senderid) REFERENCES users(id),
-    FOREIGN KEY (receiverid) REFERENCES users(id)
+                              id int primary key auto_increment not null,
+                              senderid int not null,
+                              receiverid int not null,
+                              FOREIGN KEY (senderid) REFERENCES users(id),
+                              FOREIGN KEY (receiverid) REFERENCES users(id)
 );
 
 CREATE TABLE category (
-    id int primary key auto_increment not null,
-    name varchar(100) not null
+                          id int primary key auto_increment not null,
+                          name varchar(100) not null
 );
 
+CREATE TABLE quizes (
+                        id int primary key auto_increment not null,
+                        creator_id int not null,
+                        title varchar(128) not null,
+                        description varchar(250) not null,
+                        image varchar(500) not null,
+                        category_id int not null,
+                        random bool not null,
+                        one_page bool not null,
+                        immediate_correction bool not null,
+                        practice_mode bool not null,
+                        creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        count int default 0,
+                        FOREIGN KEY (category_id) REFERENCES category(id),
+                        FOREIGN KEY (creator_id) REFERENCES users(id)
+);
 
+CREATE TABLE questions (
+                           id int primary key auto_increment not null,
+                           quiz_id int not null,
+                           question_type varchar(256) not null,
+                           question varchar(256) not null,
+                           secondpart varchar(100),
+                           FOREIGN KEY (quiz_id) REFERENCES quizes(id)
+);
 
+CREATE TABLE answers (
+                         id int primary key auto_increment not null,
+                         question_id int not null ,
+                         answer varchar(100) not null,
+                         iscorrect bool not null,
+                         FOREIGN KEY (question_id) REFERENCES questions(id)
+);
 
 CREATE TABLE achievements(
-    id int primary key auto_increment not null,
-    userid int not null,
-    name varchar (100) not null,
-    achievedate DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (userid) REFERENCES users(id)
+                             id int primary key auto_increment not null,
+                             userid int not null,
+                             name varchar (100) not null,
+                             achievedate DATETIME DEFAULT CURRENT_TIMESTAMP,
+                             FOREIGN KEY (userid) REFERENCES users(id)
 );
 
 CREATE TABLE user_history (
-    id int primary key auto_increment not null,
-    user_id int not null,
-    quiz_id int not null,
-    quiz_score double default 0,
-    quiz_start datetime not null,
-    quiz_end datetime,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (quiz_id) REFERENCES quizes(id)
+                              id int primary key auto_increment not null,
+                              user_id int not null,
+                              quiz_id int not null,
+                              quiz_score double default 0,
+                              quiz_start datetime not null,
+                              quiz_end datetime,
+                              FOREIGN KEY (user_id) REFERENCES users(id),
+                              FOREIGN KEY (quiz_id) REFERENCES quizes(id)
 );
 
 CREATE TABLE announcements (
-    id int primary key auto_increment not null,
-    announcer_id int not null,
-    title varchar(100) not null,
-    text varchar(250) not null,
-    announce_date date not null,
-    FOREIGN KEY (announcer_id) REFERENCES users(id)
+                               id int primary key auto_increment not null,
+                               announcer_id int not null,
+                               title varchar(100) not null,
+                               text varchar(250) not null,
+                               announce_date date not null,
+                               FOREIGN KEY (announcer_id) REFERENCES users(id)
 );
 
 CREATE TABLE challenges(
-    id int primary key auto_increment not null,
-    senderid int not null,
-    receiverid int not null,
-    quizid int not null
+                           id int primary key auto_increment not null,
+                           senderid int not null,
+                           receiverid int not null,
+                           quizid int not null
 );
 
 CREATE TABLE chats (
-    id int primary key auto_increment not null,
-    senderId int not null,
-    receiverId int not null,
-    txt mediumtext not null,
-    FOREIGN KEY (senderId) REFERENCES users(id),
-    FOREIGN KEY (receiverId) REFERENCES users(id)
+                       id int primary key auto_increment not null,
+                       senderId int not null,
+                       receiverId int not null,
+                       txt mediumtext not null,
+                       FOREIGN KEY (senderId) REFERENCES users(id),
+                       FOREIGN KEY (receiverId) REFERENCES users(id)
 );
 
 # INSERT CATEGORIES
@@ -96,20 +127,6 @@ INSERT INTO category (name) VALUES ('Science');
 INSERT INTO users (firstname, lastname, username, email, password, isadmin, imageurl) VALUES ('Administrator', 'QuizCake', 'admin', 'admin@quizcake.com', '123456', true, 'img/default-avatar.png');
 
 
-CREATE TABLE `quizes` (
-                          `id` int(11) NOT NULL,
-                          `creator_id` int(11) NOT NULL,
-                          `title` varchar(128) NOT NULL,
-                          `description` varchar(250) NOT NULL,
-                          `image` varchar(500) NOT NULL,
-                          `category_id` int(11) NOT NULL,
-                          `random` tinyint(1) NOT NULL,
-                          `one_page` tinyint(1) NOT NULL,
-                          `immediate_correction` tinyint(1) NOT NULL,
-                          `practice_mode` tinyint(1) NOT NULL,
-                          `creation_date` datetime DEFAULT current_timestamp(),
-                          `count` int(11) DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `quizes` (`id`, `creator_id`, `title`, `description`, `image`, `category_id`, `random`, `one_page`, `immediate_correction`, `practice_mode`, `creation_date`, `count`) VALUES
 (5, 1, 'Science Geek', 'science', 'https://cdn.worldsciencefestival.com/wp-content/uploads/2017/03/PERCEPTIONS_OF_SCIENCE_800x494.jpg', 8, 1, 1, 1, 0, '2019-07-15 03:22:15', 0),
@@ -119,13 +136,6 @@ INSERT INTO `quizes` (`id`, `creator_id`, `title`, `description`, `image`, `cate
 (9, 1, 'Read and Write', 'In the chaos of harmony', 'https://timedotcom.files.wordpress.com/2015/06/521811839-copy.jpg', 7, 1, 1, 1, 1, '2019-07-15 05:18:41', 0),
 (10, 1, 'Visit Georgia', 'Visit Georgia', 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Flag_of_Georgia.svg/1200px-Flag_of_Georgia.svg.png', 2, 1, 1, 1, 1, '2019-07-15 05:36:10', 0);
 
-CREATE TABLE `questions` (
-                             `id` int(11) NOT NULL,
-                             `quiz_id` int(11) NOT NULL,
-                             `question_type` varchar(256) NOT NULL,
-                             `question` varchar(256) NOT NULL,
-                             `secondpart` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `questions` (`id`, `quiz_id`, `question_type`, `question`, `secondpart`) VALUES
 (6, 5, 'mc', 'Who invented Radar?', NULL),
@@ -165,12 +175,6 @@ INSERT INTO `questions` (`id`, `quiz_id`, `question_type`, `question`, `secondpa
 (40, 10, 'mc', 'The Chukchi Sea is north of which sea?', NULL);
 
 
-CREATE TABLE `answers` (
-                           `id` int(11) NOT NULL,
-                           `question_id` int(11) NOT NULL,
-                           `answer` varchar(100) NOT NULL,
-                           `iscorrect` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `answers` (`id`, `question_id`, `answer`, `iscorrect`) VALUES
 (10, 6, ' P. T. Farnsworth', 0),
@@ -305,38 +309,5 @@ INSERT INTO `answers` (`id`, `question_id`, `answer`, `iscorrect`) VALUES
 (139, 40, 'Bering Sea', 1);
 
 
-
-ALTER TABLE `answers`
-    ADD PRIMARY KEY (`id`),
-    ADD KEY `question_id` (`question_id`);
-
-ALTER TABLE `questions`
-    ADD PRIMARY KEY (`id`),
-    ADD KEY `quiz_id` (`quiz_id`);
-
-ALTER TABLE `quizes`
-    ADD PRIMARY KEY (`id`),
-    ADD KEY `category_id` (`category_id`),
-    ADD KEY `creator_id` (`creator_id`);
-
-ALTER TABLE `answers`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=140;
-
-ALTER TABLE `questions`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
-
-ALTER TABLE `quizes`
-    MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-
-ALTER TABLE `answers`
-    ADD CONSTRAINT `answers_ibfk_1` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`);
-
-ALTER TABLE `questions`
-    ADD CONSTRAINT `questions_ibfk_1` FOREIGN KEY (`quiz_id`) REFERENCES `quizes` (`id`);
-
-ALTER TABLE `quizes`
-    ADD CONSTRAINT `quizes_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`),
-    ADD CONSTRAINT `quizes_ibfk_2` FOREIGN KEY (`creator_id`) REFERENCES `users` (`id`);
-COMMIT;
 
 
