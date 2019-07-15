@@ -816,10 +816,14 @@ public class DatabaseManager {
         return 0;
     }
 
-    public static int averageAllQuizDuration() {
+    public static long averageAllQuizDuration() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("");
+            PreparedStatement state = connect.prepareStatement("SELECT AVG(uh.quiz_end - uh.quiz_start) from user_history uh");
+            ResultSet result = state.executeQuery();
+            if (result.next()) {
+                return result.getTimestamp(1).getTime();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
