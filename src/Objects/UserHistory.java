@@ -44,7 +44,7 @@ public class UserHistory {
         return quizEnd;
     }
 
-    public double getQuizScore() {
+    public double getScore() {
         return quizScore;
     }
 

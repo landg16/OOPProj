@@ -8,10 +8,10 @@ public class Calculate {
         double pointVal = Math.pow((double)userPoint / (double)maxPoint, 3);
         pointVal *= multiplier;
 
-        double timeVal = (double) medDuration / (double)medDuration;
+        double timeVal = (double) duration / (double)medDuration;
 
         int returnVal = (int) (pointVal * timeVal);
-        while(returnVal % 5 != 0 || returnVal % 10 != 0)returnVal++;
+        while(returnVal % 10 != 0)returnVal++;
 
         return returnVal;
     }

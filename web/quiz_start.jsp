@@ -27,6 +27,8 @@
         return;
     }
 
+    int historyId = DatabaseManager.insertHistory(k, quiz_id);
+
     request.setAttribute("title", quiz.getTitle());
     boolean isRandom = quiz.isRandom();
     boolean isImmediate = quiz.isImmediateCorrection();
@@ -60,6 +62,7 @@
     <div class="row justify-content-around">
         <div class="col-md-8">
             <form action="CompleteQuiz" method="post">
+                <input type="hidden" value="<%=historyId%>" name="historyId">
                 <%
                     ArrayList<Question> questions = DatabaseManager.getQuestions(quiz_id, isRandom);
                     int i = 0;
