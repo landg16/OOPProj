@@ -754,7 +754,7 @@ public class DatabaseManager {
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = null;
         try {
-            PreparedStatement state = connect.prepareStatement("select * from user_history uh where uh.user_id = ?");
+            PreparedStatement state = connect.prepareStatement("select * from user_history uh where uh.user_id = ? order by uh.quiz_score");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
@@ -919,6 +919,26 @@ public class DatabaseManager {
         }
     }
 
+    public static ArrayList<String> getChatMessages(int senderId, int receiverId) {
+
+        ArrayList<String> texts = new ArrayList<String>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT c.txt from chats c where " +
+                    "(c.senderId = ? and c.receiverId = ?) or (c.senderId = ? and c.receiverId = ?)");
+            state.setInt(1, senderId);
+            state.setInt(2, receiverId);
+            state.setInt(3, receiverId);
+            state.setInt(4, senderId);
+            ResultSet result = state.executeQuery();
+            while (result.next()) {
+                texts.add(new String(result.getString(1)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static HashMap<Integer, Integer> getChallenges(int userId) {
 
         HashMap<Integer, Integer> challenges = new HashMap<Integer, Integer>();
@@ -979,9 +999,10 @@ public class DatabaseManager {
     public static ArrayList<Quiz> getPopularQuizzes() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, q.random, q.one_page, " +
-                    "q.immediate_correction, q.practice_mode, count(uh.user_id) counts from user_history uh INNER join quizes q on uh.quiz_id = q.id " +
-                    "INNER join category c on q.category_id = c.id group by uh.quiz_id order by counts limit 5");
+            PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name," +
+                    "q.random, q.one_page, q.immediate_correction, q.practice_mode, q.creation_date, count(uh.user_id) counts from quizes q" +
+                    " INNER join user_history uh on q.id = uh.quiz_id INNER join category c " +
+                    "on q.category_id = c.id group by uh.quiz_id order by counts limit 5");
             ResultSet result = state.executeQuery();
             return castQuizResult(result);
         } catch (SQLException e) {
@@ -993,7 +1014,9 @@ public class DatabaseManager {
     public static ArrayList<Quiz> getRecentlyCreatedQuizzes() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.creation_date >= (NOW() - INTERVAL 1 WEEK )");
+            PreparedStatement state = connect.prepareStatement("select q.id, q.creator_id, q.title, q.description, q.image, c.name, " +
+                    "q.random, q.one_page, q.immediate_correction, q.practice_mode, q.creation_date from quizes q INNER JOIN category c" +
+                    " on q.category_id = c.id where q.creation_date >= (NOW() - INTERVAL 1 WEEK )");
             ResultSet result = state.executeQuery();
             return castQuizResult(result);
         } catch (SQLException e) {
@@ -1006,7 +1029,9 @@ public class DatabaseManager {
 
         ArrayList<Quiz> recents = new ArrayList<>();
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q INNER JOIN user_history uh on q.id = uh.quiz_id " +
+            PreparedStatement state = connect.prepareStatement("SELECT q.id, q.creator_id, q.title, q.description, q.image, c.name, " +
+                    "q.random, q.one_page, q.immediate_correction, q.practice_mode, q.creation_date from quizes q INNER JOIN category c" +
+                    " on q.category_id = c.id INNER JOIN user_history uh on q.id = uh.quiz_id " +
                     "where (uh.quiz_end >= (NOW() - INTERVAL 1 WEEK )) and (uh.user_id = ?)");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
@@ -1019,7 +1044,9 @@ public class DatabaseManager {
 
     public static ArrayList<Quiz> usersRecentlyAddedQuizzes(int userId) {
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q where (q.creation_date >= (NOW() - INTERVAL 1 WEEK )) and (q.creator_id = ?)");
+            PreparedStatement state = connect.prepareStatement("SELECT q.id, q.creator_id, q.title, q.description, q.image, c.name, " +
+                    "q.random, q.one_page, q.immediate_correction, q.practice_mode, q.creation_date from quizes q INNER JOIN category c" +
+                    " on q.category_id = c.id where (q.creation_date >= (NOW() - INTERVAL 1 WEEK )) and (q.creator_id = ?)");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return castQuizResult(result);
