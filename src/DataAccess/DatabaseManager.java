@@ -718,34 +718,35 @@ public class DatabaseManager {
     }
 
     public static ArrayList<User> getLeaderUsers() {
-//        try {
-//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, u.username, u.email, u.password, u.isadmin, u.imageurl, " +
-//                    "sum(uh.quiz_score) scores from user_history uh inner join users u on uh.user_id = u.id group by uh.user_id order by scores desc limit 100");
-//            ResultSet list = state.executeQuery();
-//            return castResults(list);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-        ArrayList<User> leaderUsers = new ArrayList<>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT *, sum(uh.quiz_score) scores from users u " +
+                    "INNER JOIN user_history uh on u.id = uh.user_id group by uh.user_id order by scores desc limit 100");
+            ResultSet list = state.executeQuery();
+            return castResults(list);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+/*        ArrayList<User> leaderUsers = new ArrayList<>();
         User leaderUser = new User(1, "revaz", "meshvelashvili", "10", "141", "1324", false, "145");
         leaderUsers.add(leaderUser);
-        return leaderUsers;
+        return leaderUsers;*/
     }
 
     public static ArrayList<User> getDailyLeaderUsers() throws SQLException {
-//        try {
-//            PreparedStatement state = connect.prepareStatement("select u.id, u.firsname, u.lastname, sum(uh.quiz_score) scores from users u" +
-//                    " inner join user_history uh on u.id = uh.user_id group by uh.user_id having uh.quiz_date > (NOW() - INTERVAL 1 DAY) order by scores desc");
-//            ResultSet list = state.executeQuery();
-//            return castResults(list);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-        ArrayList<User> leaderUsers = new ArrayList<>();
+        try {
+            PreparedStatement state = connect.prepareStatement("SELECT *, sum(uh.quiz_score) scores from users u " +
+                    "INNER JOIN user_history uh on u.id = uh.user_id where uh.quiz_end >= (NOW() - INTERVAL 1 week) group by uh.user_id order by scores desc");
+            ResultSet list = state.executeQuery();
+            return castResults(list);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+/*        ArrayList<User> leaderUsers = new ArrayList<>();
         User leaderUser = new User(1, "revaz", "meshvelashvili", "10", "141", "1324", false, "145");
         leaderUsers.add(leaderUser);
-        return leaderUsers;
+        return leaderUsers;*/
     }
 
     public static ArrayList<UserHistory> getUserHistory(int userId) {
