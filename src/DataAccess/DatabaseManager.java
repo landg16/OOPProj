@@ -964,7 +964,7 @@ public class DatabaseManager {
     public static ArrayList<Quiz> getRecentlyCreatedQuizzes() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.creation_date >= (NOW() - INTERVAL 1 HOUR)");
+            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.creation_date >= (NOW() - INTERVAL 1 WEEK )");
             ResultSet result = state.executeQuery();
             return castQuizResult(result);
         } catch (SQLException e) {
@@ -973,20 +973,15 @@ public class DatabaseManager {
         return null;
     }
 
-    public static HashMap<Quiz, Integer> getUsersRecentTakenQuizzes(int userId) {
+    public static ArrayList<Quiz> getUsersRecentTakenQuizzes(int userId) {
 
-        HashMap<Quiz, Integer> recents = new HashMap<Quiz, Integer>();
+        ArrayList<Quiz> recents = new ArrayList<>();
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT *, uh.quiz_score from quizes q INNER JOIN user_history uh on q.id = uh.quiz_id " +
-                    "where (uh.quiz_date >= (NOW() - INTERVAL 1 HOUR)) and (uh.user_id = ?)");
+            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q INNER JOIN user_history uh on q.id = uh.quiz_id " +
+                    "where (uh.quiz_date >= (NOW() - INTERVAL 1 WEEK )) and (uh.user_id = ?)");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
-            while (result.next()) {
-                recents.put(new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getBoolean(7), result.getBoolean(8),
-                        result.getBoolean(9), result.getBoolean(10), result.getDate(11)), result.getInt(12));
-            }
-            return recents;
+            return castQuizResult(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -997,7 +992,7 @@ public class DatabaseManager {
 
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q where (q.creation_date >= (NOW() - INTERVAL 1 HOUR)) and (q.creator_id = ?)");
+            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q where (q.creation_date >= (NOW() - INTERVAL 1 WEEK )) and (q.creator_id = ?)");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return castQuizResult(result);
