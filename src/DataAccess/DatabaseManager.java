@@ -795,7 +795,7 @@ public class DatabaseManager {
     public static int numberOfQuizCreators() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT count(q.creator_id) from quizes q");
+            PreparedStatement state = connect.prepareStatement("SELECT count(distinct q.creator_id) from quizes q");
             ResultSet result = state.executeQuery();
             if (result.next()) return result.getInt(1);
         } catch (SQLException e) {
