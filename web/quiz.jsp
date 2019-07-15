@@ -1,8 +1,10 @@
 <%@ page import="DataAccess.DatabaseManager" %>
 <%@ page import="Objects.Quiz" %>
 <%@ page import="Objects.User" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ page import="Objects.UserHistory" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Date" %>
 
 <%
     //Check quiz ID
@@ -69,26 +71,30 @@
         <div class="col-md-6 result_table">
             <h4>Your Past Results</h4>
             <table id="myResults" class="table tablesorter">
-                <thead class="thead-dark">
+                <thead class="thead">
                     <tr role="row">
-                        <th>#</th>
-                        <th>Score</th>
-                        <th>Date</th>
-                        <th>Duration</th>
+                        <th>#<img src="img/sort.png"></th>
+                        <th scope="col">Score <img src="img/sort.png"></th>
+                        <th scope="col">Date <img src="img/sort.png"></th>
+                        <th scope="col">Duration <img src="img/sort.png"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <%
-                        ArrayList<UserHistory> histories = DatabaseManager.getUserHistory(1);
+                        int id = (int)session.getAttribute("user_id");
+                        ArrayList<UserHistory> histories = DatabaseManager.getUserHistory(id);
                         int count1 = 0;
-                        for (UserHistory history : DatabaseManager.getUserHistory(1)) {
+                        for (UserHistory history : histories) {
+                            Timestamp timestmp = new Timestamp(history.getQuizStart());
+                            Date date = new Date(timestmp.getTime());
                             count1++;
                     %>
                     <tr>
                         <th scope="row"><%=count1%></th>
                         <td><%=history.getScore()%></td>
-                        <td><%=history.getQuizStart()%></td>
-                        <td><%=history.getQuizEnd() - history.getQuizStart()%></td>
+                        <td><%=date%></td>
+                        <td><%=(history.getQuizEnd() - history.getQuizStart()) / 1000%> Sec
+                        </td>
                     </tr>
                     <%}%>
                 </tbody>
@@ -108,16 +114,18 @@
                 <tbody>
                 <%
                     int count2 = 0;
-                    for (UserHistory history : DatabaseManager.getUserHistory(1)) {
+                    for (UserHistory history : histories) {
                         count2++;
+                        Timestamp timestmp = new Timestamp(history.getQuizStart());
+                        Date date = new Date(timestmp.getTime());
                 %>
                     <tr>
                         <th scope="row"><%=count2%></th>
                         <td><%=history.getScore()%>
                         </td>
-                        <td><%=history.getQuizStart()%>
+                        <td><%=date%>
                         </td>
-                        <td><%=history.getQuizEnd() - history.getQuizStart()%>
+                        <td><%=(history.getQuizEnd() - history.getQuizStart()) / 1000%> Sec
                         </td>
                     </tr>
                 <%}%>
@@ -141,16 +149,19 @@
                 <tbody>
                 <%
                     int count3 = 0;
-                    for (UserHistory history : DatabaseManager.getUserHistory(1)) {
+                    for (UserHistory history : histories) {
                         count3++;
+                        Timestamp timestmp = new Timestamp(history.getQuizStart());
+                        Date date = new Date(timestmp.getTime());
                 %>
                 <tr>
                     <th scope="row"><%=count3%></th>
                     <td><%=history.getScore()%>
                     </td>
-                    <td><%=history.getQuizStart()%>
+                    <td><%=date%>
                     </td>
-                    <td><%=history.getQuizEnd() - history.getQuizStart()%>
+                    <td><%=(history.getQuizEnd() - history.getQuizStart()) / 1000%> Sec
+                    </td>
                     </td>
                 </tr>
                 <%}%>
@@ -172,14 +183,17 @@
                 <tbody>
                 <%
                     int count4 = 0;
-                    for (UserHistory history : DatabaseManager.getUserHistory(1)) {
+                    for (UserHistory history : histories) {
                         count4++;
+                        Timestamp timestmp = new Timestamp(history.getQuizStart());
+                        Date date = new Date(timestmp.getTime());
                 %>
                 <tr>
                     <th scope="row"><%=count4%></th>
                     <td><%=history.getScore()%></td>
-                    <td><%=history.getQuizStart()%></td>
-                    <td><%=history.getQuizEnd() - history.getQuizStart()%></td>
+                    <td><%=date%></td>
+                    <td><%=(history.getQuizEnd() - history.getQuizStart()) / 1000%> Sec
+                    </td>
                 </tr>
                 <%}%>
                 </tbody>

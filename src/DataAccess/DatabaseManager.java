@@ -833,10 +833,10 @@ public class DatabaseManager {
     public static long averageAllQuizDuration() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT AVG(uh.quiz_end - uh.quiz_start) from user_history uh");
+            PreparedStatement state = connect.prepareStatement("SELECT AVG(uh.quiz_end - uh.quiz_start) as average from user_history uh");
             ResultSet result = state.executeQuery();
             if (result.next()) {
-                return result.getTimestamp(1).getTime();
+                return (long) result.getDouble(1);
             }
         } catch (SQLException e) {
             e.printStackTrace();
