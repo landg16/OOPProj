@@ -125,7 +125,8 @@ INSERT INTO category (name) VALUES ('Literature');
 INSERT INTO category (name) VALUES ('Science');
 
 INSERT INTO users (firstname, lastname, username, email, password, isadmin, imageurl) VALUES ('Administrator', 'QuizCake', 'admin', 'admin@quizcake.com', '123456', true, 'img/default-avatar.png');
-
+INSERT INTO users (firstname, lastname, username, email, password, isadmin, imageurl) VALUES ('Nick', 'Oniani', 'Guja', 'nikaoniani12@gmail.com', 'oniani', false, 'img/default-avatar.png');
+INSERT INTO users (firstname, lastname, username, email, password, isadmin, imageurl) VALUES ('Donald', 'Trump', 'Trump', 'guja@gmail.com', 'oniani', true, 'img/default-avatar.png');
 
 
 INSERT INTO `quizes` (`id`, `creator_id`, `title`, `description`, `image`, `category_id`, `random`, `one_page`, `immediate_correction`, `practice_mode`, `creation_date`, `count`) VALUES

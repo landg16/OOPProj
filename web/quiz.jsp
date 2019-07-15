@@ -90,9 +90,13 @@
                         ArrayList<UserHistory> histories = DatabaseManager.getUserHistory(id);
                         int count1 = 0;
                         for (UserHistory history : histories) {
-                            Timestamp timestmp = new Timestamp(history.getQuizStart());
-                            Date date = new Date(timestmp.getTime());
-                            count1++;
+                            if (history.getQuizId()!=quizId) {
+                                continue;
+                            }
+                                Timestamp timestmp = new Timestamp(history.getQuizStart());
+                                Date date = new Date(timestmp.getTime());
+                                count1++;
+
                     %>
                     <tr>
                         <th scope="row"><%=count1%></th>
@@ -120,6 +124,9 @@
                 <%
                     int count2 = 0;
                     for (UserHistory history : histories) {
+                        if(history.getQuizId()!=quizId){
+                            continue;
+                        }
                         count2++;
                         Timestamp timestmp = new Timestamp(history.getQuizStart());
                         Date date = new Date(timestmp.getTime());
@@ -155,6 +162,9 @@
                 <%
                     int count3 = 0;
                     for (UserHistory history : histories) {
+                        if(history.getQuizId()!=quizId){
+                            continue;
+                        }
                         count3++;
                         Timestamp timestmp = new Timestamp(history.getQuizStart());
                         Date date = new Date(timestmp.getTime());

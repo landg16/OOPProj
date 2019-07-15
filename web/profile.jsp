@@ -46,176 +46,204 @@
         </div>
 
         <div class="col-sm-8">
-            <h1><%=user.getFirstname()%> <%=user.getLastname()%></h1>
-            <h4><%=user.getEmail()%></h4>
+            <h1><%=user.getFirstname()%> <%=user.getLastname()%>
+            </h1>
+            <h4><%=user.getEmail()%>
+            </h4>
 
-            <br>
-            <br>
-
-            <div class="md-form">
+            <div class="md-form profile">
                 <form id="searchUsr" action="search.jsp" method="get">
                     <input type="text" name="searchUsr" id="searchForm" class="form-control" property="searchUsr">
                     <button class="btn btn-primary" type="submit" value="Search" id="mySearch">Search</button>
                 </form>
-            </div>
-        </div>
 
-    </div>
+                <br>
 
-    <br>
-    <br>
-
-    <!-- When you are visiting your own profile-->
-
-    <% if (id == null || Integer.parseInt(id) == DatabaseManager.checkLogin(username, password)) { %>
-    <div class="row buttons">
-        <div class="col-sm-4">
-            <p class="headline_text">CHALLENGE REQUESTS</p>
-            <% HashMap<Integer, Integer> requestss = DatabaseManager.getChallenges(userId);
-                if(requestss != null && requestss.size()!=0){
-                    for (HashMap.Entry<Integer, Integer> tmp : requestss.entrySet()){
-                        User usrr = DatabaseManager.getUser(tmp.getKey());
-                        Quiz quiz = DatabaseManager.getQuiz(tmp.getValue());
-            %>
-            <p> <%=usrr.getFirstname()%> <%=usrr.getLastname()%> has challenged you for <%=quiz.getTitle()%> </p>
-            <a href="Challenged?senderId=<%=usrr.getId()%>&receiverId=<%=userId%>&quizId=<%=quiz.getId()%>&whatToDo=accept" class="btn btn-danger btn-sm">Accept</a>
-            <a href="Challenged?senderId=<%=usrr.getId()%>&receiverId=<%=userId%>&quizId=<%=quiz.getId()%>&whatToDo=decline" class="btn btn-danger btn-sm">Decline</a>
-            <%}} else { %>
-                <h5>You have no challenge requests</h5>
-            <% } %>
-        </div>
-
-        <div class="col-sm-4">
-            <p class="headline_text">CHAT WITH FRIENDS</p>
-            <p style="margin-top: 10px"><a href="register.jsp">Nikolai nikolaevich </a></p>
-            <p><a href="register.jsp">guja gujaevich</a></p>
-        </div>
-
-        <div class="col-sm-4">
-            <p class="headline_text">FRIEND REQUESTS</p>
-           <% ArrayList<User> requests = DatabaseManager.getFriendRequest(userId);
-              if(requests != null && requests.size() != 0){
-               for (User us : requests){%>
-            <p> <%=us.getFirstname()%> <%=us.getLastname()%> </p>
-            <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>&whatToDo=accept" class="btn btn-danger btn-sm">Accept</a>
-            <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>&whatToDo=decline" class="btn btn-danger btn-sm">Decline</a>
-            <%}} else { %>
-                <h5>You have no friend requests</h5>
-            <% } %>
-        </div>
-    </div>
-
-    <br>
-    <br>
-
-
-
-    <%if(DatabaseManager.isAdmin(userId)){%>
-    <div class="row buttons">
-        <div class="col-sm-4">
-            <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
-        </div>
-
-        <div class="col-sm-4">
-            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
-        </div>
-
-        <div class="col-sm-4">
-            <a href="add_announcement.jsp" class="btn btn-danger btn-lg">MAKE AN ANNOUNCEMENT</a>
-        </div>
-    </div>
-    <% } else { %>
-    <div class="row buttons">
-        <div class="col-sm-4">
-            <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
-        </div>
-
-        <div class="col-sm-4">
-            <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
-        </div>
-
-        <div class="col-sm-4">
-            <a href="friends.jsp" class="btn btn-danger btn-lg">FRIENDS</a>
-        </div>
-    </div>
-
-    <%}%>
-
-    <br>
-    <br>
-
-    <div class="row">
-        <div class="col-sm-8">
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Quiz Id</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Score</th>
-                </tr>
-                </thead>
-                <tbody>
-                <%  int usr = (int) session.getAttribute("user_id");
-                    int count = 0;
-                    ArrayList<UserHistory> userHistory = DatabaseManager.getUserHistory(usr);
-                    for(UserHistory history : userHistory){
-                        count++;
-                    %>
-                <tr>
-                    <th scope="row"><%=count%></th>
-                    <td><%=history.getQuizId()%></td>
-                    <td><%=(history.getQuizEnd()-history.getQuizStart())/1000%> Seconds</td>
-                    <td><%=history.getScore()%></td>
-                </tr>
-                    <%}%>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="col-sm-4">
-            <div class="row achievements justify-content-around">
                 <div class="col-sm-10">
-                    <h2>ACHIEVEMENTS</h2>
+                    <h2>Current Level</h2>
                     <br>
                     <%
-                        int userScore=0;
+
+                        int userScore = 0;
                         int userAch = (int) session.getAttribute("user_id");
-                        ArrayList<UserHistory> userHistoryAch= DatabaseManager.getUserHistory(userAch);
-                        for(UserHistory history : userHistoryAch){
+                        ArrayList<UserHistory> userHistoryAch = DatabaseManager.getUserHistory(userId);
+                        for (UserHistory history : userHistoryAch) {
                             userScore += history.getScore();
                         }
-                        if(userScore<20){
+                        if (userScore < 20) {
                     %>
                     <h4>Level 1 - Rookie</h4>
                     <p>Knowledge equal to our front-end developer</p>
                     <%}%>
 
-                    <%if(userScore>=20 && userScore<100){
+                    <%
+                        if (userScore >= 20 && userScore < 100) {
                     %>
                     <h4>Level 2 - Beginner</h4>
                     <p>Knowledge equal to our Back-end developer</p>
                     <%}%>
 
-                    <%if(userScore>=100 && userScore<200){
+                    <%
+                        if (userScore >= 100 && userScore < 200) {
                     %>
                     <h4>Level 3 - Intermidiate</h4>
                     <p>Knowledge equal to our Elon Musk</p>
                     <%}%>
 
-                    <%if(userScore>=200 && userScore<500){
+                    <%
+                        if (userScore >= 200 && userScore < 500) {
                     %>
                     <h4>Level 4 - Expert</h4>
                     <p>Knowledge equal to our whole team</p>
                     <%}%>
 
-                    <%if(userScore>=500){
+                    <%
+                        if (userScore >= 500) {
                     %>
                     <h4>Level 5 - GOD</h4>
                     <p>Knowledge equal to our LITERALLY GOD</p>
                     <%}%>
                 </div>
             </div>
+
+        </div>
+    </div>
+
+</div>
+
+<br>
+<br>
+
+<!-- When you are visiting your own profile-->
+
+<% if (id == null || Integer.parseInt(id) == DatabaseManager.checkLogin(username, password)) { %>
+
+
+<div class="row buttons">
+    <div class="col-sm-4">
+        <p class="headline_text">CHALLENGE REQUESTS</p>
+        <% HashMap<Integer, Integer> requestss = DatabaseManager.getChallenges(userId);
+            if (requestss != null && requestss.size() != 0) {
+                for (HashMap.Entry<Integer, Integer> tmp : requestss.entrySet()) {
+                    User usrr = DatabaseManager.getUser(tmp.getKey());
+                    Quiz quiz = DatabaseManager.getQuiz(tmp.getValue());
+        %>
+        <p><%=usrr.getFirstname()%> <%=usrr.getLastname()%> has challenged you for <%=quiz.getTitle()%>
+        </p>
+        <a href="Challenged?senderId=<%=usrr.getId()%>&receiverId=<%=userId%>&quizId=<%=quiz.getId()%>&whatToDo=accept"
+           class="btn btn-danger btn-sm">Accept</a>
+        <a href="Challenged?senderId=<%=usrr.getId()%>&receiverId=<%=userId%>&quizId=<%=quiz.getId()%>&whatToDo=decline"
+           class="btn btn-danger btn-sm">Decline</a>
+        <%
+            }
+        } else {
+        %>
+        <h5>You have no challenge requests</h5>
+        <% } %>
+    </div>
+
+    <div class="col-sm-4">
+        <p class="headline_text">CHAT WITH FRIENDS</p>
+        <p style="margin-top: 10px"><a href="register.jsp">Nikolai nikolaevich </a></p>
+        <p><a href="register.jsp">guja gujaevich</a></p>
+    </div>
+
+    <div class="col-sm-4">
+        <p class="headline_text">FRIEND REQUESTS</p>
+        <% ArrayList<User> requests = DatabaseManager.getFriendRequest(userId);
+            if (requests != null && requests.size() != 0) {
+                for (User us : requests) {%>
+        <p><%=us.getFirstname()%> <%=us.getLastname()%>
+        </p>
+        <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>&whatToDo=accept"
+           class="btn btn-danger btn-sm">Accept</a>
+        <a href="Friended?senderId=<%=userId%>&receiverId=<%=us.getId()%>&whatToDo=decline"
+           class="btn btn-danger btn-sm">Decline</a>
+        <%
+            }
+        } else {
+        %>
+        <h5>You have no friend requests</h5>
+        <% } %>
+    </div>
+</div>
+
+<br>
+<br>
+
+
+<%if (DatabaseManager.isAdmin(userId)) {%>
+<div class="row buttons">
+    <div class="col-sm-4">
+        <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
+    </div>
+
+    <div class="col-sm-4">
+        <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
+    </div>
+
+    <div class="col-sm-4">
+        <a href="add_announcement.jsp" class="btn btn-danger btn-lg">MAKE AN ANNOUNCEMENT</a>
+    </div>
+</div>
+<% } else { %>
+<div class="row buttons">
+    <div class="col-sm-4">
+        <a href="announcements.jsp" class="btn btn-danger btn-lg">ANNOUNCEMENTS</a>
+    </div>
+
+    <div class="col-sm-4">
+        <a href="add_quiz.jsp" class="btn btn-danger btn-lg">CREATE YOUR OWN QUIZ</a>
+    </div>
+
+    <div class="col-sm-4">
+        <a href="friends.jsp" class="btn btn-danger btn-lg">FRIENDS</a>
+    </div>
+</div>
+
+<%}%>
+
+<br>
+<br>
+
+<div class="row">
+    <div class="col-sm-12">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Quiz Id</th>
+                <th scope="col">Time</th>
+                <th scope="col">Score</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% int usr = (int) session.getAttribute("user_id");
+                int count = 0;
+                ArrayList<UserHistory> userHistory = DatabaseManager.getUserHistory(usr);
+                for (UserHistory history : userHistory) {
+                    count++;
+                    Quiz quiz = DatabaseManager.getQuiz(history.getQuizId());
+            %>
+            <tr>
+                <th scope="row"><%=count%>
+                </th>
+                <td><%=quiz.getTitle()%>
+                </td>
+                <td><%=(history.getQuizEnd() - history.getQuizStart()) / 1000%> Seconds</td>
+                <td><%=history.getScore()%>
+                </td>
+            </tr>
+            <%}%>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+
+    <div class="col-sm-4">
+        <div class="row achievements justify-content-around">
+
         </div>
     </div>
 
@@ -229,82 +257,87 @@
 
     <!-- when you are visiting someone else's profile-->
 
-    <%if (id!= null && DatabaseManager.checkLogin(username, password)!= Integer.parseInt(id) && DatabaseManager.checkLogin(username, password) != -1) {%>
+    <%if (id != null && DatabaseManager.checkLogin(username, password) != Integer.parseInt(id) && DatabaseManager.checkLogin(username, password) != -1) {%>
 
 
-
-    <div class="row buttons">
-        <%ArrayList<User> us = DatabaseManager.getFriends(DatabaseManager.checkLogin(username, password));
-        boolean st=false;
-        for(User uss : us){
-                if(uss.getId()==Integer.parseInt(id)){
-                    st=true;
+    <div class="container">
+        <div class="row buttons">
+            <%
+                ArrayList<User> us = DatabaseManager.getFriends(DatabaseManager.checkLogin(username, password));
+                boolean st = false;
+                for (User uss : us) {
+                    if (uss.getId() == Integer.parseInt(id)) {
+                        st = true;
+                    }
                 }
-            }
-            if((us!=null && !st) || us==null){
-        %>
-        <div class="col-sm-6">
-            <form method="post" action="FriendRequest" id="send_friend_request_form">
-                <input type="hidden" name="id" value=<%=userId%>>
-                <button class="btn btn-danger btn-lg">SEND FRIEND REQUEST</button>
-            </form>
+                if ((us != null && !st) || us == null) {
+            %>
+            <div class="col-sm-6">
+                <form method="post" action="FriendRequest" id="send_friend_request_form">
+                    <input type="hidden" name="id" value=<%=userId%>>
+                    <button class="btn btn-danger btn-lg">SEND FRIEND REQUEST</button>
+                </form>
+            </div>
+
+            <%}%>
+
+            <!--- when he isn't friend, then remove
+
+            <div class="col-sm-4">
+                <a href="register.jsp" class="btn btn-danger btn-lg">SEND FRIEND REQUEST</a>
+            </div>
+
+            -->
+
+            <div class="col-sm-6">
+                <a href="chat.jsp" class="btn btn-danger btn-lg">CHAT WITH HIM/HER</a>
+            </div>
+
+
         </div>
+
+        <!-- END OF when you are visiting someone else's profile-->
 
         <%}%>
 
-        <!--- when he isn't friend, then remove
+        <!-- THIS IS WHEN USER IS VIEWING A PROFILE WHILE HE/SHE ISN'T LOGGED IN-->
 
-        <div class="col-sm-4">
-            <a href="register.jsp" class="btn btn-danger btn-lg">SEND FRIEND REQUEST</a>
-        </div>
+
+        <!--
+
+        THIS IS WHEN ADMIN IS VIEWING PROFILE OF USER
+
+        es washalet tu gindat shesvla profile.jsp ze
 
         -->
+        <%if (id == null && DatabaseManager.isAdmin(DatabaseManager.checkLogin(username, password))) {%>
 
-        <div class="col-sm-6">
-            <a href="chat.jsp" class="btn btn-danger btn-lg">CHAT WITH HIM/HER</a>
-        </div>
+        <%} else {%>
 
-    </div>
+        <%if (DatabaseManager.isAdmin(DatabaseManager.checkLogin(username, password)) && (DatabaseManager.checkLogin(username, password) != Integer.parseInt(id))) {%>
 
-    <!-- END OF when you are visiting someone else's profile-->
+        <br>
 
-    <%}%>
+        <div class="row buttons">
+            <div class="col-sm-6">
+                <form method="post" action="RemoveUser" id="remove_user">
+                    <input type="hidden" name="id" value=<%=userId%>>
+                    <button class="btn btn-danger btn-lg">REMOVE USER</button>
+                </form>
+            </div>
 
-    <!-- THIS IS WHEN USER IS VIEWING A PROFILE WHILE HE/SHE ISN'T LOGGED IN-->
-
-
-    <!--
-
-    THIS IS WHEN ADMIN IS VIEWING PROFILE OF USER
-
-    es washalet tu gindat shesvla profile.jsp ze
-
-    -->
-    <%if(id==null && DatabaseManager.isAdmin(DatabaseManager.checkLogin(username, password))){%>
-
-    <%}else{%>
-
-    <%if(DatabaseManager.isAdmin(DatabaseManager.checkLogin(username, password)) && (DatabaseManager.checkLogin(username, password)!= Integer.parseInt(id))){%>
-
-    <br>
-
-    <div class="row buttons">
-        <div class="col-sm-6">
-            <form method="post" action="RemoveUser" id="remove_user">
-                <input type="hidden" name="id" value=<%=userId%>>
-                <button class="btn btn-danger btn-lg">REMOVE USER</button>
-            </form>
-        </div>
-
-        <div class="col-sm-6">
-            <form method="post" action="PromoteAdmin" id="set_as_admin_form">
-                <input type="hidden" name="id" value=<%=userId%>>
-                <button class="btn btn-danger btn-lg">PROMOTE USER TO ADMIN</button>
-            </form>
+            <div class="col-sm-6">
+                <form method="post" action="PromoteAdmin" id="set_as_admin_form">
+                    <input type="hidden" name="id" value=<%=userId%>>
+                    <button class="btn btn-danger btn-lg">PROMOTE USER TO ADMIN</button>
+                </form>
+            </div>
         </div>
     </div>
-
-    <%}}%>
+    <%
+            }
+        }
+    %>
 
     <!-- END OF AMDIN'S PROFILE-->
 </div>
