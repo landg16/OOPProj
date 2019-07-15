@@ -808,7 +808,7 @@ public class DatabaseManager {
     public static int numberOfQuizCreators() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT count(q.creator_id) from quizes q");
+            PreparedStatement state = connect.prepareStatement("SELECT count(distinct q.creator_id) from quizes q");
             ResultSet result = state.executeQuery();
             if (result.next()) return result.getInt(1);
         } catch (SQLException e) {
@@ -829,10 +829,14 @@ public class DatabaseManager {
         return 0;
     }
 
-    public static int averageAllQuizDuration() {
+    public static long averageAllQuizDuration() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("");
+            PreparedStatement state = connect.prepareStatement("SELECT AVG(uh.quiz_end - uh.quiz_start) from user_history uh");
+            ResultSet result = state.executeQuery();
+            if (result.next()) {
+                return result.getTimestamp(1).getTime();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
