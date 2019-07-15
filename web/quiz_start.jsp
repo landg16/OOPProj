@@ -143,9 +143,9 @@
                             <div class="col-md-6">
                                 <div class="input-style">
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" id="answer<%=j%>" name="answer<%=tmp.getId()%>"
-                                               class="custom-control-input">
-                                        <label class="custom-control-label" for="answer<%=j%>"><%=ans.getAnswer()%></label>
+                                        <input type="radio" id="answer<%=j%><%=tmp.getId()%>" name="answer<%=tmp.getId()%>"
+                                               class="custom-control-input" value="<%=ans.getAnswer()%>">
+                                        <label class="custom-control-label" for="answer<%=j%><%=tmp.getId()%>"><%=ans.getAnswer()%></label>
                                     </div>
                                 </div>
                             </div>

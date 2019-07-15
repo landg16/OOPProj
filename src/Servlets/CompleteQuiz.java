@@ -29,7 +29,9 @@ public class CompleteQuiz extends HttpServlet {
             String userAnswer = request.getParameter("answer"+questions.get(i).getId()).toLowerCase();
             for(Answer tmp : answers){
                 if(tmp.isCorrect()) {
-                    String correct = tmp.getAnswer();
+                    String correct = tmp.getAnswer().toLowerCase();
+                    System.out.println("my answer: "+userAnswer);
+                    System.out.println("corr answ: "+correct);
                     if(correct.equals(userAnswer)){
                         correct_count++;
                         break;
