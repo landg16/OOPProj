@@ -344,12 +344,22 @@ public class DatabaseManager {
     }
 
     public static int insertHistory(int userId, int quizId) {
+
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_start) VALUES (?,?,NOW())", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement state = connect.prepareStatement("SELECT uh.id, uh.quiz_end from user_history uh where uh.user_id = ? and uh.quiz_id = ?");
+            state.setInt(1, userId);
+            state.setInt(2, quizId);
+            ResultSet result = state.executeQuery();
+            if (result.next()) {
+                if (result.getTimestamp(2) != null) {
+                    return result.getInt(1);
+                } return -1;
+            }
+            state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_start) VALUES (?,?,NOW())", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, userId);
             state.setInt(2, quizId);
             state.executeUpdate();
-            ResultSet result = state.getGeneratedKeys();
+            result = state.getGeneratedKeys();
             if (result.next()){
                 return result.getInt(1);
             }
@@ -734,9 +744,15 @@ public class DatabaseManager {
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
-                    history = new UserHistory(result.getInt(1), result.getInt(2),
-                            result.getInt(3), result.getDouble(4),
-                            result.getTimestamp(5), result.getTimestamp(6), false);
+                int histId = result.getInt(1);
+                int userid = result.getInt(2);
+                int quizId = result.getInt(3);
+                double score = result.getDouble(4);
+                Timestamp start = result.getTimestamp(5);
+                Timestamp end = result.getTimestamp(6);
+                if (end == null) {
+                    history = new UserHistory(histId, userid, quizId, score, start, end, false);
+                } else history = new UserHistory(histId, userid, quizId, score, start, end, true);
                 histories.add(history);
             }
             return histories;
