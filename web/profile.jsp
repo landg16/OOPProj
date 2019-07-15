@@ -3,6 +3,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="Objects.Quiz" %>
+<%@ page import="java.lang.reflect.Array" %>
+<%@ page import="Objects.UserHistory" %>
 <%--
   Created by IntelliJ IDEA.
   User: Oniani
@@ -46,6 +48,10 @@
         <div class="col-sm-8">
             <h1><%=user.getFirstname()%> <%=user.getLastname()%></h1>
             <h4><%=user.getEmail()%></h4>
+
+            <br>
+            <br>
+
             <div class="md-form">
                 <form id="searchUsr" action="search.jsp" method="get">
                     <input type="text" name="searchUsr" id="searchForm" class="form-control" property="searchUsr">
@@ -144,51 +150,70 @@
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Quiz Name</th>
-                    <th scope="col">Date</th>
+                    <th scope="col">Quiz Id</th>
                     <th scope="col">Time</th>
                     <th scope="col">Score</th>
                 </tr>
                 </thead>
                 <tbody>
+                <%  int usr = (int) session.getAttribute("user_id");
+                    int count = 0;
+                    ArrayList<UserHistory> userHistory = DatabaseManager.getUserHistory(usr);
+                    for(UserHistory history : userHistory){
+                        count++;
+                    %>
                 <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    <td>20</td>
+                    <th scope="row"><%=count%></th>
+                    <td><%=history.getQuizId()%></td>
+                    <td><%=(history.getQuizEnd()-history.getQuizStart())/1000%> Seconds</td>
+                    <td><%=history.getScore()%></td>
                 </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    <td>20</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    <td>20</td>
-                </tr>
+                    <%}%>
                 </tbody>
             </table>
-            <a href="register.jsp" class="btn btn-danger btn-lg historyBT">SEE ALL QUIZZES</a>
         </div>
 
         <div class="col-sm-4">
             <div class="row achievements justify-content-around">
                 <div class="col-sm-10">
                     <h2>ACHIEVEMENTS</h2>
+                    <br>
                     <%
-                        ArrayList<String> achievements = DatabaseManager.getAchievement(userId);
-                        if(achievements!=null){
-                            for(String ach : achievements){
-
+                        int userScore=0;
+                        int userAch = (int) session.getAttribute("user_id");
+                        ArrayList<UserHistory> userHistoryAch= DatabaseManager.getUserHistory(userAch);
+                        for(UserHistory history : userHistoryAch){
+                            userScore += history.getScore();
+                        }
+                        if(userScore<20){
                     %>
-                    <p><%=ach%></p>
-                    <%}}%>
+                    <h4>Level 1 - Rookie</h4>
+                    <p>Knowledge equal to our front-end developer</p>
+                    <%}%>
+
+                    <%if(userScore>=20 && userScore<100){
+                    %>
+                    <h4>Level 2 - Beginner</h4>
+                    <p>Knowledge equal to our Back-end developer</p>
+                    <%}%>
+
+                    <%if(userScore>=100 && userScore<200){
+                    %>
+                    <h4>Level 3 - Intermidiate</h4>
+                    <p>Knowledge equal to our Elon Musk</p>
+                    <%}%>
+
+                    <%if(userScore>=200 && userScore<500){
+                    %>
+                    <h4>Level 4 - Expert</h4>
+                    <p>Knowledge equal to our whole team</p>
+                    <%}%>
+
+                    <%if(userScore>=500){
+                    %>
+                    <h4>Level 5 - GOD</h4>
+                    <p>Knowledge equal to our LITERALLY GOD</p>
+                    <%}%>
                 </div>
             </div>
         </div>
