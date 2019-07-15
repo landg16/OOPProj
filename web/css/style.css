@@ -658,6 +658,41 @@ footer .socials {
 
 /****************************************************
 *****************************************************
+8.1 EACH QUIZ PAGE
+*****************************************************
+*****************************************************/
+.quiz_start {
+    margin-top:40px;
+}
+
+.quiz_start .quiz_details {
+    font-size:18px;
+    padding-bottom:10px;
+    border-bottom:1px solid #000;
+    margin-bottom:30px;
+}
+
+.quiz_start .question_block .diff {
+    margin-top:15px;
+}
+
+.quiz_start .question_block .diff1 {
+    margin-top:10px;
+}
+
+.quiz_start .question_block .input-style {
+    padding: 15px;
+    background: #e6e6e6;
+    border-radius:10px;
+    margin-bottom:10px;
+}
+
+.quiz_start .question_block .input-style label {
+    width:100%;
+}
+
+/****************************************************
+*****************************************************
 9. USER PROFILE PAGE
 *****************************************************
 *****************************************************/
@@ -883,9 +918,8 @@ footer .socials {
 *****************************************************/
 
 .summary_table1 {
-    height: 500px;
     width: 80%;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
     border-radius: .2em;
     border: 1px solid rgba(0 ,0, 0, 0.4 );
     box-shadow: 0 0 10px rgba(0 ,0, 0, 0.4 );
@@ -897,9 +931,9 @@ footer .socials {
     height: 160px;
     width: 160px;
     color: #212529;
-    margin-bottom: 8px;
+    /*margin-bottom: 4px;*/
     align-items: center;
-    margin-top: 10px;
+    /*margin-top: 4px;*/
 }
 
 .summary_table2{
@@ -916,8 +950,6 @@ footer .socials {
 }
 
 .quiz_score{
-    margin-top: 10px;
-    margin-bottom: 5px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -925,6 +957,7 @@ footer .socials {
 }
 
 .correct_answers_text{
+    margin-bottom: 0;
     text-align: center;
     font-size: x-large;
     color: black;
@@ -965,6 +998,11 @@ footer .socials {
         left: 50%;
         transform: translate(-50%, -50%);
     }
+}
+
+.quiz_info{
+    margin-top: 8px;
+    margin-left: 8px;
 }
 /****************************************************
 *****************************************************

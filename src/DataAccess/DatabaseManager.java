@@ -196,9 +196,84 @@ public class DatabaseManager {
         }
     }
 
+    private static void dropFriendRequestVol2(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM friendrequest where senderid = ? or receiverid = ?");
+            state.setInt(1, userId);
+            state.setInt(2, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void dropFriends(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM friends where account_id = ? or friend_id = ?");
+            state.setInt(1, userId);
+            state.setInt(2, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void dropChatTexts(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM chats where senderId = ? or receiverId = ?");
+            state.setInt(1, userId);
+            state.setInt(2, userId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void dropUsersAcnnouncements(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM announcements where announcer_id = ?");
+            state.setInt(1, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void dropAchievements(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE FROM achievements where userid = ?");
+            state.setInt(1, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static void dropChallengeVol2(int userId) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("DELETE  FROM challenges where senderid = ? or receiverid = ?");
+            state.setInt(1, userId);
+            state.setInt(2, userId);
+            state.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static boolean dropUser(int userId) {
 
         try {
+            dropFriends(userId);
+            dropChallengeVol2(userId);
+            dropChatTexts(userId);
+            dropFriendRequestVol2(userId);
+            dropAchievements(userId);
+            dropUsersAcnnouncements(userId);
             PreparedStatement state = connect.prepareStatement("DELETE FROM user_history where user_id = ?");
             state.setInt(1, userId);
             state.executeUpdate();
@@ -268,15 +343,32 @@ public class DatabaseManager {
         }
     }
 
-    public static void insertHistory(int userId, int quizId, double quizScore, Date dateTime, Time time) {
+    public static int insertHistory(int userId, int quizId, double quizScore, Timestamp startTime, Timestamp endTime) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_date, quiz_time) VALUES (?,?,?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_date, quiz_time) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, userId);
             state.setInt(2, quizId);
             state.setDouble(3, quizScore);
-            state.setDate(4, (java.sql.Date) dateTime);
-            state.setTime(5, time);
+            state.setTimestamp(4, startTime);
+            state.setTimestamp(5, endTime);
+            state.executeUpdate();
+            ResultSet result = state.getGeneratedKeys();
+            if (result.next()){
+                return result.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return  -1;
+    }
+
+    public static void updateHistory(int id, Timestamp endTime) {
+
+        try {
+            PreparedStatement state = connect.prepareStatement("UPDATE user_history SET quiz_end = ? where id = ?");
+            state.setTimestamp(1, endTime);
+            state.setInt(2, id);
             state.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -642,20 +734,21 @@ public class DatabaseManager {
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = null;
         try {
-            PreparedStatement state = connect.prepareStatement("select uh.quiz_id, q.title, uh.quiz_date, uh.quiz_time, uh.quiz_score " +
-                    "from user_history uh INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = ?");
+            PreparedStatement state = connect.prepareStatement("select * from user_history uh" +
+                    " INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
-                    history = new UserHistory(result.getInt(1), result.getString(2), result.getDate(3),
-                            result.getInt(4), result.getInt(5));
+                    history = new UserHistory(result.getInt(1), result.getInt(2),
+                            result.getInt(3), result.getDouble(4),
+                            result.getTimestamp(5), result.getTimestamp(6), false);
                 histories.add(history);
             }
             return histories;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return histories;
+        return null;
     }
 
     public static User getUser(int userId) {
@@ -871,7 +964,7 @@ public class DatabaseManager {
     public static ArrayList<Quiz> getRecentlyCreatedQuizzes() {
 
         try {
-            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.creation_date >= (NOW() - INTERVAL 1 HOUR)");
+            PreparedStatement state = connect.prepareStatement("select * from quizes q where q.creation_date >= (NOW() - INTERVAL 1 WEEK )");
             ResultSet result = state.executeQuery();
             return castQuizResult(result);
         } catch (SQLException e) {
@@ -880,20 +973,15 @@ public class DatabaseManager {
         return null;
     }
 
-    public static HashMap<Quiz, Integer> getUsersRecentTakenQuizzes(int userId) {
+    public static ArrayList<Quiz> getUsersRecentTakenQuizzes(int userId) {
 
-        HashMap<Quiz, Integer> recents = new HashMap<Quiz, Integer>();
+        ArrayList<Quiz> recents = new ArrayList<>();
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT *, uh.quiz_score from quizes q INNER JOIN user_history uh on q.id = uh.quiz_id " +
-                    "where (uh.quiz_date >= (NOW() - INTERVAL 1 HOUR)) and (uh.user_id = ?)");
+            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q INNER JOIN user_history uh on q.id = uh.quiz_id " +
+                    "where (uh.quiz_date >= (NOW() - INTERVAL 1 WEEK )) and (uh.user_id = ?)");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
-            while (result.next()) {
-                recents.put(new Quiz(result.getInt(1), result.getInt(2), result.getString(3), result.getString(4),
-                        result.getString(5), result.getString(6), result.getBoolean(7), result.getBoolean(8),
-                        result.getBoolean(9), result.getBoolean(10), result.getDate(11)), result.getInt(12));
-            }
-            return recents;
+            return castQuizResult(result);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -904,7 +992,7 @@ public class DatabaseManager {
 
 
         try {
-            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q where (q.creation_date >= (NOW() - INTERVAL 1 HOUR)) and (q.creator_id = ?)");
+            PreparedStatement state = connect.prepareStatement("SELECT * from quizes q where (q.creation_date >= (NOW() - INTERVAL 1 WEEK )) and (q.creator_id = ?)");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return castQuizResult(result);

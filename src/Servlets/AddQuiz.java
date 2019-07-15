@@ -68,8 +68,6 @@ public class AddQuiz extends HttpServlet {
         boolean onePage = page.equals("true");
         boolean immediate = immed.equals("true");
         boolean practice = prac.equals("true");
-        SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        Date date = new Date(System.currentTimeMillis());
 
         //Quiz insert and get quiz ID
         int quiz_id = DatabaseManager.insertQuiz(user_id, title, description, category_id, randomize, onePage, immediate, practice, image);

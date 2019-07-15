@@ -1,41 +1,58 @@
 package Objects;
 
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class UserHistory {
-    private int quizId;
-    private String quizName;
-    private Date quizDate;
-    private int quizTime;
-    private int quizScore;
 
-    public UserHistory(int quizId, String quizName, Date quizDate, int quizTime, int score) {
+    private int id;
+    private int userId;
+    private int quizId;
+    private long quizStart;
+    private long quizEnd;
+    private double quizScore;
+    private boolean isEnded;
+
+    public UserHistory(int id, int userId, int quizId, double quizScore, Timestamp quizStart, Timestamp quizEnd, boolean isEnded) {
+        this.id = id;
+        this.userId = userId;
         this.quizId = quizId;
-        this.quizName = quizName;
-        this.quizDate = quizDate;
-        this.quizTime = quizTime;
-        this.quizScore = score;
+        this.quizStart = quizStart.getTime();
+        this.quizEnd = quizEnd.getTime();
+        this.quizScore = quizScore;
+        this.isEnded = isEnded;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public int getQuizId() {
         return quizId;
     }
 
-    public Date getQuizDate() {
-        return quizDate;
+    public long getQuizStart() {
+        return quizStart;
     }
 
-    public int getQuizTime() {
-        return quizTime;
+    public long getQuizEnd() {
+        return quizEnd;
     }
 
-    public int getScore() {
+    public double getQuizScore() {
         return quizScore;
     }
 
-    public String getQuizName() {
-        return quizName;
+    public boolean getIsEnded() {
+        return isEnded;
     }
 
+    public void setIsEnded(boolean isEnded) {
+        this.isEnded = isEnded;
+    }
 }
