@@ -86,7 +86,7 @@
                     %>
                     <tr>
                         <th scope="row"><%=count1%></th>
-                        <td><%=history.getQuizScore()%></td>
+                        <td><%=history.getScore()%></td>
                         <td><%=history.getQuizStart()%></td>
                         <td><%=history.getQuizEnd() - history.getQuizStart()%></td>
                     </tr>
@@ -113,7 +113,7 @@
                 %>
                     <tr>
                         <th scope="row"><%=count2%></th>
-                        <td><%=history.getQuizScore()%>
+                        <td><%=history.getScore()%>
                         </td>
                         <td><%=history.getQuizStart()%>
                         </td>
@@ -146,7 +146,7 @@
                 %>
                 <tr>
                     <th scope="row"><%=count3%></th>
-                    <td><%=history.getQuizScore()%>
+                    <td><%=history.getScore()%>
                     </td>
                     <td><%=history.getQuizStart()%>
                     </td>
@@ -177,7 +177,7 @@
                 %>
                 <tr>
                     <th scope="row"><%=count4%></th>
-                    <td><%=history.getQuizScore()%></td>
+                    <td><%=history.getScore()%></td>
                     <td><%=history.getQuizStart()%></td>
                     <td><%=history.getQuizEnd() - history.getQuizStart()%></td>
                 </tr>
