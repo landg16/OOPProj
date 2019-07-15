@@ -25,7 +25,7 @@
                 <th scope="col">#</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
-                <th scope="col">User</th>
+                <th scope="col">Username</th>
                 <th scope="col">Score</th>
             </tr>
             </thead>
@@ -40,9 +40,9 @@
                 </td>
                 <td><%=leaderUsers.getLastname() %>
                 </td>
-                <td>@<%=DatabaseManager.getScore(leaderUsers.getId()) %>
+                <td><a href="profile.jsp?id=<%=leaderUsers.getId()%>"><%=leaderUsers.getUsername()%></a>
                 </td>
-                <td><%=leaderUsers.getId() %>
+                <td><%=DatabaseManager.getScore(leaderUsers.getId())%>
                 </td>
             </tr>
             <% } %>
@@ -55,7 +55,7 @@
                 <th scope="col">#</th>
                 <th scope="col">First Name</th>
                 <th scope="col">Last Name</th>
-                <th scope="col">User</th>
+                <th scope="col">Username</th>
                 <th scope="col">Score</th>
             </tr>
             </thead>
@@ -70,9 +70,9 @@
                 </td>
                 <td><%=user.getLastname() %>
                 </td>
-                <td>@<%=DatabaseManager.getScore(user.getId()) %>
+                <td><a href="profile.jsp?id=<%=user.getId()%>"><%=user.getUsername()%></a>
                 </td>
-                <td><%=user.getId() %>
+                <td><%=DatabaseManager.getScore(user.getId())%>
                 </td>
             </tr>
             <% } %>
