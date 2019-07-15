@@ -1,6 +1,7 @@
 <%@ page import="DataAccess.DatabaseManager" %>
 <%@ page import="Objects.User" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="Objects.Quiz" %>
 <jsp:include page="header.jsp">
     <jsp:param name="title" value="Home"/>
 </jsp:include>
@@ -25,49 +26,62 @@
 <% int userId = (int)session.getAttribute("user_id");
     if(userId != -1){
         ArrayList<User> leaderUsers = DatabaseManager.getLeaderUsers();
-        User user1 = leaderUsers.get(0);
-        User user2 = leaderUsers.get(1);
-        User user3 = leaderUsers.get(2);
-
-        ArrayList<String> achievement1 = DatabaseManager.getAchievement(user1.getId());
-        ArrayList<String> achievement2 = DatabaseManager.getAchievement(user2.getId());
-        ArrayList<String> achievement3 = DatabaseManager.getAchievement(user3.getId());
+//        User user1 = leaderUsers.get(0);
+//        User user2 = leaderUsers.get(1);
+//        User user3 = leaderUsers.get(2);
+//
+//        ArrayList<String> achievement1 = DatabaseManager.getAchievement(user1.getId());
+//        ArrayList<String> achievement2 = DatabaseManager.getAchievement(user2.getId());
+//        ArrayList<String> achievement3 = DatabaseManager.getAchievement(user3.getId());
+        ArrayList<Quiz> popularQuizes = DatabaseManager.getPopularQuizzes();
 %>
 <div class="container featured">
     <div class="row">
         <h2>Featured Learning Quizzes!</h2>
     </div>
     <div class="row justify-content-around">
+        <%
+            int count = 0;
+            for(Quiz quiz : popularQuizes) {
+                count++;
+                if(count == 3)break;
+        %>
         <div class="col-sm-3 item">
-            <div class="img" style="background-image:url('img/quizzes/football.jpg');"></div>
+            <div class="img" style="background-image:url(<%=quiz.getImageUrl()%>);"></div>
             <div class="description">
-                <span class="left">Football Quiz</span>
-                <span class="right">Sports</span>
+                <span class="left"><%=quiz.getTitle()%></span>
+                <span class="right"><%=quiz.getType()%></span>
                 <div class="clear"></div>
                 <hr>
                 <a href="#">Take Quiz</a>
-            </div>
-        </div>
-        <div class="col-sm-3 item">
-            <div class="img" style="background-image:url('img/quizzes/football.jpg');"></div>
-            <div class="description">
-                <span class="left">Football Quiz</span>
-                <span class="right">Sports</span>
-                <div class="clear"></div>
+                <%=quiz.getTitle()%>
                 <hr>
-                <a href="#">Take Quiz</a>
-            </div>
-        </div>
-        <div class="col-sm-3 item">
-            <div class="img" style="background-image:url('img/quizzes/football.jpg');"></div>
-            <div class="description">
-                <span class="left">Football Quiz</span>
-                <span class="right">Sports</span>
+                <span class="left"><a href="quiz.jsp?id=<%=quiz.getId()%>">Take Quiz</a></span>
+                <span class="right"><%=quiz.getType()%></span>
                 <div class="clear"></div>
-                <hr>
-                <a href="#">Take Quiz</a>
             </div>
         </div>
+        <%}%>
+<%--        <div class="col-sm-3 item">--%>
+<%--            <div class="img" style="background-image:url('img/quizzes/football.jpg');"></div>--%>
+<%--            <div class="description">--%>
+<%--                <span class="left">Football Quiz</span>--%>
+<%--                <span class="right">Sports</span>--%>
+<%--                <div class="clear"></div>--%>
+<%--                <hr>--%>
+<%--                <a href="#">Take Quiz</a>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="col-sm-3 item">--%>
+<%--            <div class="img" style="background-image:url('img/quizzes/football.jpg');"></div>--%>
+<%--            <div class="description">--%>
+<%--                <span class="left">Football Quiz</span>--%>
+<%--                <span class="right">Sports</span>--%>
+<%--                <div class="clear"></div>--%>
+<%--                <hr>--%>
+<%--                <a href="#">Take Quiz</a>--%>
+<%--            </div>--%>
+<%--        </div>--%>
     </div>
 </div>
 <div class="container-fluid counters">
@@ -99,36 +113,43 @@
         <h2>LEADERBOARD</h2>
     </div>
     <div class="row justify-content-around">
+
+        <%
+            int count1 = 0;
+            for(User user : leaderUsers) {
+                count1++;
+        %>
         <div class="col-sm-3 each">
-            <h4>1. <a href="profile.jsp?id=<%=user1.getId()%>"></a>USER</h4>
+            <h4>1. <a href="profile.jsp?id=<%=user.getId()%>"></a>USER</h4>
             <hr>
             <div class="description">
-                <p><span>SCORE:</span> <span><%=DatabaseManager.getScore(user1.getId())%></span></p>
+                <p><span>SCORE:</span> <span><%=DatabaseManager.getScore(user.getId())%></span></p>
 <%--                <p><span>TITLE:</span> <span><%=achievement1.get(achievement1.size() - 1)%></span></p>--%>
                 <p><span>TITLE:</span> <span></span></p>
                 <p><span>QUIZ TAKEN:</span> <span><%="yleoo"%></span></p>
             </div>
         </div>
-        <div class="col-sm-3 each">
-            <h4>2. <a href="profile.jsp?id=<%=user2.getId()%>"></a>USER</h4>
-            <hr>
-            <div class="description">
-                <p><span>SCORE:</span> <span><%=DatabaseManager.getScore(user2.getId())%></span></p>
-<%--                <p><span>TITLE:</span> <span><%=achievement2.get(achievement1.size() - 1)%></span></p>--%>
-                <p><span>TITLE:</span> <span>shobeldzagli</span></p>
-                <p><span>QUIZ TAKEN:</span> <span>1250</span></p>
-            </div>
-        </div>
-        <div class="col-sm-3 each">
-            <h4>3. <a href="profile.jsp?id=<%=user3.getId()%>"></a>USER</h4>
-            <hr>
-            <div class="description">
-                <p><span>SCORE:</span> <span><%=DatabaseManager.getScore(user3.getId())%></span></p>
-<%--                <p><span>TITLE:</span> <span><%=achievement3.get(achievement1.size() - 1)%></span></p>--%>
-                <p><span>TITLE:</span> <span>shobeldzagli</span></p>
-                <p><span>QUIZ TAKEN:</span> <span>1250</span></p>
-            </div>
-        </div>
+        <%}%>
+<%--        <div class="col-sm-3 each">--%>
+<%--            <h4>2. <a href="profile.jsp?id=<%=user2.getId()%>"></a>USER</h4>--%>
+<%--            <hr>--%>
+<%--            <div class="description">--%>
+<%--                <p><span>SCORE:</span> <span><%=DatabaseManager.getScore(user2.getId())%></span></p>--%>
+<%--&lt;%&ndash;                <p><span>TITLE:</span> <span><%=achievement2.get(achievement1.size() - 1)%></span></p>&ndash;%&gt;--%>
+<%--                <p><span>TITLE:</span> <span>shobeldzagli</span></p>--%>
+<%--                <p><span>QUIZ TAKEN:</span> <span>1250</span></p>--%>
+<%--            </div>--%>
+<%--        </div>--%>
+<%--        <div class="col-sm-3 each">--%>
+<%--            <h4>3. <a href="profile.jsp?id=<%=user3.getId()%>"></a>USER</h4>--%>
+<%--            <hr>--%>
+<%--            <div class="description">--%>
+<%--                <p><span>SCORE:</span> <span><%=DatabaseManager.getScore(user3.getId())%></span></p>--%>
+<%--&lt;%&ndash;                <p><span>TITLE:</span> <span><%=achievement3.get(achievement1.size() - 1)%></span></p>&ndash;%&gt;--%>
+<%--                <p><span>TITLE:</span> <span>shobeldzagli</span></p>--%>
+<%--                <p><span>QUIZ TAKEN:</span> <span>1250</span></p>--%>
+<%--            </div>--%>
+<%--        </div>--%>
     </div>
 
 <%--    <div class="row justify-content-around second-row">--%>
