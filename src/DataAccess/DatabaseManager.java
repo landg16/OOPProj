@@ -343,15 +343,11 @@ public class DatabaseManager {
         }
     }
 
-    public static int insertHistory(int userId, int quizId, double quizScore, Timestamp startTime, Timestamp endTime) {
-
+    public static int insertHistory(int userId, int quizId) {
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_date, quiz_time) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_start) VALUES (?,?,NOW())", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, userId);
             state.setInt(2, quizId);
-            state.setDouble(3, quizScore);
-            state.setTimestamp(4, startTime);
-            state.setTimestamp(5, endTime);
             state.executeUpdate();
             ResultSet result = state.getGeneratedKeys();
             if (result.next()){
@@ -363,11 +359,11 @@ public class DatabaseManager {
         return  -1;
     }
 
-    public static void updateHistory(int id, Timestamp endTime) {
+    public static void updateHistory(int id, int quiz_id, int score) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("UPDATE user_history SET quiz_end = ? where id = ?");
-            state.setTimestamp(1, endTime);
+            PreparedStatement state = connect.prepareStatement("UPDATE user_history SET quiz_score = ?, quiz_end = NOW() where id = ?", Statement.RETURN_GENERATED_KEYS);
+            state.setInt(1, score);
             state.setInt(2, id);
             state.executeUpdate();
         } catch (SQLException e) {
@@ -734,8 +730,7 @@ public class DatabaseManager {
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = null;
         try {
-            PreparedStatement state = connect.prepareStatement("select * from user_history uh" +
-                    " INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = ?");
+            PreparedStatement state = connect.prepareStatement("select * from user_history uh where uh.user_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
@@ -880,7 +875,7 @@ public class DatabaseManager {
     public static void insertChatMessages(int senderId, int receiverId, String txt) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO chats (sernderid, receiverid, txt) values (?,?,?)");
+            PreparedStatement state = connect.prepareStatement("INSERT INTO chats (senderid, receiverid, txt) values (?,?,?)");
             state.setInt(1, senderId);
             state.setInt(2, receiverId);
             state.setString(3, txt);
@@ -978,7 +973,7 @@ public class DatabaseManager {
         ArrayList<Quiz> recents = new ArrayList<>();
         try {
             PreparedStatement state = connect.prepareStatement("SELECT * from quizes q INNER JOIN user_history uh on q.id = uh.quiz_id " +
-                    "where (uh.quiz_date >= (NOW() - INTERVAL 1 WEEK )) and (uh.user_id = ?)");
+                    "where (uh.quiz_end >= (NOW() - INTERVAL 1 WEEK )) and (uh.user_id = ?)");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return castQuizResult(result);
