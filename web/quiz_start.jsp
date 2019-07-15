@@ -35,8 +35,8 @@
     //Get timer start
     ArrayList<UserHistory> uh = DatabaseManager.getUserHistory(k);
     UserHistory current = null;
-    for(UserHistory tmp : uh){
-        if(!tmp.getIsEnded() && tmp.getQuizId() == quiz_id) current= tmp;
+    for (UserHistory tmp : uh) {
+        if (!tmp.getIsEnded() && tmp.getQuizId() == quiz_id) current = tmp;
     }
 
     long curTime = DatabaseManager.getSQLTime().getTime() - current.getQuizStart();
@@ -66,7 +66,8 @@
         else out.println("No"); %>
         </div>
         <div class="col-md-4 text-md-left" id="timer">
-            <div id="timestart" style="display:none;"><%=curTime%></div>
+            <div id="timestart" style="display:none;"><%=curTime%>
+            </div>
             Time Count: <span id="minutes">00</span>:<span id="seconds">00</span>
         </div>
     </div>
@@ -76,97 +77,115 @@
                 <input type="hidden" value="<%=historyId%>" name="historyId">
                 <input type="hidden" value="<%=quiz_id%>" name="quiz_id">
                 <%
-                    ArrayList<Question> questions = DatabaseManager.getQuestions(quiz_id, isRandom);
-                    int i = 0;
-                    for (Question tmp : questions) {
-                        i++;
-                        ArrayList<Answer> answers = DatabaseManager.getAnswers(tmp.getId());
-                        if (tmp.getType().equals("qr")) { %>
-                <div class="row question_block">
-                    <div class="col-auto">
-                        <h3 class="text-right"><b>Question #<%=i%>:</b></h3>
-                        <h3 class="text-right diff"><b>Answer #<%=i%>: </b></h3>
-                    </div>
-                    <div class="col-auto">
-                        <h3><%=tmp.getQuestion()%>
-                        </h3>
-                        <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
-                               placeholder="Please insert your answer here">
-                    </div>
-                </div>
-                <hr>
-                <%
-                } else if (tmp.getType().equals("fitb")) { %>
-                <div class="row question_block">
-                    <div class="col-auto">
-                        <h3 class="text-right"><b>Before Gap #<%=i%>:</b></h3>
-                        <h3 class="text-right diff"><b>Gap #<%=i%>: </b></h3>
-                        <h3 class="text-right diff"><b>After Gap #<%=i%>: </b></h3>
-                    </div>
-                    <div class="col-auto">
-                        <h3><%=tmp.getQuestion()%>
-                        </h3>
-                        <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
-                               placeholder="Please insert your answer here">
-                        <h3 class="diff1"><%=tmp.getSecondPart()%>
-                        </h3>
-                    </div>
-                </div>
-                <hr>
-                <% } else if (tmp.getType().equals("prq")) { %>
-                <div class="row question_block">
-                    <div class="col-auto">
-                        <h3 class="text-right"><b>Question #<%=i%>:</b></h3>
-                        <h3 class="text-right diff"><b>Answer #<%=i%>: </b></h3>
-                    </div>
-                    <div class="col-auto">
-                        <h3><img src="<%=tmp.getQuestion()%>" class="img-fluid"/></h3>
-                        <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
-                               placeholder="Please insert your answer here">
-                    </div>
-                </div>
-                <hr>
-                <% } else if (tmp.getType().equals("mc")) { %>
-                <div class="row question_block">
-                    <div class="col-sm-4">
-                        <h3 class="text-right"><b>Question #<%=i%>:</b></h3>
-                        <h3 class="text-right diff"><b>Answers #<%=i%>: </b></h3>
-                    </div>
-                    <div class="col-sm-8">
-                        <h3><%=tmp.getQuestion()%>
-                        </h3>
-                        <div class="row mc">
-                            <%
-                                int j = 0;
-                                for (Answer ans : answers) {
-                                    j++; %>
-                            <div class="col-md-6">
-                                <div class="input-style">
-                                    <div class="custom-control custom-radio">
-                                        <input type="radio" id="answer<%=j%><%=tmp.getId()%>" name="answer<%=tmp.getId()%>"
-                                               class="custom-control-input" value="<%=ans.getAnswer()%>">
-                                        <label class="custom-control-label" for="answer<%=j%><%=tmp.getId()%>"><%=ans.getAnswer()%></label>
-                                    </div>
-                                </div>
-                            </div>
-                            <% } %>
+                ArrayList<Question> questions = DatabaseManager.getQuestions(quiz_id, isRandom);
+                if(!onePage){ %>
+                <input type="hidden" id="questionNum" value="<%=questions.size()%>" >
+            <%  }
+                int i = 0;
+                for (Question tmp : questions) {
+                    i++;
+                    ArrayList<Answer> answers = DatabaseManager.getAnswers(tmp.getId());
+                    if (tmp.getType().equals("qr")) { %>
+                <div id="id="page<%=i%>">
+                    <div class="row question_block">
+                        <div class="col-auto">
+                            <h3 class="text-right"><b>Question #<%=i%>:</b></h3>
+                            <h3 class="text-right diff"><b>Answer #<%=i%>: </b></h3>
+                        </div>
+                        <div class="col-auto">
+                            <h3><%=tmp.getQuestion()%>
+                            </h3>
+                            <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
+                                   placeholder="Please insert your answer here">
                         </div>
                     </div>
+                    <hr>
                 </div>
-                <hr>
+                <%
+                } else if (tmp.getType().equals("fitb")) { %>
+                <div id="id="page<%=i%>">
+                    <div class="row question_block">
+                        <div class="col-auto">
+                            <h3 class="text-right"><b>Before Gap #<%=i%>:</b></h3>
+                            <h3 class="text-right diff"><b>Gap #<%=i%>: </b></h3>
+                            <h3 class="text-right diff"><b>After Gap #<%=i%>: </b></h3>
+                        </div>
+                        <div class="col-auto">
+                            <h3><%=tmp.getQuestion()%>
+                            </h3>
+                            <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
+                                   placeholder="Please insert your answer here">
+                            <h3 class="diff1"><%=tmp.getSecondPart()%>
+                            </h3>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <% } else if (tmp.getType().equals("prq")) { %>
+                <div id="page<%=i%>">
+                    <div class="row question_block">
+                        <div class="col-auto">
+                            <h3 class="text-right"><b>Question #<%=i%>:</b></h3>
+                            <h3 class="text-right diff"><b>Answer #<%=i%>: </b></h3>
+                        </div>
+                        <div class="col-auto">
+                            <h3><img src="<%=tmp.getQuestion()%>" class="img-fluid"/></h3>
+                            <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
+                                   placeholder="Please insert your answer here">
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+                <% } else if (tmp.getType().equals("mc")) { %>
+                <div id="page<%=i%>">
+                    <div class="row question_block">
+                        <div class="col-sm-4">
+                            <h3 class="text-right"><b>Question #<%=i%>:</b></h3>
+                            <h3 class="text-right diff"><b>Answers #<%=i%>: </b></h3>
+                        </div>
+                        <div class="col-sm-8">
+                            <h3><%=tmp.getQuestion()%>
+                            </h3>
+                            <div class="row mc">
+                                <%
+                                    int j = 0;
+                                    for (Answer ans : answers) {
+                                        j++; %>
+                                <div class="col-md-6">
+                                    <div class="input-style">
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" id="answer<%=j%><%=tmp.getId()%>"
+                                                   name="answer<%=tmp.getId()%>"
+                                                   class="custom-control-input" value="<%=ans.getAnswer()%>">
+                                            <label class="custom-control-label"
+                                                   for="answer<%=j%><%=tmp.getId()%>"><%=ans.getAnswer()%>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
                 <% }
                 }
                 %>
-                <div class="row">
+                <div class="row justify-content-around">
+                    <%if (!onePage) { %>
                     <div class="col-sm-4 text-sm-left">
-                        <button type="button" class="btn btn-primary">Previous Question</button>
+                        <button type="button" id="prev" class="btn btn-primary">Previous</button>
                     </div>
+                    <% } %>
                     <div class="col-sm-4 text-sm-center">
                         <button type="submit" class="btn btn-success">Submit</button>
                     </div>
+                    <%if (!onePage) { %>
                     <div class="col-sm-4 text-sm-right">
-                        <button type="button" class="btn btn-primary">Next Question</button>
+                        <button type="button" id="next" class="btn btn-primary">Next</button>
                     </div>
+                    <% } %>
                 </div>
             </form>
         </div>

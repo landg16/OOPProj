@@ -17,8 +17,39 @@ $(document).ready(function () {
     toggleLeaderboard();
     equalHeights(".item .description");
     countUpTimer();
+    showAsPages();
 });
 
+function showAsPages() {
+    var selector = $("#questionNum");
+    if(selector==null) return;
+    var questionNum = parseInt(selector.val());
+    var currentQuest = 1;
+    for(var i = 1; i<=questionNum; i++){
+        $("#page"+i).hide();
+    }
+    $("#page"+currentQuest).show();
+    $("#prev").hide();
+    $("#prev").click(function () {
+        if(currentQuest>1){
+            $("#page"+currentQuest).hide();
+            $("#next").show();
+            currentQuest--;
+            $("#page"+currentQuest).show();
+        }
+        if(currentQuest==1) $("#prev").hide();
+    });
+
+    $("#next").click(function () {
+        if(currentQuest<questionNum){
+            $("#page"+currentQuest).hide();
+            $("#prev").show();
+            currentQuest++;
+            $("#page"+currentQuest).show();
+        }
+        if(currentQuest==questionNum) $("#next").hide();
+    });
+}
 
 function showForgotModal() {
     $('#logIn').modal('hide');
