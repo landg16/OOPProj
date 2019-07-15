@@ -3,6 +3,8 @@
 <%@ page import="Objects.Question" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="Objects.Answer" %>
+<%@ page import="java.sql.Timestamp" %>
+<%@ page import="Objects.UserHistory" %>
 <%
     //CHECK LOG IN
     String username = (String) session.getAttribute("username");
@@ -28,12 +30,20 @@
     }
 
     int historyId = DatabaseManager.insertHistory(k, quiz_id);
-
     request.setAttribute("title", quiz.getTitle());
+
+    //Get timer start
+    ArrayList<UserHistory> uh = DatabaseManager.getUserHistory(k);
+    UserHistory current = null;
+    for(UserHistory tmp : uh){
+        if(!tmp.getIsEnded() && tmp.getQuizId() == quiz_id) current= tmp;
+    }
+
+    long curTime = DatabaseManager.getSQLTime().getTime() - current.getQuizStart();
+    //end timer sstart
     boolean isRandom = quiz.isRandom();
     boolean isImmediate = quiz.isImmediateCorrection();
     boolean onePage = quiz.isOnePage();
-    boolean isPractice = quiz.isPracticeMode();
 %>
 
 <jsp:include page="header.jsp">
@@ -56,6 +66,7 @@
         else out.println("No"); %>
         </div>
         <div class="col-md-4 text-md-left" id="timer">
+            <div id="timestart" style="display:none;"><%=curTime%></div>
             Time Count: <span id="minutes">00</span>:<span id="seconds">00</span>
         </div>
     </div>
@@ -63,6 +74,7 @@
         <div class="col-md-8">
             <form action="CompleteQuiz" method="post">
                 <input type="hidden" value="<%=historyId%>" name="historyId">
+                <input type="hidden" value="<%=quiz_id%>" name="quiz_id">
                 <%
                     ArrayList<Question> questions = DatabaseManager.getQuestions(quiz_id, isRandom);
                     int i = 0;
@@ -78,7 +90,7 @@
                     <div class="col-auto">
                         <h3><%=tmp.getQuestion()%>
                         </h3>
-                        <input type="text" name="answer<%=i%>" class="form-control diff"
+                        <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
                                placeholder="Please insert your answer here">
                     </div>
                 </div>
@@ -94,7 +106,7 @@
                     <div class="col-auto">
                         <h3><%=tmp.getQuestion()%>
                         </h3>
-                        <input type="text" name="answer<%=i%>" class="form-control diff"
+                        <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
                                placeholder="Please insert your answer here">
                         <h3 class="diff1"><%=tmp.getSecondPart()%>
                         </h3>
@@ -109,7 +121,7 @@
                     </div>
                     <div class="col-auto">
                         <h3><img src="<%=tmp.getQuestion()%>" class="img-fluid"/></h3>
-                        <input type="text" name="answer<%=i%>" class="form-control diff"
+                        <input type="text" name="answer<%=tmp.getId()%>" class="form-control diff"
                                placeholder="Please insert your answer here">
                     </div>
                 </div>
@@ -131,7 +143,7 @@
                             <div class="col-md-6">
                                 <div class="input-style">
                                     <div class="custom-control custom-radio">
-                                        <input type="radio" id="answer<%=j%>" name="answer<%=i%>"
+                                        <input type="radio" id="answer<%=j%>" name="answer<%=tmp.getId()%>"
                                                class="custom-control-input">
                                         <label class="custom-control-label" for="answer<%=j%>"><%=ans.getAnswer()%></label>
                                     </div>
@@ -145,7 +157,17 @@
                 <% }
                 }
                 %>
-                <button type="submit">Submit</button>
+                <div class="row">
+                    <div class="col-sm-4 text-sm-left">
+                        <button type="button" class="btn btn-primary">Previous Question</button>
+                    </div>
+                    <div class="col-sm-4 text-sm-center">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </div>
+                    <div class="col-sm-4 text-sm-right">
+                        <button type="button" class="btn btn-primary">Next Question</button>
+                    </div>
+                </div>
             </form>
         </div>
     </div>

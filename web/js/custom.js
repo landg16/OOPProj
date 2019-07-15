@@ -323,6 +323,8 @@ function countUpTimer() {
     if($("#timer") == null){
         return;
     }
+    var seconds = parseInt($("#timestart").html())/1000;
+    totalSeconds = seconds;
     setInterval(setTime, 1000);
 }
 
