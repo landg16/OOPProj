@@ -36,8 +36,9 @@
         <%
             int count = 0;
             for(Quiz quiz : popularQuizes) {
-                count++;
                 if(count == 3)break;
+                count++;
+
         %>
         <div class="col-sm-3 item">
             <div class="img" style="background-image:url('<%=quiz.getImageUrl()%>');"></div>
@@ -85,6 +86,7 @@
         <%
             int count1 = 0;
             for(User user : leaderUsers) {
+                if(count1 == 3)break;
                 count1++;
         %>
         <div class="col-sm-3 each">

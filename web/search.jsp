@@ -6,7 +6,7 @@
 </jsp:include>
 
 <div class="container-fluid heading">
-    <h2>These Are Users From Japan</h2>
+    <h2>Search Results</h2>
 </div>
 
 <div class="container">

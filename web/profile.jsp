@@ -150,8 +150,7 @@
 
     <div class="col-sm-4">
         <p class="headline_text">CHAT WITH FRIENDS</p>
-        <p style="margin-top: 10px"><a href="register.jsp">Nikolai nikolaevich </a></p>
-        <p><a href="register.jsp">guja gujaevich</a></p>
+        <p style="margin-top: 10px"> You have no chat threads</p>
     </div>
 
     <div class="col-sm-4">
