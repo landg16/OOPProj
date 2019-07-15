@@ -49,7 +49,7 @@ public class CompleteQuiz extends HttpServlet {
             long time = ts.getTime() - current.getQuizStart();
             int score = Calculate.getScore(questions.size(), correct_count, time);
             long minutes = TimeUnit.MILLISECONDS.toMinutes(time);
-            long seconds = TimeUnit.MILLISECONDS.toSeconds(time);
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(time)%60;
             String timeStr;
             if(seconds<10){
                 timeStr = minutes+":0"+seconds;
