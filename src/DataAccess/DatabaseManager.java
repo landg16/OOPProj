@@ -346,7 +346,7 @@ public class DatabaseManager {
     public static int insertHistory(int userId, int quizId, double quizScore, Timestamp startTime, Timestamp endTime) {
 
         try {
-            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_date, quiz_time) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement state = connect.prepareStatement("INSERT INTO user_history (user_id, quiz_id, quiz_score, quiz_start, quiz_end) VALUES (?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             state.setInt(1, userId);
             state.setInt(2, quizId);
             state.setDouble(3, quizScore);
@@ -734,8 +734,7 @@ public class DatabaseManager {
         ArrayList<UserHistory> histories = new ArrayList<UserHistory>();
         UserHistory history = null;
         try {
-            PreparedStatement state = connect.prepareStatement("select * from user_history uh" +
-                    " INNER JOIN quizes q on uh.quiz_id = q.id where uh.user_id = ?");
+            PreparedStatement state = connect.prepareStatement("select * from user_history uh where uh.user_id = ?");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             while (result.next()) {
@@ -978,7 +977,7 @@ public class DatabaseManager {
         ArrayList<Quiz> recents = new ArrayList<>();
         try {
             PreparedStatement state = connect.prepareStatement("SELECT * from quizes q INNER JOIN user_history uh on q.id = uh.quiz_id " +
-                    "where (uh.quiz_date >= (NOW() - INTERVAL 1 WEEK )) and (uh.user_id = ?)");
+                    "where (uh.quiz_end >= (NOW() - INTERVAL 1 WEEK )) and (uh.user_id = ?)");
             state.setInt(1, userId);
             ResultSet result = state.executeQuery();
             return castQuizResult(result);
