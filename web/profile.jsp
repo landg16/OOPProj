@@ -53,8 +53,14 @@
 
             <div class="md-form profile">
                 <form id="searchUsr" action="search.jsp" method="get">
-                    <input type="text" name="searchUsr" id="searchForm" class="form-control" property="searchUsr">
-                    <button class="btn btn-primary" type="submit" value="Search" id="mySearch">Search</button>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <input type="text" name="searchUsr" id="searchForm" class="form-control" property="searchUsr">
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-primary" type="submit" value="Search" id="mySearch">Search</button>
+                        </div>
+                    </div>
                 </form>
 
                 <br>
