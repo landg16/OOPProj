@@ -19,7 +19,9 @@ public class UserHistory {
         this.userId = userId;
         this.quizId = quizId;
         this.quizStart = quizStart.getTime();
-        this.quizEnd = quizEnd.getTime();
+        if(quizEnd != null) {
+            this.quizEnd = quizEnd.getTime();
+        }
         this.quizScore = quizScore;
         this.isEnded = isEnded;
     }

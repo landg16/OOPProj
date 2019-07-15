@@ -84,7 +84,7 @@
                 <div class="col-md-6">
                     <div class="summary_table2">
                         <div class="quiz_score">
-                            <div class="score_time_text"><%=request.getParameter("time  ")%>
+                            <div class="score_time_text"><%=request.getParameter("time")%>
                             </div>
                         </div>
                     </div>
