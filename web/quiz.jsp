@@ -64,7 +64,12 @@
             <% } %>
                 <a href="quiz_start.jsp?id=<%=quizId%>" class="btn btn-danger w-100">Start Quiz</a>
                 <a href="#" class="btn btn-danger w-100" data-toggle="modal" data-target="#challengeFriend">Challenge a friend</a>
-            <% } %>
+            <% if(user.getIsAdmin()){ %>
+                <form method="post" action="RemoveQuiz" id="remove_quiz">
+                    <input type="hidden" name="id" value=<%=quizId%>>
+                    <button class="btn btn-danger w-100">Remove this quiz</button>
+                </form>
+            <%}}%>
         </div>
     </div>
     <div class="row">

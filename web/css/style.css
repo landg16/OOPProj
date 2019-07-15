@@ -687,6 +687,14 @@ footer .socials {
     margin-bottom:10px;
 }
 
+.quiz_start .question_block .input-style.is-invalid {
+    border: 1px solid #dc3545;
+}
+
+.quiz_start .question_block .input-style.is-valid {
+    border: 1px solid #28a745;
+}
+
 .quiz_start .question_block .input-style label {
     width:100%;
 }
@@ -919,11 +927,10 @@ footer .socials {
 
 .summary_table1 {
     width: 80%;
-    margin-bottom: 2px;
     border-radius: .2em;
     border: 1px solid rgba(0 ,0, 0, 0.4 );
     box-shadow: 0 0 10px rgba(0 ,0, 0, 0.4 );
-    margin: 0 auto;
+    margin: 15px auto;
 }
 
 .summary_table3{

@@ -30,8 +30,6 @@ public class CompleteQuiz extends HttpServlet {
             for(Answer tmp : answers){
                 if(tmp.isCorrect()) {
                     String correct = tmp.getAnswer().toLowerCase();
-                    System.out.println("my answer: "+userAnswer);
-                    System.out.println("corr answ: "+correct);
                     if(correct.equals(userAnswer)){
                         correct_count++;
                         break;

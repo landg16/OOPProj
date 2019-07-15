@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet(name = "ImediateCorrection", urlPatterns = "")
+@WebServlet("/ImediateCorrection")
 public class ImediateCorrection extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int questionId = Integer.parseInt(request.getParameter("id"));
