@@ -42,6 +42,7 @@
                         <% } %>
                     </select>
                 </div>
+                <input type="hidden" name="practice" value="true" >
                 <hr>
                 <div class="row two_column">
                     <div class="col-md-6">
